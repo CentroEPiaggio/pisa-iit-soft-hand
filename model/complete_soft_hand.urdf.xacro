@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:include filename="$(find complete_soft_hand)/model/materials.urdf.xacro"/>
+
+	<xacro:property name="pi" value="3.1415926535897931" />
+	<xacro:property name="inner_lb" value="0" />
+	<xacro:property name="inner_ub" value="45" />
+	<xacro:property name="middle_lb" value="0" />
+	<xacro:property name="middle_ub" value="45" />
+	<xacro:property name="outer_lb" value="0" />
+	<xacro:property name="outer_ub" value="45" />
+	<xacro:property name="velocity" value="100" />
+	<xacro:property name="effort" value="100" />
+
+
+	<!-- Declaration of single finger that we can replicate in another position -->
+	<!-- We suppose that all fingers are equal -->
+
+	<xacro:macro name="soft_finger" params="parent name position orientation">
+		<!-- macro for one finger -->
+
+		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+		<joint name="${name}_abd_joint" type="revolute">
+				<origin xyz="${position}" rpy="${orientation}" />
+			<parent link="${parent}"/>
+			<child link="${name}_knuckle_link"/>
+				<axis xyz="0 0 1" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+		
+		<link name="${name}_knuckle_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_prossimal_injection.stl" scale=" .001 .001 .001" />
+				</geometry>
+				<material name="DarkGolden" />
+			</visual>
+		</link>
+
+		<!-- PHALANGE -->
+		<!-- immaginary link-->
+		<!-- joint and link FAKE 1-->
+			<joint name="${name}_fake_joint1" type="revolute">
+					<origin xyz="0 0 0" rpy="0 0 0" />
+				<parent link="${name}_knuckle_link"/>
+				<child link="${name}_fake_link1"/>
+					<axis xyz="0 1 0" />
+				<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			</joint>
+			
+			<link name="${name}_fake_link1"> 
+			</link> 
+		<!-- end immaginary link-->
+		
+
+		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+		<joint name="${name}_inner_joint" type="revolute">
+			<origin xyz="-0.02 0 0" rpy="0 0 0" />
+				<parent link="${name}_fake_link1"/>
+			<child link="${name}_proximal_link"/>
+				<axis xyz="0 1 0" />
+			<mimic joint="${name}_fake_joint1" multiplier="1" />
+			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_proximal_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_short.stl" scale=" .001 .001 .001" />
+				</geometry>
+				<material name="DarkGolden" />
+			</visual>
+		</link>
+
+		<!-- LITTLE PHALANGE -->
+		<!-- immaginary link-->
+		<!-- joint and link FAKE 2-->
+			<joint name="${name}_fake_joint2" type="revolute">
+					<origin xyz="-0 0 0" rpy="0 0 0" />
+				<parent link="${name}_proximal_link"/>
+				<child link="${name}_fake_link2"/>
+					<axis xyz="0 1 0" />
+				<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			</joint>
+			
+			<link name="${name}_fake_link2"> 
+			</link> 
+		<!-- end immaginary link-->
+
+	    <joint name="${name}_middle_joint" type="revolute">
+			<origin xyz="-0.02 0 0" rpy="0 0 0" />
+			<parent link="${name}_fake_link2"/>
+			<child link="${name}_middle_link"/>
+			<axis xyz="0 1 0" />
+			<mimic joint="${name}_fake_joint2" multiplier="1" />
+			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+		<link name="${name}_middle_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_short.stl" scale=" .001 .001 .001" />
+				</geometry>
+			<material name="DarkGolden" />
+			</visual>
+		</link>
+
+		<!-- BABY PHALANGE -->
+		<!-- immaginary link-->
+		<!-- joint and link FAKE 3-->
+			<joint name="${name}_fake_joint3" type="revolute">
+					<origin xyz="0 0 0" rpy="0 0 0" />
+				<parent link="${name}_middle_link"/>
+				<child link="${name}_fake_link3"/>
+					<axis xyz="0 1 0" />
+				<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			</joint>
+
+			<link name="${name}_fake_link3"> 
+			</link> 
+		<!-- end immaginary link-->
+
+		<joint name="${name}_outer_joint" type="revolute">
+			<origin xyz="-0.02 0 0" rpy="0 0 0" />
+			<parent link="${name}_fake_link3"/>
+			<child link="${name}_distal_link"/>
+			<axis xyz="0 1 0" />
+			<mimic joint="${name}_fake_joint3" multiplier="1" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+		<link name="${name}_distal_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_distal_out_no_ati.stl" scale=" .001 .001 .001" />
+				</geometry>
+			<material name="DarkGolden" />
+			</visual>
+		</link>
+		<!-- end BABY PHALANGE -->
+	</xacro:macro>
+
+
+	<xacro:macro name="complete_soft_hand" params="parent name *origin">
+		<!-- macro for the hand -->
+
+		<joint name="${name}_palm_joint" type="fixed" >
+			<origin xyz="0 0 0" rpy="0 0 0" />
+			<parent link="${parent}" />
+			<child link="${name}_palm_link" />
+			<axis xyz="0 1 0" />
+			<limit lower="${-90*pi/180}" upper="${90*pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_palm_link">
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/palmo.stl" scale=" .001 .001 .001" /> 
+				</geometry>
+				<material name="LightGrey" />
+			</visual>
+		</link>
+
+		
+		<!-- macro for each finger -->
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_thumb" position="-0.0245 0.024 0.039" orientation="0 ${50*pi/180} 0" />
+	
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="0.0275 0.024 0.039" orientation="0 ${45*pi/180} ${pi}" />
+	
+	</xacro:macro>
+
+</robot>

@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:include filename="$(find two_soft_fingers)/model/materials.urdf.xacro"/>
+
+	<xacro:property name="pi" value="3.1415926535897931" />
+	<xacro:property name="inner_lb" value="0" />
+	<xacro:property name="inner_ub" value="90" />
+	<xacro:property name="middle_lb" value="0" />
+	<xacro:property name="middle_ub" value="90" />
+	<xacro:property name="outer_lb" value="0" />
+	<xacro:property name="outer_ub" value="90" />
+	<xacro:property name="velocity" value="100" />
+	<xacro:property name="effort" value="100" />
+
+	<xacro:macro name="soft_finger" params="parent name position orientation">
+		<!-- macro for one finger -->
+
+		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+		<joint name="${name}_inner_joint" type="revolute">
+			<origin xyz="${position}" rpy="${orientation}" />
+			<parent link="${parent}"/>
+			<child link="${name}_proximal_link"/>
+			<axis xyz="0 0 -1" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_proximal_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://two_soft_fingers/meshes/phalanx_inner.stl" />
+				</geometry>
+				<material name="LightGrey" />
+			</visual>
+		</link>
+
+		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+		<joint name="${name}_middle_joint" type="revolute">
+			<origin xyz="0 0 0.055" rpy="0 0 0" />
+			<parent link="${name}_proximal_link"/>
+			<child link="${name}_middle_link"/>
+			<axis xyz="0 0 -1" />
+			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_middle_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://two_soft_fingers/meshes/phalanx_inner.stl" />
+				</geometry>
+				<material name="LightGrey" />
+			</visual>
+		</link>
+
+	    <joint name="${name}_outer_joint" type="revolute">
+			<origin xyz="0 0 0.055" rpy="0 0 0" />
+			<parent link="${name}_middle_link"/>
+			<child link="${name}_distal_link"/>
+			<axis xyz="0 0 -1" />
+			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_distal_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://two_soft_fingers/meshes/phalanx_inner.stl" />
+				</geometry>
+			<material name="LightGrey" />
+			</visual>
+		</link>
+
+		<joint name="${name}_thimble_joint" type="fixed">
+			<origin xyz="0 0 0.055" rpy="0 0 0" />
+			<parent link="${name}_distal_link"/>
+			<child link="${name}_thimble_link"/>
+		</joint>
+
+		<link name="${name}_thimble_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://two_soft_fingers/meshes/phalanx_inner.stl" />
+				</geometry>
+			<material name="LightGrey" />
+			</visual>
+		</link>
+
+		
+	</xacro:macro>
+
+	<xacro:macro name="two_soft_fingers" params="parent name *origin">
+		<!-- macro for the hand -->
+
+		<!-- joint between arm_end_effector and hit2_palm_link -->
+		<joint name="${name}_palm_joint" type="fixed" >
+			<insert_block name="origin" />
+			<parent link="${parent}" />
+			<child link="${name}_palm_link" />
+		</joint>
+
+		<link name="${name}_palm_link">
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://two_soft_fingers/meshes/base.stl" />
+				</geometry>
+				<material name="LightGrey" />
+			</visual>
+		</link>
+		
+		<!-- macro for each finger -->
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_thumb" position="0.062569057 0.044544548 0.080044647" orientation="0.225804 -1.08366 0.41136" />
+	
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="-0.002529881 0.036800135 0.108743545" orientation="0 -${pi/2} 3.05433" />
+	
+	</xacro:macro>
+
+</robot>
