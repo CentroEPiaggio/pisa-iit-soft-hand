@@ -22,10 +22,10 @@
 
 		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
 		<joint name="${name}_abd_joint" type="revolute">
-				<origin xyz="${position}" rpy="${orientation}" />
+			<origin xyz="${position}" rpy="${orientation}" />
 			<parent link="${parent}"/>
 			<child link="${name}_knuckle_link"/>
-				<axis xyz="0 0 1" />
+			<axis xyz="0 0 1" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 		
@@ -42,25 +42,25 @@
 		<!-- PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 1-->
-			<joint name="${name}_fake_joint1" type="revolute">
-					<origin xyz="0 0 0" rpy="0 0 0" />
-				<parent link="${name}_knuckle_link"/>
-				<child link="${name}_fake_link1"/>
-					<axis xyz="0 1 0" />
-				<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
-			</joint>
-			
-			<link name="${name}_fake_link1"> 
-			</link> 
+		<joint name="${name}_fake_joint1" type="revolute">
+			<origin xyz="-0.009 0 0" rpy="0 0 0" />
+			<parent link="${name}_knuckle_link"/>
+			<child link="${name}_fake_link1"/>
+			<axis xyz="0 1 0" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_fake_link1"> 
+		</link> 
 		<!-- end immaginary link-->
 		
 
 		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
 		<joint name="${name}_inner_joint" type="revolute">
-			<origin xyz="-0.02 0 0" rpy="0 0 0" />
-				<parent link="${name}_fake_link1"/>
+			<origin xyz="-0.013 0 0" rpy="0 0 0" />
+			<parent link="${name}_fake_link1"/>
 			<child link="${name}_proximal_link"/>
-				<axis xyz="0 1 0" />
+			<axis xyz="0 1 0" />
 			<mimic joint="${name}_fake_joint1" multiplier="1" />
 			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
@@ -69,7 +69,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://complete_soft_hand/meshes/phalanx_short.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_short_injection.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="DarkGolden" />
 			</visual>
@@ -78,20 +78,20 @@
 		<!-- LITTLE PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 2-->
-			<joint name="${name}_fake_joint2" type="revolute">
-					<origin xyz="-0 0 0" rpy="0 0 0" />
-				<parent link="${name}_proximal_link"/>
-				<child link="${name}_fake_link2"/>
-					<axis xyz="0 1 0" />
-				<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
-			</joint>
-			
-			<link name="${name}_fake_link2"> 
-			</link> 
+		<joint name="${name}_fake_joint2" type="revolute">
+			<origin xyz="-0.009 0 0" rpy="0 0 0" />
+			<parent link="${name}_proximal_link"/>
+			<child link="${name}_fake_link2"/>
+			<axis xyz="0 1 0" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_fake_link2"> 
+		</link> 
 		<!-- end immaginary link-->
 
-	    <joint name="${name}_middle_joint" type="revolute">
-			<origin xyz="-0.02 0 0" rpy="0 0 0" />
+		<joint name="${name}_middle_joint" type="revolute">
+			<origin xyz="-0.013 0 0" rpy="0 0 0" />
 			<parent link="${name}_fake_link2"/>
 			<child link="${name}_middle_link"/>
 			<axis xyz="0 1 0" />
@@ -102,29 +102,29 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://complete_soft_hand/meshes/phalanx_short.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_short_injection.stl" scale=" .001 .001 .001" />
 				</geometry>
-			<material name="DarkGolden" />
+				<material name="DarkGolden" />
 			</visual>
 		</link>
 
 		<!-- BABY PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 3-->
-			<joint name="${name}_fake_joint3" type="revolute">
-					<origin xyz="0 0 0" rpy="0 0 0" />
-				<parent link="${name}_middle_link"/>
-				<child link="${name}_fake_link3"/>
-					<axis xyz="0 1 0" />
-				<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
-			</joint>
+		<joint name="${name}_fake_joint3" type="revolute">
+			<origin xyz="-0.009 0 0" rpy="0 0 0" />
+			<parent link="${name}_middle_link"/>
+			<child link="${name}_fake_link3"/>
+			<axis xyz="0 1 0" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
 
-			<link name="${name}_fake_link3"> 
-			</link> 
+		<link name="${name}_fake_link3"> 
+		</link> 
 		<!-- end immaginary link-->
 
 		<joint name="${name}_outer_joint" type="revolute">
-			<origin xyz="-0.02 0 0" rpy="0 0 0" />
+			<origin xyz="-0.013 0 0" rpy="0 0 0" />
 			<parent link="${name}_fake_link3"/>
 			<child link="${name}_distal_link"/>
 			<axis xyz="0 1 0" />
@@ -137,9 +137,136 @@
 				<geometry>
 					<mesh filename="package://complete_soft_hand/meshes/phalanx_distal_out_no_ati.stl" scale=" .001 .001 .001" />
 				</geometry>
-			<material name="DarkGolden" />
+				<material name="DarkGolden" />
 			</visual>
 		</link>
+		<!-- end BABY PHALANGE -->
+	</xacro:macro>
+
+	<xacro:macro name="thumb_finger" params="parent name position orientation">
+		<!-- macro for one finger -->
+
+		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+		<joint name="${name}_abd_joint" type="revolute">
+			<origin xyz="${position}" rpy="${orientation}" />
+			<parent link="${parent}"/>
+			<child link="${name}_knuckle_link"/>
+			<axis xyz="0 1 0" />
+			<limit lower="${-2*inner_ub *pi/180}" upper="${inner_lb *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+		
+		<link name="${name}_knuckle_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_thumb_injection.stl" scale=" .001 .001 .001" />
+				</geometry>
+				<material name="DarkGolden" />
+			</visual>
+		</link>
+
+		<!-- PHALANGE -->
+		<!-- immaginary link-->
+		<!-- joint and link FAKE 1-->
+		<joint name="${name}_fake_joint1" type="revolute">
+			<origin xyz="-0.0225 0 -0.0033" rpy="-1.9974238811 0 0" />
+			<parent link="${name}_knuckle_link"/>
+			<child link="${name}_fake_link1"/>
+			<axis xyz="0 1 0" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_fake_link1"> 
+		</link> 
+		<!-- end immaginary link-->
+		
+
+		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+		<joint name="${name}_inner_joint" type="revolute">
+			<origin xyz="-0.013 0 0" rpy="0 0 0" />
+			<parent link="${name}_fake_link1"/>
+			<child link="${name}_proximal_link"/>
+			<axis xyz="0 1 0" />
+			<mimic joint="${name}_fake_joint1" multiplier="1" />
+			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_proximal_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_short_injection.stl" scale=" .001 .001 .001" />
+				</geometry>
+				<material name="DarkGolden" />
+			</visual>
+		</link>
+
+		<!-- LITTLE PHALANGE -->
+		<!-- immaginary link-->
+		<!-- joint and link FAKE 2-->
+		<joint name="${name}_fake_joint2" type="revolute">
+			<origin xyz="-0.009 0 0" rpy="0 0 0" />
+			<parent link="${name}_proximal_link"/>
+			<child link="${name}_fake_link2"/>
+			<axis xyz="0 1 0" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_fake_link2"> 
+		</link> 
+		<!-- end immaginary link-->
+
+		<joint name="${name}_middle_joint" type="revolute">
+			<origin xyz="-0.013 0 0" rpy="0 0 0" />
+			<parent link="${name}_fake_link2"/>
+			<child link="${name}_middle_link"/>
+			<axis xyz="0 1 0" />
+			<mimic joint="${name}_fake_joint2" multiplier="1" />
+			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+		<link name="${name}_middle_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_short_injection.stl" scale=" .001 .001 .001" />
+				</geometry>
+				<material name="DarkGolden" />
+			</visual>
+		</link>
+
+		<!-- BABY PHALANGE -->
+		<!-- immaginary link-->
+		<!-- joint and link FAKE 3-->
+		<joint name="${name}_fake_joint3" type="revolute">
+			<origin xyz="-0.009 0 0.0" rpy="0 0 0" />
+			<parent link="${name}_middle_link"/>
+			<child link="${name}_fake_link3"/>
+			<axis xyz="0 1 0" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+
+		<link name="${name}_fake_link3"> 
+		</link> 
+		<!-- end immaginary link-->
+
+		<joint name="${name}_outer_joint" type="revolute">
+			<origin xyz="-0.013 0 0" rpy="0 0 0" />
+			<parent link="${name}_fake_link3"/>
+			<child link="${name}_distal_link"/>
+			<axis xyz="0 1 0" />
+			<mimic joint="${name}_fake_joint3" multiplier="1" />
+			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+		</joint>
+		<link name="${name}_distal_link"> 
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://complete_soft_hand/meshes/phalanx_distal_out_no_ati.stl" scale=" .001 .001 .001" />
+				</geometry>
+				<material name="DarkGolden" />
+			</visual>
+		</link>
+
 		<!-- end BABY PHALANGE -->
 	</xacro:macro>
 
@@ -151,15 +278,15 @@
 			<origin xyz="0 0 0" rpy="0 0 0" />
 			<parent link="${parent}" />
 			<child link="${name}_palm_link" />
-			<axis xyz="0 1 0" />
-			<limit lower="${-90*pi/180}" upper="${90*pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<!-- <axis xyz="0 1 0" /> -->
+			<!-- <limit lower="${-90*pi/180}" upper="${90*pi/180}" effort="${effort}" velocity="${velocity}"/> -->
 		</joint>
 
 		<link name="${name}_palm_link">
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://complete_soft_hand/meshes/palmo.stl" scale=" .001 .001 .001" /> 
+					<mesh filename="package://complete_soft_hand/meshes/palm_hand.stl" scale=" .001 .001 .001" /> 
 				</geometry>
 				<material name="LightGrey" />
 			</visual>
@@ -167,10 +294,13 @@
 
 		
 		<!-- macro for each finger -->
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_thumb" position="-0.0245 0.024 0.039" orientation="0 ${50*pi/180} 0" />
-	
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="0.0275 0.024 0.039" orientation="0 ${45*pi/180} ${pi}" />
-	
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="-0.0285 0.0943918 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_middle" position="-0.009 0.107892 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_ring" position="0.0105 0.0943918 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_little" position="0.030 0.0808918 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
+		<xacro:thumb_finger parent="${name}_palm_link" name="${name}_thumb" position="-0.0418769 0.0538740 -0.00691972	" orientation="0 0 -0.43633181" />
+
+
 	</xacro:macro>
 
 </robot>

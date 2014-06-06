@@ -4,12 +4,12 @@
   <xacro:include filename="$(find complete_soft_hand)/model/complete_soft_hand.urdf.xacro"/>
   
   <link name="world">
-    <visual>
+<!--     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <box size="1 1 1.0"/>
       </geometry>
-    </visual>
+    </visual> -->
   </link>
 
   <xacro:complete_soft_hand parent="world" name="hand">

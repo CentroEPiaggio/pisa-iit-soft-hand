@@ -8,6 +8,6 @@
 
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"  />
   
-  	<node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="$(find complete_soft_hand)/launch/my_rviz.rviz" output="screen">
+  	<node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find complete_soft_hand)/launch/my_rviz.rviz" output="screen">
 	</node>
 </launch>
