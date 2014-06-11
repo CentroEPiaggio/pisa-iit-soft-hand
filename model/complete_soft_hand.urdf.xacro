@@ -4,6 +4,8 @@
 	<xacro:include filename="$(find complete_soft_hand)/model/materials.urdf.xacro"/>
 
 	<xacro:property name="pi" value="3.1415926535897931" />
+	<xacro:property name="abd_lb" value="-30" />
+	<xacro:property name="abd_ub" value="30" />
 	<xacro:property name="inner_lb" value="0" />
 	<xacro:property name="inner_ub" value="45" />
 	<xacro:property name="middle_lb" value="0" />
@@ -15,18 +17,20 @@
 
 
 	<!-- Declaration of single finger that we can replicate in another position -->
-	<!-- We suppose that all fingers are equal -->
+	<!-- We suppose that 4th fingers are equal (index, middle, ring, little) -->
 
 	<xacro:macro name="soft_finger" params="parent name position orientation">
 		<!-- macro for one finger -->
 
 		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+
+		<!-- KNUCKLE -->
 		<joint name="${name}_abd_joint" type="revolute">
 			<origin xyz="${position}" rpy="${orientation}" />
 			<parent link="${parent}"/>
 			<child link="${name}_knuckle_link"/>
 			<axis xyz="0 0 1" />
-			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<limit lower="${abd_lb *pi/180}" upper="${abd_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 		
 		<link name="${name}_knuckle_link"> 
@@ -38,6 +42,8 @@
 				<material name="DarkGolden" />
 			</visual>
 		</link>
+		<!-- end KNUCKLE -->
+
 
 		<!-- PHALANGE -->
 		<!-- immaginary link-->
@@ -54,7 +60,6 @@
 		</link> 
 		<!-- end immaginary link-->
 		
-
 		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
 		<joint name="${name}_inner_joint" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -74,6 +79,8 @@
 				<material name="DarkGolden" />
 			</visual>
 		</link>
+		<!-- end PHALANGE -->
+
 
 		<!-- LITTLE PHALANGE -->
 		<!-- immaginary link-->
@@ -107,6 +114,8 @@
 				<material name="DarkGolden" />
 			</visual>
 		</link>
+		<!-- end LITTLE PHALANGE -->
+
 
 		<!-- BABY PHALANGE -->
 		<!-- immaginary link-->
@@ -142,11 +151,18 @@
 		</link>
 		<!-- end BABY PHALANGE -->
 	</xacro:macro>
+	
+	<!-- end FINGER model -->
+
+
+	<!-- THUMB model -->
 
 	<xacro:macro name="thumb_finger" params="parent name position orientation">
 		<!-- macro for one finger -->
 
-		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+		<!-- abductor joint between palm_link and thumb_abd_link - fake between palm and proximal -->
+
+		<!-- THUMB KNUCKLE -->
 		<joint name="${name}_abd_joint" type="revolute">
 			<origin xyz="${position}" rpy="${orientation}" />
 			<parent link="${parent}"/>
@@ -164,8 +180,10 @@
 				<material name="DarkGolden" />
 			</visual>
 		</link>
+		<!-- end KNUCKLE -->
 
-		<!-- PHALANGE -->
+
+		<!-- THUMB PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 1-->
 		<joint name="${name}_fake_joint1" type="revolute">
@@ -180,7 +198,6 @@
 		</link> 
 		<!-- end immaginary link-->
 		
-
 		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
 		<joint name="${name}_inner_joint" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -200,8 +217,10 @@
 				<material name="DarkGolden" />
 			</visual>
 		</link>
+		<!-- end PHALANGE -->
 
-		<!-- LITTLE PHALANGE -->
+
+		<!-- THUMB LITTLE PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 2-->
 		<joint name="${name}_fake_joint2" type="revolute">
@@ -234,7 +253,8 @@
 			</visual>
 		</link>
 
-		<!-- BABY PHALANGE -->
+
+		<!-- THUMB BABY PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 3-->
 		<joint name="${name}_fake_joint3" type="revolute">
@@ -266,14 +286,17 @@
 				<material name="DarkGolden" />
 			</visual>
 		</link>
-
 		<!-- end BABY PHALANGE -->
+
+
 	</xacro:macro>
+	<!-- end THUMB model -->
 
 
 	<xacro:macro name="complete_soft_hand" params="parent name *origin">
 		<!-- macro for the hand -->
 
+		<!-- PALM -->
 		<joint name="${name}_palm_joint" type="fixed" >
 			<origin xyz="0 0 0" rpy="0 0 0" />
 			<parent link="${parent}" />
@@ -292,15 +315,18 @@
 			</visual>
 		</link>
 
+		<!-- end PALM -->
+		
+
 		
 		<!-- macro for each finger -->
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="-0.0285 0.0943918 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_middle" position="-0.009 0.107892 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_ring" position="0.0105 0.0943918 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_little" position="0.030 0.0808918 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
+
 		<xacro:thumb_finger parent="${name}_palm_link" name="${name}_thumb" position="-0.0418769 0.0538740 -0.00691972	" orientation="0 0 -0.43633181" />
-
-
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="-0.0285 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90+20)*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_middle" position="-0.009 0.107892 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_ring" position="0.0105 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90-10)*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_little" position="0.030 0.0808918 0.00205" orientation="${180*pi/180} 0 ${(-90-20)*pi/180}" />
+		
 	</xacro:macro>
 
 </robot>
