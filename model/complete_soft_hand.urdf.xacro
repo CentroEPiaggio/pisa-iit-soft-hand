@@ -30,7 +30,7 @@
 			<parent link="${parent}"/>
 			<child link="${name}_knuckle_link"/>
 			<axis xyz="0 0 1" />
-			<limit lower="${abd_lb *pi/180}" upper="${abd_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<limit lower="${abd_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 		
 		<link name="${name}_knuckle_link"> 
@@ -48,25 +48,33 @@
 		<!-- PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 1-->
-		<joint name="${name}_fake_joint1" type="revolute">
+		<joint name="${name}_inner_joint
+" type="revolute">
 			<origin xyz="-0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_knuckle_link"/>
-			<child link="${name}_fake_link1"/>
+			<child link="${name}_inner_link
+
+"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 
-		<link name="${name}_fake_link1"> 
+		<link name="${name}_inner_link
+
+"> 
 		</link> 
 		<!-- end immaginary link-->
 		
 		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
 		<joint name="${name}_inner_joint" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
-			<parent link="${name}_fake_link1"/>
+			<parent link="${name}_inner_link
+
+"/>
 			<child link="${name}_proximal_link"/>
 			<axis xyz="0 1 0" />
-			<mimic joint="${name}_fake_joint1" multiplier="1" />
+			<mimic joint="${name}_inner_joint
+" multiplier="1" />
 			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 
@@ -85,7 +93,9 @@
 		<!-- LITTLE PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 2-->
-		<joint name="${name}_fake_joint2" type="revolute">
+		<joint name="${name}_middle_joint
+
+" type="revolute">
 			<origin xyz="-0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_proximal_link"/>
 			<child link="${name}_fake_link2"/>
@@ -102,7 +112,9 @@
 			<parent link="${name}_fake_link2"/>
 			<child link="${name}_middle_link"/>
 			<axis xyz="0 1 0" />
-			<mimic joint="${name}_fake_joint2" multiplier="1" />
+			<mimic joint="${name}_middle_joint
+
+" multiplier="1" />
 			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 		<link name="${name}_middle_link"> 
@@ -120,7 +132,8 @@
 		<!-- BABY PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 3-->
-		<joint name="${name}_fake_joint3" type="revolute">
+		<joint name="${name}_outer_joint
+" type="revolute">
 			<origin xyz="-0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_middle_link"/>
 			<child link="${name}_fake_link3"/>
@@ -137,7 +150,8 @@
 			<parent link="${name}_fake_link3"/>
 			<child link="${name}_distal_link"/>
 			<axis xyz="0 1 0" />
-			<mimic joint="${name}_fake_joint3" multiplier="1" />
+			<mimic joint="${name}_outer_joint
+" multiplier="1" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 		<link name="${name}_distal_link"> 
@@ -186,25 +200,33 @@
 		<!-- THUMB PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 1-->
-		<joint name="${name}_fake_joint1" type="revolute">
+		<joint name="${name}_inner_joint
+" type="revolute">
 			<origin xyz="-0.0225 0 -0.0033" rpy="-1.9974238811 0 0" />
 			<parent link="${name}_knuckle_link"/>
-			<child link="${name}_fake_link1"/>
+			<child link="${name}_inner_link
+
+"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 
-		<link name="${name}_fake_link1"> 
+		<link name="${name}_inner_link
+
+"> 
 		</link> 
 		<!-- end immaginary link-->
 		
 		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
 		<joint name="${name}_inner_joint" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
-			<parent link="${name}_fake_link1"/>
+			<parent link="${name}_inner_link
+
+"/>
 			<child link="${name}_proximal_link"/>
 			<axis xyz="0 1 0" />
-			<mimic joint="${name}_fake_joint1" multiplier="1" />
+			<mimic joint="${name}_inner_joint
+" multiplier="1" />
 			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 
@@ -223,7 +245,9 @@
 		<!-- THUMB LITTLE PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 2-->
-		<joint name="${name}_fake_joint2" type="revolute">
+		<joint name="${name}_middle_joint
+
+" type="revolute">
 			<origin xyz="-0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_proximal_link"/>
 			<child link="${name}_fake_link2"/>
@@ -240,7 +264,9 @@
 			<parent link="${name}_fake_link2"/>
 			<child link="${name}_middle_link"/>
 			<axis xyz="0 1 0" />
-			<mimic joint="${name}_fake_joint2" multiplier="1" />
+			<mimic joint="${name}_middle_joint
+
+" multiplier="1" />
 			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 		<link name="${name}_middle_link"> 
@@ -257,7 +283,8 @@
 		<!-- THUMB BABY PHALANGE -->
 		<!-- immaginary link-->
 		<!-- joint and link FAKE 3-->
-		<joint name="${name}_fake_joint3" type="revolute">
+		<joint name="${name}_outer_joint
+" type="revolute">
 			<origin xyz="-0.009 0 0.0" rpy="0 0 0" />
 			<parent link="${name}_middle_link"/>
 			<child link="${name}_fake_link3"/>
@@ -274,7 +301,8 @@
 			<parent link="${name}_fake_link3"/>
 			<child link="${name}_distal_link"/>
 			<axis xyz="0 1 0" />
-			<mimic joint="${name}_fake_joint3" multiplier="1" />
+			<mimic joint="${name}_outer_joint
+" multiplier="1" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 		<link name="${name}_distal_link"> 
