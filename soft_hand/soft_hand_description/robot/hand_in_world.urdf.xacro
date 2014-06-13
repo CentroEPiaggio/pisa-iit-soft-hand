@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="soft_hand">
+
+  <xacro:include filename="$(find soft_hand_description)/model/soft_hand.urdf.xacro"/>
+  
+  <link name="world">
+<!--     <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="1 1 1.0"/>
+      </geometry>
+    </visual> -->
+  </link>
+
+  <xacro:soft_hand parent="world" name="hand">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:soft_hand>
+  
+
+</robot>

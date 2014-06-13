@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <robot>
 
-	<material name="LightGrey">
+	<material name="SoftHand/LightGrey">
 		<color rgba="0.7 0.7 0.7 1.0"/>
 	</material>
 
-	<material name="DarkGrey">
+	<material name="SoftHand/DarkGrey">
 		<color rgba="0.4 0.4 0.4 1.0"/>
 	</material>
 
-	<material name="Black">
+	<material name="SoftHand/Black">
 		<color rgba="0.0 0.0 0.0 1.0"/>
 	</material>
 
-	<material name="DarkGolden">
+	<material name="SoftHand/DarkGolden">
 		<color rgba="0.4 0.4 0.3 1.0"/>
 	</material>
 
-	<material name="Blue">
+	<material name="SoftHand/Blue">
 		<color rgba="0.0 0.0 0.8 0.9"/>
 	</material>
 
-	<material name="LightBlue">
+	<material name="SoftHand/LightBlue">
 		<color rgba="0.0 0.4 1.0 0.5"/>
 	</material>
 

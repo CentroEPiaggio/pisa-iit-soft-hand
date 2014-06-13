@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
 <package>
-  <name>complete_soft_hand</name>
+  <name>soft_hand_description</name>
   <version>0.0.0</version>
-  <description>The  package</description>
+  <description>The soft_hand_description package</description>
 
-  <maintainer email="hamal.marino@gmail.com">Hamal Marino</maintainer>
   <maintainer email="cjrosales@gmail.com">Carlos Rosales</maintainer>
   <license>GPLv2</license>
-
-  <author>Hamal Marino</author>
+  
   <author>Carlos Rosales</author>
 
   <buildtool_depend>catkin</buildtool_depend>
