@@ -1,0 +1,19 @@
+<package>
+  <name>soft_hand</name>
+  <version>0.0.0</version>
+  <description>
+    ROS meta-package containing soft_hand ROS packages.
+  </description>
+  <maintainer email="carlos.rosales@for.unipi.it">Carlos Rosales</maintainer>
+  <license>GPLv2</license>
+  
+  <author>Carlos Rosales</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend> soft_hand_description </run_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
