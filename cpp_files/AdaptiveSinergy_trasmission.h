@@ -251,7 +251,12 @@ inline void AdaptiveSybergyTransmission::actuatorToJointEffort(const ActuatorDat
                             && jnt_data.position[4]  && jnt_data.position[5]  && jnt_data.position[6]  && jnt_data.position[7]
                             && jnt_data.position[8]  && jnt_data.position[9]  && jnt_data.position[10] && jnt_data.position[11]
                             && jnt_data.position[12] && jnt_data.position[13] && jnt_data.position[14] && jnt_data.position[15]
-                            && jnt_data.position[16] && jnt_data.position[17] && jnt_data.position[18] && jnt_data.position[19]);
+                            && jnt_data.position[16] && jnt_data.position[17] && jnt_data.position[18] && jnt_data.position[19]
+                            && jnt_data.effort[0]    && jnt_data.effort[1]    && jnt_data.effort[2]    && jnt_data.effort[3]
+                            && jnt_data.effort[4]    && jnt_data.effort[5]    && jnt_data.effort[6]    && jnt_data.effort[7]
+                            && jnt_data.effort[8]    && jnt_data.effort[9]    && jnt_data.effort[10]   && jnt_data.effort[11]
+                            && jnt_data.effort[12]   && jnt_data.effort[13]   && jnt_data.effort[14]   && jnt_data.effort[15]
+                            && jnt_data.effort[16]   && jnt_data.effort[17]   && jnt_data.effort[18]   && jnt_data.effort[19]);
 
   // Tau_q =    R'  * tau_m -    E   *  q;
   //  20x1 = ( 20x1 *  1x1) - (20x20 * 20x1)
@@ -267,26 +272,26 @@ inline void AdaptiveSybergyTransmission::actuatorToJointEffort(const ActuatorDat
   std::vector<double>& r_ = act_reduction_;
   std::vector<double>& e_d_ = jnt_reduction_;
 
-  *jnt_data.effort[0]  = (r_[0]  * (*act_data.effort[0])) + (e_d_[0]  * jnt_data.position[0]);
-  *jnt_data.effort[1]  = (r_[1]  * (*act_data.effort[0])) + (e_d_[1]  * jnt_data.position[1]);
-  *jnt_data.effort[2]  = (r_[2]  * (*act_data.effort[0])) + (e_d_[2]  * jnt_data.position[2]);
-  *jnt_data.effort[3]  = (r_[3]  * (*act_data.effort[0])) + (e_d_[3]  * jnt_data.position[3]);
-  *jnt_data.effort[4]  = (r_[4]  * (*act_data.effort[0])) + (e_d_[4]  * jnt_data.position[4]);
-  *jnt_data.effort[5]  = (r_[5]  * (*act_data.effort[0])) + (e_d_[5]  * jnt_data.position[5]);
-  *jnt_data.effort[6]  = (r_[6]  * (*act_data.effort[0])) + (e_d_[6]  * jnt_data.position[6]);
-  *jnt_data.effort[7]  = (r_[7]  * (*act_data.effort[0])) + (e_d_[7]  * jnt_data.position[7]);
-  *jnt_data.effort[8]  = (r_[8]  * (*act_data.effort[0])) + (e_d_[8]  * jnt_data.position[8]);
-  *jnt_data.effort[9]  = (r_[9]  * (*act_data.effort[0])) + (e_d_[9]  * jnt_data.position[9]);
-  *jnt_data.effort[10] = (r_[10] * (*act_data.effort[0])) + (e_d_[10] * jnt_data.position[10]);
-  *jnt_data.effort[11] = (r_[11] * (*act_data.effort[0])) + (e_d_[11] * jnt_data.position[11]);
-  *jnt_data.effort[12] = (r_[12] * (*act_data.effort[0])) + (e_d_[12] * jnt_data.position[12]);
-  *jnt_data.effort[13] = (r_[13] * (*act_data.effort[0])) + (e_d_[13] * jnt_data.position[13]);
-  *jnt_data.effort[14] = (r_[14] * (*act_data.effort[0])) + (e_d_[14] * jnt_data.position[14]);
-  *jnt_data.effort[15] = (r_[15] * (*act_data.effort[0])) + (e_d_[15] * jnt_data.position[15]);
-  *jnt_data.effort[16] = (r_[16] * (*act_data.effort[0])) + (e_d_[16] * jnt_data.position[16]);
-  *jnt_data.effort[17] = (r_[17] * (*act_data.effort[0])) + (e_d_[17] * jnt_data.position[17]);
-  *jnt_data.effort[18] = (r_[18] * (*act_data.effort[0])) + (e_d_[18] * jnt_data.position[18]);
-  *jnt_data.effort[19] = (r_[19] * (*act_data.effort[0])) + (e_d_[19] * jnt_data.position[19]);
+  *jnt_data.effort[0]  = (r_[0]  * (*act_data.effort[0])) + (e_d_[0]  * (*jnt_data.position[0]));
+  *jnt_data.effort[1]  = (r_[1]  * (*act_data.effort[0])) + (e_d_[1]  * (*jnt_data.position[1]));
+  *jnt_data.effort[2]  = (r_[2]  * (*act_data.effort[0])) + (e_d_[2]  * (*jnt_data.position[2]));
+  *jnt_data.effort[3]  = (r_[3]  * (*act_data.effort[0])) + (e_d_[3]  * (*jnt_data.position[3]));
+  *jnt_data.effort[4]  = (r_[4]  * (*act_data.effort[0])) + (e_d_[4]  * (*jnt_data.position[4]));
+  *jnt_data.effort[5]  = (r_[5]  * (*act_data.effort[0])) + (e_d_[5]  * (*jnt_data.position[5]));
+  *jnt_data.effort[6]  = (r_[6]  * (*act_data.effort[0])) + (e_d_[6]  * (*jnt_data.position[6]));
+  *jnt_data.effort[7]  = (r_[7]  * (*act_data.effort[0])) + (e_d_[7]  * (*jnt_data.position[7]));
+  *jnt_data.effort[8]  = (r_[8]  * (*act_data.effort[0])) + (e_d_[8]  * (*jnt_data.position[8]));
+  *jnt_data.effort[9]  = (r_[9]  * (*act_data.effort[0])) + (e_d_[9]  * (*jnt_data.position[9]));
+  *jnt_data.effort[10] = (r_[10] * (*act_data.effort[0])) + (e_d_[10] * (*jnt_data.position[10]));
+  *jnt_data.effort[11] = (r_[11] * (*act_data.effort[0])) + (e_d_[11] * (*jnt_data.position[11]));
+  *jnt_data.effort[12] = (r_[12] * (*act_data.effort[0])) + (e_d_[12] * (*jnt_data.position[12]));
+  *jnt_data.effort[13] = (r_[13] * (*act_data.effort[0])) + (e_d_[13] * (*jnt_data.position[13]));
+  *jnt_data.effort[14] = (r_[14] * (*act_data.effort[0])) + (e_d_[14] * (*jnt_data.position[14]));
+  *jnt_data.effort[15] = (r_[15] * (*act_data.effort[0])) + (e_d_[15] * (*jnt_data.position[15]));
+  *jnt_data.effort[16] = (r_[16] * (*act_data.effort[0])) + (e_d_[16] * (*jnt_data.position[16]));
+  *jnt_data.effort[17] = (r_[17] * (*act_data.effort[0])) + (e_d_[17] * (*jnt_data.position[17]));
+  *jnt_data.effort[18] = (r_[18] * (*act_data.effort[0])) + (e_d_[18] * (*jnt_data.position[18]));
+  *jnt_data.effort[19] = (r_[19] * (*act_data.effort[0])) + (e_d_[19] * (*jnt_data.position[19]));
 }
 
 /*inline void AdaptiveSybergyTransmission::actuatorToJointVelocity(const ActuatorData& act_data,
@@ -315,26 +320,37 @@ inline void AdaptiveSybergyTransmission::actuatorToJointEffort(const ActuatorDat
   *jnt_data.position[1] = (*act_data.position[0] / ar[0] - *act_data.position[1] / ar[1]) / (2.0 * jr[1]) + jnt_offset_[1];
 }*/
 
-
-
-
-// to change
-/*inline void AdaptiveSybergyTransmission::jointToActuatorEffort(const JointData& jnt_data,
+inline void AdaptiveSybergyTransmission::jointToActuatorEffort(const JointData& jnt_data,
                                                                   ActuatorData& act_data)
 {
-  assert(numActuators() == act_data.effort.size() && numJoints() == jnt_data.effort.size());
-  assert(act_data.effort[0] && act_data.effort[1] && jnt_data.effort[0] && jnt_data.effort[1]);
+  assert(numActuators() == act_data.position.size() && numJoints() == jnt_data.effort.size());
+  assert(act_data.position[0] && act_data.effort[0]  && jnt_data.effort[0]    && jnt_data.effort[1]    && jnt_data.effort[2]    
+                              && jnt_data.effort[3]  && jnt_data.effort[4]    && jnt_data.effort[5]    && jnt_data.effort[6]    
+                              && jnt_data.effort[7]  && jnt_data.effort[8]    && jnt_data.effort[9]    && jnt_data.effort[10]   
+                              && jnt_data.effort[11] && jnt_data.effort[12]   && jnt_data.effort[13]   && jnt_data.effort[14]   
+                              && jnt_data.effort[15] && jnt_data.effort[16]   && jnt_data.effort[17]   && jnt_data.effort[18]
+                              && jnt_data.effort[19]);
 
-  std::vector<double>& ar = act_reduction_;
-  std::vector<double>& jr = jnt_reduction_;
+  std::vector<double>& r_ = act_reduction_;
+  std::vector<double>& e_d_ = jnt_reduction_;
+  std::vector<double>& temp_;   // temporary vector 
 
-  *act_data.effort[0] = (*jnt_data.effort[0] / jr[0] + *jnt_data.effort[1] / jr[1]) / (2.0 * ar[0]);
-  *act_data.effort[1] = (*jnt_data.effort[0] / jr[0] - *jnt_data.effort[1] / jr[1]) / (2.0 * ar[1]);
-}*/
+  temp_[0]=0.0;   // vector of sum ri^2/ei
 
+  for (int i = 0; i < jnt_data.effort.size(); i++)
+  {
+    temp_[0]= temp_[0]+((r_[i]^2)/e_d_[i]);
+  }
 
+  temp_[1]=0.0; // vector of summary ri*ti/ei+temp_[0]
 
+  for (int i = 0; i < jnt_data.effort.size(); i++)
+  {
+    temp_[1]=temp_[1]+((r_[i]+(*jnt_data.effort[i]))/(e_d_[i]*temp_[0]));
+  }
 
+  *act_data.effort[0] = (*temp_[1] + (*act_data.position[0])/(*temp_[0]));  
+}
 
 
 /*inline void AdaptiveSybergyTransmission::jointToActuatorVelocity(const JointData& jnt_data,
