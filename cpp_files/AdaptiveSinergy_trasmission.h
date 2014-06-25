@@ -119,13 +119,14 @@ class AdapriveSinergyTransmission : public Transmission
 {
 public:
   /**
-* \param actuator_reduction Reduction ratio of actuators.
+* \param actuatojr_reduction Reduction ratio of actuators.
 * \param joint_reduction Reduction ratio of joints.
 * \param joint_offset Joint position offset used in the position mappings.
 * \pre Nonzero actuator and joint reduction values.
 */
-  AdatptiveSinergyTransmission(const std::vector<double>& actuator_reduction,
+  AdatptiveSinergyTransmission(const std::vector<double>& actuatojr_reduction,
                                const std::vector<double>& joint_reduction,
+                               const std::vector<double>& elasic_reduction,
                                const std::vector<double>& joint_offset = std::vector<double>(20, 0.0));
 
   /**
@@ -193,27 +194,32 @@ public:
 
   const std::vector<double>& getActuatorReduction() const {return act_reduction_;}
   const std::vector<double>& getJointReduction() const {return jnt_reduction_;}
+  const std::vector<double>& getElasticReduction() const {return els_reduction_;}
   const std::vector<double>& getJointOffset() const {return jnt_offset_;}
 
 protected:
   std::vector<double> act_reduction_;
+  std::vector<double> els_reduction_;
   std::vector<double> jnt_reduction_;
   std::vector<double> jnt_offset_;
 };
 
-inline AdaptiveSybergyTransmission::AdaptiveSybergyTransmission(const std::vector<double>& actuator_reduction,
+inline AdaptiveSybergyTransmission::AdaptiveSybergyTransmission(const std::vector<double>& actuatojr_reduction,
                                                                 const std::vector<double>& joint_reduction,
+                                                                const std::vector<double>& elastic_reduction,
                                                                 const std::vector<double>& joint_offset)
   : Transmission(),
-    act_reduction_(actuator_reduction),
+    act_reduction_(actuatojr_reduction),
+    els_reduction_(elastic_reduction),
     jnt_reduction_(joint_reduction),
     jnt_offset_(joint_offset)
 {
   if (numActuators() != act_reduction_.size() ||
-      numJoints() != jnt_reduction_.size() ||
+      numJoints() != jnt_reduction_.size()    ||
+      numElastics() != els_reduction_.size()   ||
       numJoints() != jnt_offset_.size())
   {
-    throw AdaptiveSynergyTransmissionInterfaceException("Reduction and offset vectors of a differential transmission must have size 2.");
+    throw AdaptiveSynergyTransmissionInterfaceException("Adaptive Sybergy transmission: Elastic and Joint reduction and offset vectors must have size 20, Actuator must have size 1.");
   }
 
   if (0.0 == act_reduction_[0]  ||
@@ -236,10 +242,30 @@ inline AdaptiveSybergyTransmission::AdaptiveSybergyTransmission(const std::vecto
       0.0 == jnt_reduction_[16] ||
       0.0 == jnt_reduction_[17] ||
       0.0 == jnt_reduction_[18] ||
-      0.0 == jnt_reduction_[19]
+      0.0 == jnt_reduction_[19] ||
+      0.0 == els_reduction_[0]  ||
+      0.0 == els_reduction_[1]  ||
+      0.0 == els_reduction_[2]  ||
+      0.0 == els_reduction_[3]  ||
+      0.0 == els_reduction_[4]  || 
+      0.0 == els_reduction_[5]  ||
+      0.0 == els_reduction_[6]  ||
+      0.0 == els_reduction_[7]  ||
+      0.0 == els_reduction_[8]  ||
+      0.0 == els_reduction_[9]  || 
+      0.0 == els_reduction_[10] ||
+      0.0 == els_reduction_[11] ||
+      0.0 == els_reduction_[12] ||
+      0.0 == els_reduction_[13] ||
+      0.0 == els_reduction_[14] ||
+      0.0 == els_reduction_[15] ||
+      0.0 == els_reduction_[16] ||
+      0.0 == els_reduction_[17] ||
+      0.0 == els_reduction_[18] ||
+      0.0 == els_reduction_[19]
   )
   {
-    throw AdaptiveSynergyTransmissionInterfaceException("Transmission reduction ratios cannot be zero.");
+    throw AdaptiveSynergyTransmissionInterfaceException("Transmission parameters ratios cannot be zero.");
   }
 }
 
@@ -260,8 +286,8 @@ inline void AdaptiveSybergyTransmission::actuatorToJointEffort(const ActuatorDat
 
   // Tau_q =    R'  * tau_m -    E   *  q;
   //  20x1 = ( 20x1 *  1x1) - (20x20 * 20x1)
-  // R == act_reduction_ = ar --> raw vector 1x20
-  // E == jnt_reduction_ = jr --> diagonal matrix 20x20 --> we can simplified by 20x1
+  // R == jnt_reduction_ = jr --> raw vector 1x20
+  // E == els_reduction_ = elr --> diagonal matrix 20x20 --> we can simplified by 20x1
   // Tau_q[] = jnt_data.effort[0-19]
   // tau_m = act_data_effort[0]
   
@@ -269,56 +295,58 @@ inline void AdaptiveSybergyTransmission::actuatorToJointEffort(const ActuatorDat
   // Since the matrix 'E' is diagonal, we can simplify the calculation by writing 
   // the system in extended form by eliminating null values
   
-  std::vector<double>& r_ = act_reduction_;
-  std::vector<double>& e_d_ = jnt_reduction_;
+  std::vector<double>& ar_  = act_reduction_;
+  std::vector<double>& jr_  = jnt_reduction_;
+  std::vector<double>& elr_ = els_reduction_;
 
-  *jnt_data.effort[0]  = (r_[0]  * (*act_data.effort[0])) + (e_d_[0]  * (*jnt_data.position[0]));
-  *jnt_data.effort[1]  = (r_[1]  * (*act_data.effort[0])) + (e_d_[1]  * (*jnt_data.position[1]));
-  *jnt_data.effort[2]  = (r_[2]  * (*act_data.effort[0])) + (e_d_[2]  * (*jnt_data.position[2]));
-  *jnt_data.effort[3]  = (r_[3]  * (*act_data.effort[0])) + (e_d_[3]  * (*jnt_data.position[3]));
-  *jnt_data.effort[4]  = (r_[4]  * (*act_data.effort[0])) + (e_d_[4]  * (*jnt_data.position[4]));
-  *jnt_data.effort[5]  = (r_[5]  * (*act_data.effort[0])) + (e_d_[5]  * (*jnt_data.position[5]));
-  *jnt_data.effort[6]  = (r_[6]  * (*act_data.effort[0])) + (e_d_[6]  * (*jnt_data.position[6]));
-  *jnt_data.effort[7]  = (r_[7]  * (*act_data.effort[0])) + (e_d_[7]  * (*jnt_data.position[7]));
-  *jnt_data.effort[8]  = (r_[8]  * (*act_data.effort[0])) + (e_d_[8]  * (*jnt_data.position[8]));
-  *jnt_data.effort[9]  = (r_[9]  * (*act_data.effort[0])) + (e_d_[9]  * (*jnt_data.position[9]));
-  *jnt_data.effort[10] = (r_[10] * (*act_data.effort[0])) + (e_d_[10] * (*jnt_data.position[10]));
-  *jnt_data.effort[11] = (r_[11] * (*act_data.effort[0])) + (e_d_[11] * (*jnt_data.position[11]));
-  *jnt_data.effort[12] = (r_[12] * (*act_data.effort[0])) + (e_d_[12] * (*jnt_data.position[12]));
-  *jnt_data.effort[13] = (r_[13] * (*act_data.effort[0])) + (e_d_[13] * (*jnt_data.position[13]));
-  *jnt_data.effort[14] = (r_[14] * (*act_data.effort[0])) + (e_d_[14] * (*jnt_data.position[14]));
-  *jnt_data.effort[15] = (r_[15] * (*act_data.effort[0])) + (e_d_[15] * (*jnt_data.position[15]));
-  *jnt_data.effort[16] = (r_[16] * (*act_data.effort[0])) + (e_d_[16] * (*jnt_data.position[16]));
-  *jnt_data.effort[17] = (r_[17] * (*act_data.effort[0])) + (e_d_[17] * (*jnt_data.position[17]));
-  *jnt_data.effort[18] = (r_[18] * (*act_data.effort[0])) + (e_d_[18] * (*jnt_data.position[18]));
-  *jnt_data.effort[19] = (r_[19] * (*act_data.effort[0])) + (e_d_[19] * (*jnt_data.position[19]));
+
+  *jnt_data.effort[0]  = ((jr_[0]  * (*act_data.effort[0])) + (elr_[0]  * (*jnt_data.position[0])))/ar_[0];
+  *jnt_data.effort[1]  = ((jr_[1]  * (*act_data.effort[0])) + (elr_[1]  * (*jnt_data.position[1])))/ar_[0];
+  *jnt_data.effort[2]  = ((jr_[2]  * (*act_data.effort[0])) + (elr_[2]  * (*jnt_data.position[2])))/ar_[0];
+  *jnt_data.effort[3]  = ((jr_[3]  * (*act_data.effort[0])) + (elr_[3]  * (*jnt_data.position[3])))/ar_[0];
+  *jnt_data.effort[4]  = ((jr_[4]  * (*act_data.effort[0])) + (elr_[4]  * (*jnt_data.position[4])))/ar_[0];
+  *jnt_data.effort[5]  = ((jr_[5]  * (*act_data.effort[0])) + (elr_[5]  * (*jnt_data.position[5])))/ar_[0];
+  *jnt_data.effort[6]  = ((jr_[6]  * (*act_data.effort[0])) + (elr_[6]  * (*jnt_data.position[6])))/ar_[0];
+  *jnt_data.effort[7]  = ((jr_[7]  * (*act_data.effort[0])) + (elr_[7]  * (*jnt_data.position[7])))/ar_[0];
+  *jnt_data.effort[8]  = ((jr_[8]  * (*act_data.effort[0])) + (elr_[8]  * (*jnt_data.position[8])))/ar_[0];
+  *jnt_data.effort[9]  = ((jr_[9]  * (*act_data.effort[0])) + (elr_[9]  * (*jnt_data.position[9])))/ar_[0];
+  *jnt_data.effort[10] = ((jr_[10] * (*act_data.effort[0])) + (elr_[10] * (*jnt_data.position[10])))/ar_[0];
+  *jnt_data.effort[11] = ((jr_[11] * (*act_data.effort[0])) + (elr_[11] * (*jnt_data.position[11])))/ar_[0];
+  *jnt_data.effort[12] = ((jr_[12] * (*act_data.effort[0])) + (elr_[12] * (*jnt_data.position[12])))/ar_[0];
+  *jnt_data.effort[13] = ((jr_[13] * (*act_data.effort[0])) + (elr_[13] * (*jnt_data.position[13])))/ar_[0];
+  *jnt_data.effort[14] = ((jr_[14] * (*act_data.effort[0])) + (elr_[14] * (*jnt_data.position[14])))/ar_[0];
+  *jnt_data.effort[15] = ((jr_[15] * (*act_data.effort[0])) + (elr_[15] * (*jnt_data.position[15])))/ar_[0];
+  *jnt_data.effort[16] = ((jr_[16] * (*act_data.effort[0])) + (elr_[16] * (*jnt_data.position[16])))/ar_[0];
+  *jnt_data.effort[17] = ((jr_[17] * (*act_data.effort[0])) + (elr_[17] * (*jnt_data.position[17])))/ar_[0];
+  *jnt_data.effort[18] = ((jr_[18] * (*act_data.effort[0])) + (elr_[18] * (*jnt_data.position[18])))/ar_[0];
+  *jnt_data.effort[19] = ((jr_[19] * (*act_data.effort[0])) + (elr_[19] * (*jnt_data.position[19])))/ar_[0];
 }
 
-/*inline void AdaptiveSybergyTransmission::actuatorToJointVelocity(const ActuatorData& act_data,
+inline void AdaptiveSybergyTransmission::actuatorToJointVelocity(const ActuatorData& act_data,
+                                                                       JointData& jnt_data)
+{
+  // assert(numActuators() == act_data.velocity.size() && numJoints() == jnt_data.velocity.size());
+  // assert(act_data.velocity[0] && act_data.velocity[1] && jnt_data.velocity[0] && jnt_data.velocity[1]);
+
+  // std::vector<double>& ar = act_reduction_;
+  // std::vector<double>& jr = jnt_reduction_;
+
+  // *jnt_data.velocity[0] = (*act_data.velocity[0] / ar[0] + *act_data.velocity[1] / ar[1]) / (2.0 * jr[0]);
+  // *jnt_data.velocity[1] = (*act_data.velocity[0] / ar[0] - *act_data.velocity[1] / ar[1]) / (2.0 * jr[1]);
+}
+
+inline void AdaptiveSybergyTransmission::actuatorToJointPosition(const ActuatorData& act_data,
                                                                     JointData& jnt_data)
 {
-  assert(numActuators() == act_data.velocity.size() && numJoints() == jnt_data.velocity.size());
-  assert(act_data.velocity[0] && act_data.velocity[1] && jnt_data.velocity[0] && jnt_data.velocity[1]);
+  // assert(numActuators() == act_data.position.size() && numJoints() == jnt_data.position.size());
+  // assert(act_data.position[0] && act_data.position[1] && jnt_data.position[0] && jnt_data.position[1]);
 
-  std::vector<double>& ar = act_reduction_;
-  std::vector<double>& jr = jnt_reduction_;
+  // std::vector<double>& ar = act_reduction_;
+  // std::vector<double>& jr = jnt_reduction_;
 
-  *jnt_data.velocity[0] = (*act_data.velocity[0] / ar[0] + *act_data.velocity[1] / ar[1]) / (2.0 * jr[0]);
-  *jnt_data.velocity[1] = (*act_data.velocity[0] / ar[0] - *act_data.velocity[1] / ar[1]) / (2.0 * jr[1]);
-}*/
-
-/*inline void AdaptiveSybergyTransmission::actuatorToJointPosition(const ActuatorData& act_data,
-                                                                    JointData& jnt_data)
-{
-  assert(numActuators() == act_data.position.size() && numJoints() == jnt_data.position.size());
-  assert(act_data.position[0] && act_data.position[1] && jnt_data.position[0] && jnt_data.position[1]);
-
-  std::vector<double>& ar = act_reduction_;
-  std::vector<double>& jr = jnt_reduction_;
-
-  *jnt_data.position[0] = (*act_data.position[0] / ar[0] + *act_data.position[1] / ar[1]) / (2.0 * jr[0]) + jnt_offset_[0];
-  *jnt_data.position[1] = (*act_data.position[0] / ar[0] - *act_data.position[1] / ar[1]) / (2.0 * jr[1]) + jnt_offset_[1];
-}*/
+  // *jnt_data.position[0] = (*act_data.position[0] / ar[0] + *act_data.position[1] / ar[1]) / (2.0 * jr[0]) + jnt_offset_[0];
+  // *jnt_data.position[1] = (*act_data.position[0] / ar[0] - *act_data.position[1] / ar[1]) / (2.0 * jr[1]) + jnt_offset_[1];
+}
 
 inline void AdaptiveSybergyTransmission::jointToActuatorEffort(const JointData& jnt_data,
                                                                   ActuatorData& act_data)
@@ -331,55 +359,57 @@ inline void AdaptiveSybergyTransmission::jointToActuatorEffort(const JointData& 
                               && jnt_data.effort[15] && jnt_data.effort[16]   && jnt_data.effort[17]   && jnt_data.effort[18]
                               && jnt_data.effort[19]);
 
-  std::vector<double>& r_ = act_reduction_;
-  std::vector<double>& e_d_ = jnt_reduction_;
-  std::vector<double>& temp_;   // temporary vector 
+
+  std::vector<double>& ar_  = act_reduction_;
+  std::vector<double>& jr_  = jnt_reduction_;
+  std::vector<double>& elr_ = els_reduction_;
+  std::vector<double>& temp_(2);   // temporary vector 
 
   temp_[0]=0.0;   // vector of sum ri^2/ei
 
   for (int i = 0; i < jnt_data.effort.size(); i++)
   {
-    temp_[0]= temp_[0]+((r_[i]^2)/e_d_[i]);
+    temp_[0]= temp_[0]+((jr_[i]^2)/elr_[i]);
   }
 
   temp_[1]=0.0; // vector of summary ri*ti/ei+temp_[0]
 
   for (int i = 0; i < jnt_data.effort.size(); i++)
   {
-    temp_[1]=temp_[1]+((r_[i]+(*jnt_data.effort[i]))/(e_d_[i]*temp_[0]));
+    temp_[1]=temp_[1]+((jr_[i]+(*jnt_data.effort[i]))/(elr_[i]*temp_[0]));
   }
 
   *act_data.effort[0] = (*temp_[1] + (*act_data.position[0])/(*temp_[0]));  
 }
 
 
-/*inline void AdaptiveSybergyTransmission::jointToActuatorVelocity(const JointData& jnt_data,
+inline void AdaptiveSybergyTransmission::jointToActuatorVelocity(const JointData& jnt_data,
                                                                     ActuatorData& act_data)
 {
-  assert(numActuators() == act_data.velocity.size() && numJoints() == jnt_data.velocity.size());
-  assert(act_data.velocity[0] && act_data.velocity[1] && jnt_data.velocity[0] && jnt_data.velocity[1]);
+  // assert(numActuators() == act_data.velocity.size() && numJoints() == jnt_data.velocity.size());
+  // assert(act_data.velocity[0] && act_data.velocity[1] && jnt_data.velocity[0] && jnt_data.velocity[1]);
 
-  std::vector<double>& ar = act_reduction_;
-  std::vector<double>& jr = jnt_reduction_;
+  // std::vector<double>& ar = act_reduction_;
+  // std::vector<double>& jr = jnt_reduction_;
 
-  *act_data.velocity[0] = (*jnt_data.velocity[0] * jr[0] + *jnt_data.velocity[1] * jr[1]) * ar[0];
-  *act_data.velocity[1] = (*jnt_data.velocity[0] * jr[0] - *jnt_data.velocity[1] * jr[1]) * ar[1];
-}*/
+  // *act_data.velocity[0] = (*jnt_data.velocity[0] * jr[0] + *jnt_data.velocity[1] * jr[1]) * ar[0];
+  // *act_data.velocity[1] = (*jnt_data.velocity[0] * jr[0] - *jnt_data.velocity[1] * jr[1]) * ar[1];
+}
 
-/*inline void DifferentialTransmission::jointToActuatorPosition(const JointData& jnt_data,
+inline void DifferentialTransmission::jointToActuatorPosition(const JointData& jnt_data,
                                                                     ActuatorData& act_data)
 {
-  assert(numActuators() == act_data.position.size() && numJoints() == jnt_data.position.size());
-  assert(act_data.position[0] && act_data.position[1] && jnt_data.position[0] && jnt_data.position[1]);
+  // assert(numActuators() == act_data.position.size() && numJoints() == jnt_data.position.size());
+  // assert(act_data.position[0] && act_data.position[1] && jnt_data.position[0] && jnt_data.position[1]);
 
-  std::vector<double>& ar = act_reduction_;
-  std::vector<double>& jr = jnt_reduction_;
+  // std::vector<double>& ar = act_reduction_;
+  // std::vector<double>& jr = jnt_reduction_;
 
-  double jnt_pos_off[2] = {*jnt_data.position[0] - jnt_offset_[0], *jnt_data.position[1] - jnt_offset_[1]};
+  // double jnt_pos_off[2] = {*jnt_data.position[0] - jnt_offset_[0], *jnt_data.position[1] - jnt_offset_[1]};
 
-  *act_data.position[0] = (jnt_pos_off[0] * jr[0] + jnt_pos_off[1] * jr[1]) * ar[0];
-  *act_data.position[1] = (jnt_pos_off[0] * jr[0] - jnt_pos_off[1] * jr[1]) * ar[1];
-}*/
+  // *act_data.position[0] = (jnt_pos_off[0] * jr[0] + jnt_pos_off[1] * jr[1]) * ar[0];
+  // *act_data.position[1] = (jnt_pos_off[0] * jr[0] - jnt_pos_off[1] * jr[1]) * ar[1];
+}
 
 } // transmission_interface
 
