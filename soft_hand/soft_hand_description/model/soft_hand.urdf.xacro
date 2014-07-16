@@ -37,7 +37,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_prossimal_injection.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/knuckle.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
@@ -73,7 +73,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_short_injection.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/short_link.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
@@ -107,7 +107,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_short_injection.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/short_link.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
@@ -141,7 +141,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_distal_out_no_ati.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/fingertip.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
@@ -171,7 +171,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_thumb_injection.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/thumb_knuckle.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
@@ -208,7 +208,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_short_injection.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/short_link.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
@@ -243,7 +243,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_short_injection.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/short_link.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
@@ -277,7 +277,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_distal_out_no_ati.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/fingertip.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
@@ -305,7 +305,7 @@
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/palm_hand.stl" scale=" .001 .001 .001" /> 
+					<mesh filename="package://soft_hand_description/meshes/palm.stl" scale=" .001 .001 .001" /> 
 				</geometry>
 				<material name="SoftHand/LightGrey" />
 			</visual>
@@ -317,7 +317,7 @@
 		
 		<!-- macro for each finger -->
 
-		<xacro:soft_thumb parent="${name}_palm_link" name="${name}_thumb" position="-0.0418769 0.0538740 -0.00691972	" orientation="0 0 -0.43633181" />
+		<xacro:soft_thumb parent="${name}_palm_link" name="${name}_thumb" position="-0.0418769 0.0538740 -0.00691972" orientation="0 0 -0.43633181" />
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="-0.0285 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90+20)*pi/180}" />
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_middle" position="-0.009 0.107892 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_ring" position="0.0105 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90-10)*pi/180}" />
