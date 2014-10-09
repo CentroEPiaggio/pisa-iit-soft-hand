@@ -10,7 +10,7 @@ This is not really a package. It contains the files and modifications you need t
 
 2. `cd ros_control` && `git checkout indigo-devel` to ensure you are in the indigo version
 
-3. Copy the following files within the transmission interface package using the corresponding folder:
+3. Copy the following files within the ros_control/transmission_interface package using the corresponding folder:
 
   * `include/transmission_interface/adaptive_synergy_transmission.h`
   * `include/transmission_interface/adaptive_synergy_transmission_loader.h`
@@ -20,7 +20,9 @@ This is not really a package. It contains the files and modifications you need t
   * `test/urdf/adaptive_synergy_transmission_loader_invalid.urdf`
   * `test/urdf/adaptive_synergy_transmission_loader_minimal.urdf`
 
-4. Patch the transmission loader class with the `getJointElasticFunction()` function. Add the declaration in `transmission_loader.h`:
+The remaining steps assumes that you work in the `transmission_interface` package.
+
+4. Edit the transmission loader class with the `getJointElasticFunction()` function as a protected member. Add the declaration in `transmission_loader.h`:
 
 ```
 static ParseStatus getJointElastic(const TiXmlElement& parent_el,
@@ -80,7 +82,7 @@ TransmissionLoader::getJointElastic(const TiXmlElement& parent_el,
   </class>
 ```
 
-6. Add the new transmission to the plugins and tests to the `CMakeLists.txt`. In `add_library(${PROJECT_NAME}_loader_plugins`, include the following line
+6. Add the new transmission to the plugins and tests to the `CMakeLists.txt`. In the section `add_library(${PROJECT_NAME}_loader_plugins`, add the following line:
 
 ```
   src/adaptive_synergy_transmission_loader.cpp include/transmission_interface/adaptive_synergy_transmission_loader.h
