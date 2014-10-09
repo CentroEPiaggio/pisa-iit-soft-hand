@@ -239,7 +239,5 @@ bool AdaptiveSynergyTransmissionLoader::getJointConfig(const TransmissionInfo& t
 
 } // namespace
 
-PLUGINLIB_DECLARE_CLASS(transmission_interface,
-                        AdaptiveSynergyTransmission,
-                        transmission_interface::AdaptiveSynergyTransmissionLoader,
-                        transmission_interface::TransmissionLoader)
+PLUGINLIB_EXPORT_CLASS(transmission_interface::AdaptiveSynergyTransmissionLoader,
+                       transmission_interface::TransmissionLoader)
