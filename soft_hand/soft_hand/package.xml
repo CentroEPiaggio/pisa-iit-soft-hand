@@ -12,6 +12,8 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <run_depend> soft_hand_description </run_depend>
+  <run_depend> soft_hand_transmission_interface </run_depend>
+  <run_depend> gazebo_ros_soft_hand </run_depend>
 
   <export>
     <metapackage/>
