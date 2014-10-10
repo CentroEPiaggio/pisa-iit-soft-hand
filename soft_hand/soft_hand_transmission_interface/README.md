@@ -70,7 +70,7 @@ TransmissionLoader::getJointElastic(const TiXmlElement& parent_el,
 }
 ```
 
-5. Edit the `ros_control_plugins.xml` by adding the new transmission type:
+5. Edit the `ros_control_plugins.xml` by adding the new transmission type inside the `<library>` tag:
 
 ```
   <class name="transmission_interface/AdaptiveSynergyTransmission"
@@ -95,6 +95,6 @@ And add the tests within the `if(CATKIN_ENABLE_TESTING)` statement:
   target_link_libraries(adaptive_synergy_transmission_loader_test ${PROJECT_NAME}_parser)
 ```
 
-7. Compile and test: a) `catkin_make` and `catkin_make test`, or b) `catkin_make tests` and then `rosrun transmission_interface `
+7. Compile and test: a) `catkin_make` and `catkin_make test`, or b) `catkin_make tests` and then `rosrun transmission_interface adaptive_synergy_transmission_loader_test`
 
 8. Use
