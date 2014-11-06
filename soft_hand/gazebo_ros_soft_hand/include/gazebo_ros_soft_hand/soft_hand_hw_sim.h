@@ -1,6 +1,3 @@
-
-// soft_hand_hw_sim.h
-
 /*********************************************************************
  * Software License Agreement (BSD License)
  *
@@ -42,10 +39,8 @@
    Desc:   Plugin template for hardware interfaces for ros_control and Gazebo
 */
 
-// modified by Marco Bartolomei 2014
-
-#ifndef __ROS_GAZEBO_SOFT_HAND_HW_SIM_H
-#define __ROS_GAZEBO_SOFT_HAND_HW_SIM_H
+#ifndef __ROS_SOFT_HAND_GAZEBO_SOFT_HAND_HW_SIM_H
+#define __ROS_SOFT_HAND_GAZEBO_SOFT_HAND_HW_SIM_H
 
 #include <gazebo/physics/physics.hh>
 #include <ros/ros.h>
@@ -67,8 +62,7 @@ namespace gazebo_ros_soft_hand {
     {}
   };
 
-  // Gazebo plugin version of Soft_handHW (RobotHW)
-  // It is a derived class of RobotHW
+  // Gazebo plugin version of RobotHW
   class SoftHandHWSim : public hardware_interface::RobotHW 
   {
   public:
@@ -90,4 +84,4 @@ namespace gazebo_ros_soft_hand {
 
 }
 
-#endif // ifndef __ROS_GAZEBO_SOFT_HAND_HW_SIM_H
+#endif // ifndef __ROS_SOFT_HAND_GAZEBO_SOFT_HAND_HW_SIM_H

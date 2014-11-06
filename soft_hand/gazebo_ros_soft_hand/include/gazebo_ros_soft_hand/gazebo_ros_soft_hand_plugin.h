@@ -60,11 +60,11 @@
 namespace gazebo_ros_soft_hand
 {
 
-class GazeboRosControlPlugin : public gazebo::ModelPlugin
+class GazeboRosSoftHandPlugin : public gazebo::ModelPlugin
 {
 public:
 
-  virtual ~GazeboRosControlPlugin();
+  virtual ~GazeboRosSoftHandPlugin();
 
   // Overloaded Gazebo entry point
   virtual void Load(gazebo::physics::ModelPtr parent, sdf::ElementPtr sdf);
@@ -98,7 +98,7 @@ protected:
 
   // Interface loader
   boost::shared_ptr<pluginlib::ClassLoader<gazebo_ros_soft_hand::SoftHandHWSim> > robot_hw_sim_loader_;
-  void load_robot_hw_sim_srv();
+  void load_soft_hand_hw_sim_srv();
 
   // Strings
   std::string robot_namespace_;

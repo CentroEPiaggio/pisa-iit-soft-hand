@@ -48,14 +48,14 @@
 namespace gazebo_ros_soft_hand
 {
 
-GazeboRosControlPlugin::~GazeboRosControlPlugin()
+GazeboRosSoftHandPlugin::~GazeboRosSoftHandPlugin()
 {
   // Disconnect from gazebo events
   gazebo::event::Events::DisconnectWorldUpdateBegin(update_connection_);
 }
 
 // Overloaded Gazebo entry point
-void GazeboRosControlPlugin::Load(gazebo::physics::ModelPtr parent, sdf::ElementPtr sdf)
+void GazeboRosSoftHandPlugin::Load(gazebo::physics::ModelPtr parent, sdf::ElementPtr sdf)
 {
   ROS_INFO_STREAM_NAMED("gazebo_ros_soft_hand","Loading gazebo_ros_soft_hand plugin");
 
@@ -178,7 +178,7 @@ void GazeboRosControlPlugin::Load(gazebo::physics::ModelPtr parent, sdf::Element
     // Listen to the update event. This event is broadcast every simulation iteration.
     update_connection_ =
       gazebo::event::Events::ConnectWorldUpdateBegin
-      (boost::bind(&GazeboRosControlPlugin::Update, this));
+      (boost::bind(&GazeboRosSoftHandPlugin::Update, this));
 
   }
   catch(pluginlib::LibraryLoadException &ex)
@@ -190,7 +190,7 @@ void GazeboRosControlPlugin::Load(gazebo::physics::ModelPtr parent, sdf::Element
 }
 
 // Called by the world update start event
-void GazeboRosControlPlugin::Update()
+void GazeboRosSoftHandPlugin::Update()
 {
   // Get the simulation time and period
   gazebo::common::Time gz_time_now = parent_model_->GetWorld()->GetSimTime();
@@ -216,7 +216,7 @@ void GazeboRosControlPlugin::Update()
 }
 
 // Called on world reset
-void GazeboRosControlPlugin::Reset()
+void GazeboRosSoftHandPlugin::Reset()
 {
   // Reset timing variables to not pass negative update periods to controllers on world reset
   last_update_sim_time_ros_ = ros::Time();
@@ -224,7 +224,7 @@ void GazeboRosControlPlugin::Reset()
 }
 
 // Get the URDF XML from the parameter server
-std::string GazeboRosControlPlugin::getURDF(std::string param_name) const
+std::string GazeboRosSoftHandPlugin::getURDF(std::string param_name) const
 {
   std::string urdf_string;
 
@@ -255,7 +255,7 @@ std::string GazeboRosControlPlugin::getURDF(std::string param_name) const
 }
 
 // Get Transmissions from the URDF
-bool GazeboRosControlPlugin::parseTransmissionsFromURDF(const std::string& urdf_string)
+bool GazeboRosSoftHandPlugin::parseTransmissionsFromURDF(const std::string& urdf_string)
 {
   transmission_interface::TransmissionParser::parse(urdf_string, transmissions_);
   return true;
@@ -263,5 +263,5 @@ bool GazeboRosControlPlugin::parseTransmissionsFromURDF(const std::string& urdf_
 
 
 // Register this plugin with the simulator
-GZ_REGISTER_MODEL_PLUGIN(GazeboRosControlPlugin);
+GZ_REGISTER_MODEL_PLUGIN(GazeboRosSoftHandPlugin);
 } // namespace
