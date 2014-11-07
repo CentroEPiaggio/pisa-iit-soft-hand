@@ -16,13 +16,10 @@
 	<xacro:property name="effort" value="100" />
 
 
-	<!-- Declaration of single finger that we can replicate in another position -->
-	<!-- We suppose that 4th fingers are equal (index, middle, ring, little) -->
+	<!-- SOFT FINGER model -->
+	<!-- 4 fingers are equal (index, middle, ring, little) -->
 
 	<xacro:macro name="soft_finger" params="parent name position orientation">
-		<!-- macro for one finger -->
-
-		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
 
 		<!-- KNUCKLE -->
 		<joint name="${name}_abd_joint" type="revolute">
@@ -42,27 +39,22 @@
 				<material name="SoftHand/DarkGolden" />
 			</visual>
 		</link>
-		<!-- end KNUCKLE -->
 
-		<!-- PHALANGE -->
-		<!-- immaginary link-->
-		<!-- joint and link FAKE 1-->
+		<!-- PROXIMAL PHALANGE -->
 		<joint name="${name}_inner_joint" type="revolute">
 			<origin xyz="-0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_knuckle_link"/>
-			<child link="${name}_inner_link"/>
+			<child link="${name}_fake_link1"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 		</joint>
 
-		<link name="${name}_inner_link"> 
+		<link name="${name}_fake_link1"> 
 		</link> 
-		<!-- end immaginary link-->
-		
-		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+
 		<joint name="${name}_inner_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
-			<parent link="${name}_inner_link"/>
+			<parent link="${name}_fake_link1"/>
 			<child link="${name}_proximal_link"/>
 			<axis xyz="0 1 0" />
 			<mimic joint="${name}_inner_joint" multiplier="1" />
@@ -78,11 +70,8 @@
 				<material name="SoftHand/DarkGolden" />
 			</visual>
 		</link>
-		<!-- end PHALANGE -->
 
-		<!-- LITTLE PHALANGE -->
-		<!-- immaginary link-->
-		<!-- joint and link FAKE 2-->
+		<!-- MIDDLE PHALANGE -->
 		<joint name="${name}_middle_joint" type="revolute">
 			<origin xyz="-0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_proximal_link"/>
@@ -93,7 +82,6 @@
 
 		<link name="${name}_fake_link2"> 
 		</link> 
-		<!-- end immaginary link-->
 
 		<joint name="${name}_middle_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -112,11 +100,8 @@
 				<material name="SoftHand/DarkGolden" />
 			</visual>
 		</link>
-		<!-- end LITTLE PHALANGE -->
 
-		<!-- BABY PHALANGE -->
-		<!-- immaginary link-->
-		<!-- joint and link FAKE 3-->
+		<!-- DISTAL PHALANGE -->
 		<joint name="${name}_outer_joint" type="revolute">
 			<origin xyz="-0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_middle_link"/>
@@ -127,7 +112,6 @@
 
 		<link name="${name}_fake_link3"> 
 		</link> 
-		<!-- end immaginary link-->
 
 		<joint name="${name}_outer_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -146,19 +130,13 @@
 				<material name="SoftHand/DarkGolden" />
 			</visual>
 		</link>
-		<!-- end BABY PHALANGE -->
+
 	</xacro:macro>
-	
-	<!-- end FINGER model -->
 
-	<!-- THUMB model -->
-
+	<!-- THUMB has one joint less -->
 	<xacro:macro name="soft_thumb" params="parent name position orientation">
-		<!-- macro for one finger -->
 
-		<!-- abductor joint between palm_link and thumb_abd_link - fake between palm and proximal -->
-
-		<!-- THUMB KNUCKLE -->
+		<!-- KNUCKLE -->
 		<joint name="${name}_abd_joint" type="revolute">
 			<origin xyz="${position}" rpy="${orientation}" />
 			<parent link="${parent}"/>
@@ -176,12 +154,8 @@
 				<material name="SoftHand/DarkGolden" />
 			</visual>
 		</link>
-		<!-- end KNUCKLE -->
-
-
-		<!-- THUMB PHALANGE -->
-		<!-- immaginary link-->
-		<!-- joint and link FAKE 1-->
+		
+		<!-- PROXIMAL PHALANGE -->
 		<joint name="${name}_inner_joint" type="revolute">
 			<origin xyz="-0.0225 0 -0.0033" rpy="-1.9974238811 0 0" />
 			<parent link="${name}_knuckle_link"/>
@@ -192,9 +166,7 @@
 
 		<link name="${name}_inner_link"> 
 		</link> 
-		<!-- end immaginary link-->
-		
-		<!-- abductor joint between palm_link and finger_abd_link - fake between palm and proximal -->
+
 		<joint name="${name}_inner_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
 			<parent link="${name}_inner_link"/>
@@ -213,49 +185,11 @@
 				<material name="SoftHand/DarkGolden" />
 			</visual>
 		</link>
-		<!-- end PHALANGE -->
 
-
-		<!-- THUMB LITTLE PHALANGE -->
-		<!-- immaginary link-->
-		<!-- joint and link FAKE 2-->
-		<joint name="${name}_middle_joint" type="revolute">
-			<origin xyz="-0.009 0 0" rpy="0 0 0" />
-			<parent link="${name}_proximal_link"/>
-			<child link="${name}_fake_link2"/>
-			<axis xyz="0 1 0" />
-			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
-		</joint>
-
-		<link name="${name}_fake_link2"> 
-		</link> 
-		<!-- end immaginary link-->
-
-		<joint name="${name}_middle_joint_mimic" type="revolute">
-			<origin xyz="-0.013 0 0" rpy="0 0 0" />
-			<parent link="${name}_fake_link2"/>
-			<child link="${name}_middle_link"/>
-			<axis xyz="0 1 0" />
-			<mimic joint="${name}_middle_joint" multiplier="1" />
-			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
-		</joint>
-		<link name="${name}_middle_link"> 
-			<visual>
-				<origin xyz="0 0 0" rpy="0 0 0" />
-				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/short_link.stl" scale=" .001 .001 .001" />
-				</geometry>
-				<material name="SoftHand/DarkGolden" />
-			</visual>
-		</link>
-
-
-		<!-- THUMB BABY PHALANGE -->
-		<!-- immaginary link-->
-		<!-- joint and link FAKE 3-->
+		<!-- DISTAL PHALANGE -->
 		<joint name="${name}_outer_joint" type="revolute">
 			<origin xyz="-0.009 0 0.0" rpy="0 0 0" />
-			<parent link="${name}_middle_link"/>
+			<parent link="${name}_proximal_link"/>
 			<child link="${name}_fake_link3"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
@@ -263,7 +197,6 @@
 
 		<link name="${name}_fake_link3"> 
 		</link> 
-		<!-- end immaginary link-->
 
 		<joint name="${name}_outer_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -282,23 +215,17 @@
 				<material name="SoftHand/DarkGolden" />
 			</visual>
 		</link>
-		<!-- end BABY PHALANGE -->
-
 
 	</xacro:macro>
-	<!-- end THUMB model -->
 
-
+	<!-- SOFT HAND MODEL -->
 	<xacro:macro name="soft_hand" params="parent name *origin">
-		<!-- macro for the hand -->
 
 		<!-- PALM -->
 		<joint name="${name}_palm_joint" type="fixed" >
 			<origin xyz="0 0 0" rpy="0 0 0" />
 			<parent link="${parent}" />
 			<child link="${name}_palm_link" />
-			<!-- <axis xyz="0 1 0" /> -->
-			<!-- <limit lower="${-90*pi/180}" upper="${90*pi/180}" effort="${effort}" velocity="${velocity}"/> -->
 		</joint>
 
 		<link name="${name}_palm_link">
@@ -311,12 +238,7 @@
 			</visual>
 		</link>
 
-		<!-- end PALM -->
-		
-
-		
-		<!-- macro for each finger -->
-
+		<!-- FINGERS AND THUMB -->
 		<xacro:soft_thumb parent="${name}_palm_link" name="${name}_thumb" position="-0.0418769 0.0538740 -0.00691972" orientation="0 0 -0.43633181" />
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="-0.0285 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90+20)*pi/180}" />
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_middle" position="-0.009 0.107892 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
