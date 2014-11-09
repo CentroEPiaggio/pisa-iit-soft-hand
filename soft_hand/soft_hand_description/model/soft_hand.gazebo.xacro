@@ -38,22 +38,26 @@
 		-->
 	</xacro:property>
 
-	<xacro:macro name="soft_hand_gazebo" params="name">
+	<xacro:macro name="soft_hand_gazebo" params="name withAdaptiveTransmission">
 
 		<!-- PLUGINS -->
-		<!--
-		<gazebo>
-			<plugin name="gazebo_ros_soft_hand" filename="libgazebo_ros_soft_hand.so">
-				<robotNamespace>soft_hand</robotNamespace>
-			</plugin>
-		</gazebo>
-		-->
+		<xacro:if value="${withAdaptiveTransmission}">
+			<!-- work in progess
+			<gazebo>
+				<plugin name="gazebo_ros_soft_hand" filename="libgazebo_ros_soft_hand.so">
+					<robotNamespace>soft_hand</robotNamespace>
+				</plugin>
+			</gazebo>
+			-->
+		</xacro:if>
 
-		 <gazebo>
-			<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-				<robotNamespace>soft_hand</robotNamespace>
-			</plugin>
-		</gazebo>
+		<xacro:unless value="${withAdaptiveTransmission}">
+			<gazebo>
+				<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+					<robotNamespace>soft_hand</robotNamespace>
+				</plugin>
+			</gazebo>
+		</xacro:unless>
 
 		<!-- LINKS -->
 		<gazebo reference="${name}_palm_link">

@@ -3,7 +3,7 @@
   <!-- Enable visualization in rviz, joint_state_publisher and robot_state_publisher, and robot_description -->
   <include file="$(find soft_hand_description)/launch/display.launch">
     <arg name="gui" value="False" />
-    <arg name="robot_name" value="hand_in_world"/>
+    <arg name="robot_name" value="soft_hand_full_actuation"/>
     <arg name="use_rviz" value="True"/>
   </include>
 

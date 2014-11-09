@@ -27,7 +27,7 @@
 		<static>true</static>
 	</gazebo>
 
-	<xacro:soft_hand parent="wrist" name="hand">
+	<xacro:soft_hand parent="wrist" name="hand" withAdaptiveTransmission="false">
 		<origin xyz="0 0 1" rpy="1.570796 0 0"/>
 	</xacro:soft_hand>
 

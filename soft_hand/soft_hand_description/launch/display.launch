@@ -1,6 +1,6 @@
 <launch>
 	<arg name="gui" default="True" />
-	<arg name="robot_name" default="hand_in_world"/>
+	<arg name="robot_name" default="soft_hand_full_actuation"/>
 	<arg name="use_rviz" default="True"/>
 
 	<param name="robot_description" command="$(find xacro)/xacro.py $(find soft_hand_description)/robot/$(arg robot_name).urdf.xacro" />
