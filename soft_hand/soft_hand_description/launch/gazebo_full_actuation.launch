@@ -1,0 +1,30 @@
+<launch>
+
+  <!-- Enable visualization in rviz, joint_state_publisher and robot_state_publisher, and robot_description -->
+  <include file="$(find soft_hand_description)/launch/display.launch">
+    <arg name="gui" value="False" />
+    <arg name="robot_name" value="hand_in_world"/>
+    <arg name="use_rviz" value="True"/>
+  </include>
+
+  <!-- arg name="init_pose" default="-x 0 -y 0 -z 0 -R 0 -P 0 -Y 0" /-->
+
+  <!-- Spawn a robot into Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand" respawn="false" output="screen" />
+
+<!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find soft_hand_description)/worlds/simple_environment.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <include file="$(find soft_hand_ros_control)/launch/soft_hand_full_control.launch"/>
+
+  <!-- Enable feedback from dynamic simulator for the robot state publisher -->
+  <rosparam param="source_list">[/soft_hand/joint_states]</rosparam>
+  
+</launch>

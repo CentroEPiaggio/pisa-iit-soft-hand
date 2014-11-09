@@ -1,13 +1,17 @@
 <launch>
 	<arg name="gui" default="True" />
-	
-	<param name="robot_description" command="$(find xacro)/xacro.py $(find soft_hand_description)/robot/hand_in_world.urdf.xacro" />
+	<arg name="robot_name" default="hand_in_world"/>
+	<arg name="use_rviz" default="True"/>
+
+	<param name="robot_description" command="$(find xacro)/xacro.py $(find soft_hand_description)/robot/$(arg robot_name).urdf.xacro" />
 	<param name="use_gui" value="$(arg gui)"/>
-	
+
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"  />
-  
-  	<node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find soft_hand_description)/launch/my_rviz.rviz" output="screen">
-	</node>
+
+	<group if="$(arg use_rviz)">
+		<node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find soft_hand_description)/launch/my_rviz.rviz" output="screen"/>
+	</group>
+
 </launch>

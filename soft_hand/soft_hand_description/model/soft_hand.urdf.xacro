@@ -2,10 +2,17 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
 	<xacro:include filename="$(find soft_hand_description)/model/materials.urdf.xacro"/>
+	<xacro:include filename="$(find soft_hand_description)/model/soft_hand.transmission.xacro"/>
+	<xacro:include filename="$(find soft_hand_description)/model/soft_hand.gazebo.xacro"/>
+	<xacro:include filename="$(find soft_hand_description)/model/soft_hand.inertias.xacro"/>
 
 	<xacro:property name="pi" value="3.1415926535897931" />
+
+	<!-- joint properties -->
 	<xacro:property name="abd_lb" value="-30" />
 	<xacro:property name="abd_ub" value="30" />
+	<xacro:property name="thumb_abd_lb" value="0" />
+	<xacro:property name="thumb_abd_ub" value="90" />
 	<xacro:property name="inner_lb" value="0" />
 	<xacro:property name="inner_ub" value="45" />
 	<xacro:property name="middle_lb" value="0" />
@@ -14,11 +21,21 @@
 	<xacro:property name="outer_ub" value="45" />
 	<xacro:property name="velocity" value="100" />
 	<xacro:property name="effort" value="100" />
+	<xacro:property name="damping" value="0.0" />
+	<xacro:property name="friction" value="0.0" />
 
+	<!-- actuator properties -->
+	<xacro:property name="actuator_lb" value="0" />
+	<xacro:property name="actuator_ub" value="359" />
+	<xacro:property name="max_actuator_velocity" value="100" />
+	<xacro:property name="max_actuator_effort" value="100" />
+	<xacro:property name="actuator_damping" value="0.0" />
+	<xacro:property name="actuator_friction" value="0.0" />
+
+	<!-- HAND MODEL v.? Material: ABS -->
 
 	<!-- SOFT FINGER model -->
 	<!-- 4 fingers are equal (index, middle, ring, little) -->
-
 	<xacro:macro name="soft_finger" params="parent name position orientation">
 
 		<!-- KNUCKLE -->
@@ -28,9 +45,13 @@
 			<child link="${name}_knuckle_link"/>
 			<axis xyz="0 0 1" />
 			<limit lower="${abd_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 		
-		<link name="${name}_knuckle_link"> 
+		<link name="${name}_knuckle_link">
+			<inertial>
+				<insert_block name="knuckle_inertia"/>
+			</inertial>
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
@@ -38,6 +59,13 @@
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
+			<collision>
+				<!-- origin xyz="-0.001 0.0 0.001" rpy="0 0 0" /-->
+				<geometry>
+					<!-- box size="0.034 0.014 0.024"/-->
+					<mesh filename="package://soft_hand_description/meshes/knuckle.stl" scale=" .001 .001 .001" />
+				</geometry>
+			</collision>
 		</link>
 
 		<!-- PROXIMAL PHALANGE -->
@@ -47,10 +75,14 @@
 			<child link="${name}_fake_link1"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 
-		<link name="${name}_fake_link1"> 
-		</link> 
+		<link name="${name}_fake_link1">
+			<inertial>
+				<insert_block name="negligible_inertia"/>
+			</inertial>
+		</link>
 
 		<joint name="${name}_inner_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -59,16 +91,27 @@
 			<axis xyz="0 1 0" />
 			<mimic joint="${name}_inner_joint" multiplier="1" />
 			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 
-		<link name="${name}_proximal_link"> 
+		<link name="${name}_proximal_link">
+			<inertial>
+				<insert_block name="phalanx_inertia"/>
+			</inertial>
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/short_link.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
+			<collision>
+				<!-- origin xyz="-0.005 0.0 0.0 " rpy="0 0 0" /-->
+				<geometry>
+					<!-- box size="0.025 0.014 0.019"/-->
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
+				</geometry>
+			</collision>
 		</link>
 
 		<!-- MIDDLE PHALANGE -->
@@ -78,10 +121,14 @@
 			<child link="${name}_fake_link2"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 
-		<link name="${name}_fake_link2"> 
-		</link> 
+		<link name="${name}_fake_link2">
+			<inertial>
+				<insert_block name="negligible_inertia"/>
+			</inertial>
+		</link>
 
 		<joint name="${name}_middle_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -90,15 +137,24 @@
 			<axis xyz="0 1 0" />
 			<mimic joint="${name}_middle_joint" multiplier="1" />
 			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
-		<link name="${name}_middle_link"> 
+		<link name="${name}_middle_link">
+			<inertial>
+				<insert_block name="phalanx_inertia"/>
+			</inertial>
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/short_link.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
+				</geometry>
+			</collision>
 		</link>
 
 		<!-- DISTAL PHALANGE -->
@@ -108,10 +164,14 @@
 			<child link="${name}_fake_link3"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 
-		<link name="${name}_fake_link3"> 
-		</link> 
+		<link name="${name}_fake_link3">
+			<inertial>
+				<insert_block name="negligible_inertia"/>
+			</inertial>
+		</link>
 
 		<joint name="${name}_outer_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -120,8 +180,12 @@
 			<axis xyz="0 1 0" />
 			<mimic joint="${name}_outer_joint" multiplier="1" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
-		<link name="${name}_distal_link"> 
+		<link name="${name}_distal_link">
+			<inertial>
+				<insert_block name="fingertip_inertia"/>
+			</inertial>
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
@@ -129,11 +193,17 @@
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://soft_hand_description/meshes/fingertip.stl" scale=" .001 .001 .001" />
+				</geometry>
+			</collision>
 		</link>
 
 	</xacro:macro>
 
-	<!-- THUMB has one joint less -->
+	<!-- THUMB MODEL -->
+	<!-- It has one joint less than rest of fingers -->
 	<xacro:macro name="soft_thumb" params="parent name position orientation">
 
 		<!-- KNUCKLE -->
@@ -141,11 +211,15 @@
 			<origin xyz="${position}" rpy="${orientation}" />
 			<parent link="${parent}"/>
 			<child link="${name}_knuckle_link"/>
-			<axis xyz="0 1 0" />
-			<limit lower="${-2*inner_ub *pi/180}" upper="${inner_lb *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<axis xyz="0 -1 0" />
+			<limit lower="${thumb_abd_lb *pi/180}" upper="${thumb_abd_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 		
-		<link name="${name}_knuckle_link"> 
+		<link name="${name}_knuckle_link">
+			<inertial>
+				<insert_block name="thumb_knuckle_inertia"/>
+			</inertial>
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
@@ -153,37 +227,55 @@
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://soft_hand_description/meshes/thumb_knuckle.stl" scale=" .001 .001 .001" />
+				</geometry>
+			</collision>
 		</link>
 		
 		<!-- PROXIMAL PHALANGE -->
 		<joint name="${name}_inner_joint" type="revolute">
 			<origin xyz="-0.0225 0 -0.0033" rpy="-1.9974238811 0 0" />
 			<parent link="${name}_knuckle_link"/>
-			<child link="${name}_inner_link"/>
+			<child link="${name}_fake_link1"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 
-		<link name="${name}_inner_link"> 
-		</link> 
+		<link name="${name}_fake_link1">
+			<inertial>
+				<insert_block name="negligible_inertia"/>
+			</inertial>
+		</link>
 
 		<joint name="${name}_inner_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
-			<parent link="${name}_inner_link"/>
+			<parent link="${name}_fake_link1"/>
 			<child link="${name}_proximal_link"/>
 			<axis xyz="0 1 0" />
 			<mimic joint="${name}_inner_joint" multiplier="1" />
 			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 
-		<link name="${name}_proximal_link"> 
+		<link name="${name}_proximal_link">
+			<inertial>
+				<insert_block name="phalanx_inertia"/>
+			</inertial>
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/short_link.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
+				</geometry>
+			</collision>
 		</link>
 
 		<!-- DISTAL PHALANGE -->
@@ -193,10 +285,14 @@
 			<child link="${name}_fake_link3"/>
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
 
-		<link name="${name}_fake_link3"> 
-		</link> 
+		<link name="${name}_fake_link3">
+			<inertial>
+				<insert_block name="negligible_inertia"/>
+			</inertial>
+		</link>
 
 		<joint name="${name}_outer_joint_mimic" type="revolute">
 			<origin xyz="-0.013 0 0" rpy="0 0 0" />
@@ -205,8 +301,12 @@
 			<axis xyz="0 1 0" />
 			<mimic joint="${name}_outer_joint" multiplier="1" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
+			<dynamics damping="${damping}" friction="${friction}"/>
 		</joint>
-		<link name="${name}_distal_link"> 
+		<link name="${name}_distal_link">
+			<inertial>
+				<insert_block name="fingertip_inertia"/>
+			</inertial>
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
@@ -214,6 +314,11 @@
 				</geometry>
 				<material name="SoftHand/DarkGolden" />
 			</visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://soft_hand_description/meshes/fingertip.stl" scale=" .001 .001 .001" />
+				</geometry>
+			</collision>
 		</link>
 
 	</xacro:macro>
@@ -221,21 +326,41 @@
 	<!-- SOFT HAND MODEL -->
 	<xacro:macro name="soft_hand" params="parent name *origin">
 
+		<!-- MOTOR JOINT -->
+		<!--
+		<joint name="${name}a_actuator" type="revolute" >
+			<parent link="${parent}" />
+			<child link="${name}_invisible_wire_link"/>
+			<axis xyz="0 0 1" />
+			<limit lower="${actuator_lb *pi/180}" upper="${actuator_ub *pi/180}" effort="${actuator_max_effort}" velocity="${actuator_max_velocity}"/>
+			<dynamics damping="${actuator_damping}" friction="${actuator_friction}"/>
+		</joint>
+		<link name="${name}_invisible_wire_link"/>
+		-->
+
 		<!-- PALM -->
 		<joint name="${name}_palm_joint" type="fixed" >
-			<origin xyz="0 0 0" rpy="0 0 0" />
+			<insert_block name="origin"/>
 			<parent link="${parent}" />
 			<child link="${name}_palm_link" />
 		</joint>
 
 		<link name="${name}_palm_link">
+			<inertial>
+				<insert_block name="palm_inertia"/>
+			</inertial>
 			<visual>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/palm.stl" scale=" .001 .001 .001" /> 
+					<mesh filename="package://soft_hand_description/meshes/palm.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/LightGrey" />
 			</visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://soft_hand_description/meshes/palm.stl" scale=" .001 .001 .001" />
+				</geometry>
+			</collision>
 		</link>
 
 		<!-- FINGERS AND THUMB -->
@@ -244,6 +369,9 @@
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_middle" position="-0.009 0.107892 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" />
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_ring" position="0.0105 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90-10)*pi/180}" />
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_little" position="0.030 0.0808918 0.00205" orientation="${180*pi/180} 0 ${(-90-20)*pi/180}" />
+
+		<xacro:soft_hand_transmission name="${name}"/>
+		<xacro:soft_hand_gazebo name="${name}"/>
 		
 	</xacro:macro>
 

@@ -1,20 +1,34 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="soft_hand">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="soft_hand">
 
-  <xacro:include filename="$(find soft_hand_description)/model/soft_hand.urdf.xacro"/>
-  
-  <link name="world">
-<!--     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="1 1 1.0"/>
-      </geometry>
-    </visual> -->
-  </link>
+	<xacro:include filename="$(find soft_hand_description)/model/soft_hand.urdf.xacro"/>
 
-  <xacro:soft_hand parent="world" name="hand">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </xacro:soft_hand>
-  
+	<link name="wrist">
+		<inertial>
+			<mass value="50.0"/>
+			<inertia  ixx="1" ixy="0.00"  ixz="0.00" iyy="1" iyz="0.00" izz="1" />
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0.50" rpy="0 0 0"/>
+			<geometry>
+				<box size="1.0 1.0 1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0.50" rpy="0 0 0"/>
+			<geometry>
+				<box size="1.0 1.0 1.0"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<!-- comment or uncomment depending if you want to simulate a fixed or a flying hand -->
+	<gazebo reference="wrist">
+		<static>true</static>
+	</gazebo>
+
+	<xacro:soft_hand parent="wrist" name="hand">
+		<origin xyz="0 0 1" rpy="1.570796 0 0"/>
+	</xacro:soft_hand>
 
 </robot>

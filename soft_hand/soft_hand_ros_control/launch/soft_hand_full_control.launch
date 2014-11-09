@@ -1,0 +1,47 @@
+<launch>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find soft_hand_ros_control)/config/soft_hand_full_control.yaml" command="load"/>
+
+  <!-- load position controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/soft_hand" args="
+    joint_state_controller 
+    hand_thumb_abd_joint_position_controller
+    hand_thumb_inner_joint_position_controller
+    hand_thumb_outer_joint_position_controller
+    hand_index_abd_joint_position_controller
+    hand_index_inner_joint_position_controller
+    hand_index_middle_joint_position_controller
+    hand_index_outer_joint_position_controller
+    hand_middle_abd_joint_position_controller
+    hand_middle_inner_joint_position_controller
+    hand_middle_middle_joint_position_controller
+    hand_middle_outer_joint_position_controller
+    hand_ring_abd_joint_position_controller
+    hand_ring_inner_joint_position_controller
+    hand_ring_middle_joint_position_controller
+    hand_ring_outer_joint_position_controller
+    hand_little_abd_joint_position_controller
+    hand_little_inner_joint_position_controller
+    hand_little_middle_joint_position_controller
+    hand_little_outer_joint_position_controller
+    hand_thumb_inner_joint_mimic_position_controller
+    hand_thumb_outer_joint_mimic_position_controller
+    hand_index_inner_joint_mimic_position_controller
+    hand_index_middle_joint_mimic_position_controller
+    hand_index_outer_joint_mimic_position_controller
+    hand_middle_inner_joint_mimic_position_controller
+    hand_middle_middle_joint_mimic_position_controller
+    hand_middle_outer_joint_mimic_position_controller
+    hand_ring_inner_joint_mimic_position_controller
+    hand_ring_middle_joint_mimic_position_controller
+    hand_ring_outer_joint_mimic_position_controller
+    hand_little_inner_joint_mimic_position_controller
+    hand_little_middle_joint_mimic_position_controller
+    hand_little_outer_joint_mimic_position_controller"
+  />
+
+  <remap from="/joint_states" to="/soft_hand/joint_states" />
+
+</launch>

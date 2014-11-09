@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="finger_transmission" params="name finger">
+
+      <transmission name="${name}_${finger}_abd_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_${finger}_abd_joint">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_${finger}_abd_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        </transmission>
+
+        <transmission name="${name}_${finger}_inner_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_${finger}_inner_joint">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_${finger}_inner_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        </transmission>
+
+        <transmission name="${name}_${finger}_inner_mimic_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_${finger}_inner_joint_mimic">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_${finger}_inner_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        </transmission>
+
+        <transmission name="${name}_${finger}_middle_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_${finger}_middle_joint">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_${finger}_middle_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        </transmission>
+
+        <transmission name="${name}_${finger}_middle_mimic_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_${finger}_middle_joint_mimic">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_${finger}_middle_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        </transmission>
+
+        <transmission name="${name}_${finger}_outer_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_${finger}_outer_joint">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_${finger}_outer_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        </transmission>
+
+        <transmission name="${name}_${finger}_outer_mimic_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_${finger}_outer_joint_mimic">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_${finger}_outer_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        </transmission>
+
+    </xacro:macro>
+
+  <xacro:macro name="soft_hand_transmission" params="name">
+
+    <transmission name="${name}_thumb_abd_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_thumb_abd_joint">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_thumb_abd_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="${name}_thumb_inner_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_thumb_inner_joint">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_thumb_inner_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="${name}_thumb_inner_mimic_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_thumb_inner_joint_mimic">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_thumb_inner_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="${name}_thumb_outer_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_thumb_outer_joint">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_thumb_outer_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="${name}_thumb_outer_mimic_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_thumb_outer_joint_mimic">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${name}_thumb_outer_motor">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <xacro:finger_transmission name="${name}" finger="index"/>
+    <xacro:finger_transmission name="${name}" finger="middle"/>
+    <xacro:finger_transmission name="${name}" finger="ring"/>
+    <xacro:finger_transmission name="${name}" finger="little"/>
+
+<!--
+    <transmission name="${name}">
+      <type>transmission_interface/AdaptiveSynergyTransmission</type>
+
+        <joint name="${name}_thumb_abd_joint">
+          <role>joint1</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_thumb_inner_joint">
+          <role>joint2</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_thumb_outer_joint">
+          <role>joint3</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_index_abd_joint">
+          <role>joint4</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_index_inner_joint">
+          <role>joint5</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_index_middle_joint">
+          <role>joint6</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_index_distal_joint">
+          <role>joint7</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_middle_abd_joint">
+          <role>joint8</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_middle_inner_joint">
+          <role>joint9</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_middle_middle_joint">
+          <role>joint10</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_middle_distal_joint">
+          <role>joint11</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_ring_abd_joint">
+          <role>joint12</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_ring_inner_joint">
+          <role>joint13</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_ring_middle_joint">
+          <role>joint14</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_ring_distal_joint">
+          <role>joint15</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_little_abd_joint">
+          <role>joint16</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_little_inner_joint">
+          <role>joint17</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_little_middle_joint">
+          <role>joint18</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <joint name="${name}_little_distal_joint">
+          <role>joint19</role>
+          <offset>-0.5</offset>
+          <mechanicalReduction>2</mechanicalReduction>
+          <mechanicalElasticity>3</mechanicalElasticity>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+
+      
+        <actuator name="${name}_actuator">
+          <role>actuator</role>
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </actuator>
+
+    </transmission>
+-->
+
+  </xacro:macro>
+</robot>
