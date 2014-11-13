@@ -42,6 +42,4 @@
     hand_little_outer_joint_mimic_position_controller"
   />
 
-  <remap from="/joint_states" to="/soft_hand/joint_states" />
-
 </launch>

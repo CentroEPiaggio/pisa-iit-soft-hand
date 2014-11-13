@@ -150,7 +150,21 @@
     </xacro:unless>
 
     <xacro:if value="${withAdaptiveTransmission}">
-      <!--
+
+      <!-- work in progress -->
+
+      <transmission name="synergy_trans">
+          <type>transmission_interface/SimpleTransmission</type>
+          <joint name="synergy_joint">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+          </joint>
+          <actuator name="synergy_motor">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+          </actuator>
+      </transmission>
+
+<!--
       <transmission name="${name}">
         <type>transmission_interface/AdaptiveSynergyTransmission</type>
 
@@ -159,143 +173,143 @@
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_thumb_inner_joint">
             <role>joint2</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_thumb_outer_joint">
             <role>joint3</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_index_abd_joint">
             <role>joint4</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_index_inner_joint">
             <role>joint5</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_index_middle_joint">
             <role>joint6</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_index_distal_joint">
             <role>joint7</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_middle_abd_joint">
             <role>joint8</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_middle_inner_joint">
             <role>joint9</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_middle_middle_joint">
             <role>joint10</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_middle_distal_joint">
             <role>joint11</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_ring_abd_joint">
             <role>joint12</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_ring_inner_joint">
             <role>joint13</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_ring_middle_joint">
             <role>joint14</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_ring_distal_joint">
             <role>joint15</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_little_abd_joint">
             <role>joint16</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_little_inner_joint">
             <role>joint17</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_little_middle_joint">
             <role>joint18</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <joint name="${name}_little_distal_joint">
             <role>joint19</role>
             <offset>-0.5</offset>
             <mechanicalReduction>2</mechanicalReduction>
             <mechanicalElasticity>3</mechanicalElasticity>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
 
-        
           <actuator name="${name}_actuator">
             <role>actuator</role>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>2</mechanicalReduction>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
           </actuator>
 
       </transmission>
-      -->
+-->
     </xacro:if>
 
   </xacro:macro>

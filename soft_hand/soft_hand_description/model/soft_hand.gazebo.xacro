@@ -42,13 +42,14 @@
 
 		<!-- PLUGINS -->
 		<xacro:if value="${withAdaptiveTransmission}">
-			<!-- work in progess
+			<!-- work in progess -->
 			<gazebo>
 				<plugin name="gazebo_ros_soft_hand" filename="libgazebo_ros_soft_hand.so">
 					<robotNamespace>soft_hand</robotNamespace>
+					<!-- the joint that rule them all -->
+					<synergyJoint>hand_synergy_joint</synergyJoint>
 				</plugin>
 			</gazebo>
-			-->
 		</xacro:if>
 
 		<xacro:unless value="${withAdaptiveTransmission}">

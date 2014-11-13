@@ -57,7 +57,7 @@
 
 	<!-- SOFT FINGER model -->
 	<!-- 4 fingers are equal (index, middle, ring, little) -->
-	<xacro:macro name="soft_finger" params="parent name position orientation abd_R inner_R middle_R outer_R">
+	<xacro:macro name="soft_finger" params="parent name position orientation useMimicTag abd_R inner_R middle_R outer_R">
 
 		<!-- KNUCKLE -->
 		<joint name="${name}_abd_joint" type="revolute">
@@ -67,7 +67,9 @@
 			<axis xyz="0 0 1" />
 			<limit lower="${abd_lb *pi/180}" upper="${abd_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${abd_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${abd_R}"/>
+			</xacro:if>
 		</joint>
 		
 		<link name="${name}_knuckle_link">
@@ -98,7 +100,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${inner_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${inner_R}"/>
+			</xacro:if>
 		</joint>
 
 		<link name="${name}_fake_link1">
@@ -114,7 +118,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${inner_R}" />
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${inner_R}" />
+			</xacro:if>
 		</joint>
 
 		<link name="${name}_proximal_link">
@@ -145,7 +151,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${middle_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${middle_R}"/>
+			</xacro:if>
 		</joint>
 
 		<link name="${name}_fake_link2">
@@ -161,7 +169,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${middle_lb *pi/180}" upper="${middle_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${middle_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${middle_R}"/>
+			</xacro:if>
 		</joint>
 		<link name="${name}_middle_link">
 			<inertial>
@@ -189,7 +199,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${outer_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${outer_R}"/>
+			</xacro:if>
 		</joint>
 
 		<link name="${name}_fake_link3">
@@ -205,7 +217,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${outer_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${outer_R}"/>
+			</xacro:if>
 		</joint>
 		<link name="${name}_distal_link">
 			<inertial>
@@ -229,7 +243,7 @@
 
 	<!-- THUMB MODEL -->
 	<!-- It has one joint less than rest of fingers -->
-	<xacro:macro name="soft_thumb" params="parent name position orientation abd_R inner_R outer_R">
+	<xacro:macro name="soft_thumb" params="parent name position orientation useMimicTag abd_R inner_R outer_R">
 
 		<!-- KNUCKLE -->
 		<joint name="${name}_abd_joint" type="revolute">
@@ -239,7 +253,9 @@
 			<axis xyz="0 -1 0" />
 			<limit lower="${thumb_abd_lb *pi/180}" upper="${thumb_abd_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${abd_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${abd_R}"/>
+			</xacro:if>
 		</joint>
 		
 		<link name="${name}_knuckle_link">
@@ -268,7 +284,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${inner_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${inner_R}"/>
+			</xacro:if>
 		</joint>
 
 		<link name="${name}_fake_link1">
@@ -284,7 +302,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${inner_lb *pi/180}" upper="${inner_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${inner_R}" />
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${inner_R}" />
+			</xacro:if>
 		</joint>
 
 		<link name="${name}_proximal_link">
@@ -313,7 +333,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${outer_R}"/>
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${outer_R}"/>
+			</xacro:if>
 		</joint>
 
 		<link name="${name}_fake_link3">
@@ -329,7 +351,9 @@
 			<axis xyz="0 1 0" />
 			<limit lower="${outer_lb *pi/180}" upper="${outer_ub *pi/180}" effort="${effort}" velocity="${velocity}"/>
 			<dynamics damping="${damping}" friction="${friction}"/>
-			<mimic joint="synergy_joint" multiplier="${outer_R}" />
+			<xacro:if value="${useMimicTag}">
+				<mimic joint="synergy_joint" multiplier="${outer_R}" />
+			</xacro:if>
 		</joint>
 		<link name="${name}_distal_link">
 			<inertial>
@@ -352,7 +376,7 @@
 	</xacro:macro>
 
 	<!-- SOFT HAND MODEL -->
-	<xacro:macro name="soft_hand" params="parent name withAdaptiveTransmission *origin">
+	<xacro:macro name="soft_hand" params="parent name withAdaptiveTransmission useMimicTag *origin">
 
 		<!-- MOTOR JOINT -->
 		<joint name="synergy_joint" type="revolute" >
@@ -362,7 +386,11 @@
 			<limit lower="${synergy_lb}" upper="${synergy_ub}" effort="${max_synergy_effort}" velocity="${max_synergy_velocity}"/>
 			<dynamics damping="${synergy_damping}" friction="${synergy_friction}"/>
 		</joint>
-		<link name="invisible_wire_link"/>
+		<link name="invisible_wire_link">
+			<inertial>
+				<insert_block name="negligible_inertia"/>
+			</inertial>
+		</link>
 
 		<!-- PALM -->
 		<joint name="${name}_palm_joint" type="fixed" >
@@ -390,15 +418,15 @@
 		</link>
 
 		<!-- THUMB AND FINGERS -->
-		<xacro:soft_thumb parent="${name}_palm_link" name="${name}_thumb" position="-0.0418769 0.0538740 -0.00691972" orientation="0 0 -0.43633181" abd_R="${thumb_abd_R *(thumb_abd_ub - thumb_abd_lb)*pi/180}" inner_R="${thumb_inner_R *(inner_ub - inner_lb)*pi/180}" outer_R="${thumb_outer_R *(outer_ub - outer_lb)*pi/180}"/>
+		<xacro:soft_thumb parent="${name}_palm_link" name="${name}_thumb" position="-0.0418769 0.0538740 -0.00691972" orientation="0 0 -0.43633181" useMimicTag="${useMimicTag}" abd_R="${thumb_abd_R *(thumb_abd_ub - thumb_abd_lb)*pi/180}" inner_R="${thumb_inner_R *(inner_ub - inner_lb)*pi/180}" outer_R="${thumb_outer_R *(outer_ub - outer_lb)*pi/180}"/>
 
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="-0.0285 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90+20)*pi/180}" abd_R="${index_abd_R}" inner_R="${index_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${index_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${index_outer_R *(outer_ub - outer_lb)*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_index" position="-0.0285 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90+20)*pi/180}" useMimicTag="${useMimicTag}" abd_R="${index_abd_R}" inner_R="${index_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${index_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${index_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_middle" position="-0.009 0.107892 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" abd_R="${middle_abd_R}" inner_R="${middle_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${middle_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${middle_outer_R *(outer_ub - outer_lb)*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_middle" position="-0.009 0.107892 0.00205" orientation="${180*pi/180} 0 ${-90*pi/180}" useMimicTag="${useMimicTag}" abd_R="${middle_abd_R}" inner_R="${middle_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${middle_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${middle_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_ring" position="0.0105 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90-10)*pi/180}" abd_R="${ring_abd_R}" inner_R="${ring_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${ring_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${ring_outer_R *(outer_ub - outer_lb)*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_ring" position="0.0105 0.0943918 0.00205" orientation="${180*pi/180} 0 ${(-90-10)*pi/180}" useMimicTag="${useMimicTag}" abd_R="${ring_abd_R}" inner_R="${ring_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${ring_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${ring_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-		<xacro:soft_finger parent="${name}_palm_link" name="${name}_little" position="0.030 0.0808918 0.00205" orientation="${180*pi/180} 0 ${(-90-20)*pi/180}" abd_R="${little_abd_R}" inner_R="${little_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${little_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${little_outer_R *(outer_ub - outer_lb)*pi/180}" />
+		<xacro:soft_finger parent="${name}_palm_link" name="${name}_little" position="0.030 0.0808918 0.00205" orientation="${180*pi/180} 0 ${(-90-20)*pi/180}" useMimicTag="${useMimicTag}" abd_R="${little_abd_R}" inner_R="${little_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${little_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${little_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
 		<xacro:soft_hand_transmission name="${name}" withAdaptiveTransmission="${withAdaptiveTransmission}"/>
 		<xacro:soft_hand_gazebo name="${name}" withAdaptiveTransmission="${withAdaptiveTransmission}"/>

@@ -1,10 +1,13 @@
 <launch>
-	<arg name="gui" default="True" />
-	<arg name="robot_name" default="soft_hand_full_actuation"/>
-	<arg name="use_rviz" default="True"/>
-	<arg name="use_joint_state_publisher" default="True"/>
+	<!-- LAUNCH INTERFACE -->
+	<arg name="gui" default="true" />
+	<arg name="robot_name" default="soft_hand_adaptive"/>
+	<arg name="use_rviz" default="true"/>
+	<arg name="use_joint_state_publisher" default="true"/>
+	<arg name="use_mimic_tag" default="true"/> <!-- the synergy is applied with pure kinematics -->
 
-	<param name="robot_description" command="$(find xacro)/xacro.py $(find soft_hand_description)/robot/$(arg robot_name).urdf.xacro" />
+	<!-- LAUNCH IMPLEMENTATION -->
+	<param name="robot_description" command="$(find xacro)/xacro.py $(find soft_hand_description)/robot/$(arg robot_name).urdf.xacro use_mimic_tag:=$(arg use_mimic_tag)" />
 	<param name="use_gui" value="$(arg gui)"/>
 
 	<group if="$(arg use_joint_state_publisher)">
@@ -16,5 +19,4 @@
 	<group if="$(arg use_rviz)">
 		<node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find soft_hand_description)/launch/my_rviz.rviz" output="screen"/>
 	</group>
-
 </launch>
