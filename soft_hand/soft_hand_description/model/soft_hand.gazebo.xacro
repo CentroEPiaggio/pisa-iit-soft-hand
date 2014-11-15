@@ -3,7 +3,7 @@
 
 	<!-- configure how all bodies will behave in gazebo (particular behavior can be set at each link as well) -->
 	<xacro:property name="gazebo_body_elements">
-		<material>Gazebo/Black</material>
+		<!-- material>Gazebo/FlatBlack</material -->
 		<gravity>true</gravity>
 		<mu1>0.2</mu1>
     	<mu2>0.2</mu2>
@@ -26,13 +26,13 @@
 
 	<!-- configure how all joints will behave in gazebo (particular behavior can be set at each joint as well) -->
 	<xacro:property name="gazebo_joint_elements">
-
+		<provideFeedback>True</provideFeedback>
 		<!--
 		<kp> </kp>
 		<kd> 1.0 </kd>
 		<stopCfm> </stopCfm>
 		<stopErp> </stopErp>
-		<provideFeedback> </provideFeedback>
+		
 		<cfmDamping> </cfmDamping>
 		<fudgeFactor> </fudgeFactor>
 		-->
@@ -46,8 +46,6 @@
 			<gazebo>
 				<plugin name="gazebo_ros_soft_hand" filename="libgazebo_ros_soft_hand.so">
 					<robotNamespace>soft_hand</robotNamespace>
-					<!-- the joint that rule them all -->
-					<synergyJoint>hand_synergy_joint</synergyJoint>
 				</plugin>
 			</gazebo>
 		</xacro:if>

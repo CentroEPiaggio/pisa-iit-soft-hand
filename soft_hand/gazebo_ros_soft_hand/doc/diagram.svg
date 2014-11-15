@@ -376,35 +376,11 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <path
-       inkscape:connector-curvature="0"
-       id="path5317"
-       d="M 15.152284,924.79871 C -4.7849356,759.59039 13.990239,717.71513 90.318594,710.35396 c 67.630246,-6.52232 162.111876,-1.39477 232.930216,-3.7482"
-       style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)"
-       sodipodi:nodetypes="csc" />
-    <path
        sodipodi:nodetypes="cc"
        style="fill:#ffffff;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)"
        d="M 124.24876,813.68194 320.21837,759.1337"
        id="path5319"
        inkscape:connector-curvature="0" />
-    <path
-       sodipodi:nodetypes="cc"
-       inkscape:connector-curvature="0"
-       id="path5339"
-       d="m 321.24881,647.00676 -71.72084,22.22336"
-       style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)" />
-    <text
-       sodipodi:linespacing="125%"
-       id="text5341"
-       y="677.75977"
-       x="127.39862"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
-       xml:space="preserve"><tspan
-         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#ffffff;font-family:Courier;-inkscape-font-specification:Courier Bold"
-         y="677.75977"
-         x="127.39862"
-         id="tspan5343"
-         sodipodi:role="line">/joint_states</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
@@ -484,9 +460,7 @@
        transform="translate(0,-6)"><textPath
          xlink:href="#path5391"
          id="textPath3168"><tspan
-   style="font-size:20px"
-   id="tspan3078">                      position to effort control pid</tspan><tspan
-   id="tspan3080"
-   style="font-size:20px" /></textPath></text>
+           style="font-size:20px"
+           id="tspan3078">                      position pid control, write effort</tspan></textPath></text>
   </g>
 </svg>

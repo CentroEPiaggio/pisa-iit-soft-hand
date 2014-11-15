@@ -11,7 +11,7 @@
     <arg name="robot_name" value="soft_hand_adaptive"/>
     <arg name="use_rviz" value="true"/>
     <arg name="use_joint_state_publisher" value="false"/>
-    <arg name="use_mimic_tag" default="true"/> <!-- for now true, to have a  -->
+    <arg name="use_mimic_tag" value="false"/>
   </include>
 
   <!-- arg name="init_pose" default="-x 0 -y 0 -z 0 -R 0 -P 0 -Y 0" /-->

@@ -59,7 +59,6 @@ void GazeboRosSoftHandPlugin::Load(gazebo::physics::ModelPtr parent, sdf::Elemen
 {
   ROS_INFO_STREAM_NAMED("gazebo_ros_soft_hand","Loading gazebo_ros_soft_hand plugin");
 
-
   // Save pointers to the model
   parent_model_ = parent;
   sdf_ = sdf;
@@ -158,7 +157,7 @@ void GazeboRosSoftHandPlugin::Load(gazebo::physics::ModelPtr parent, sdf::Elemen
     robot_hw_sim_loader_.reset
       (new pluginlib::ClassLoader<gazebo_ros_soft_hand::SoftHandHWSim>
         ("gazebo_ros_soft_hand",
-          "gazebo_ros_soft_hand::SoftHandHWSim"));
+         "gazebo_ros_soft_hand::SoftHandHWSim"));
 
     robot_hw_sim_ = robot_hw_sim_loader_->createInstance(robot_hw_sim_type_str_);
     urdf::Model urdf_model;

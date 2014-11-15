@@ -31,5 +31,6 @@
 
   <export>
     <gazebo_ros_soft_hand plugin="${prefix}/soft_hand_hw_sim_plugins.xml"/>
+    <gazebo_ros plugin_path="${prefix}/lib"/>
   </export>
 </package>

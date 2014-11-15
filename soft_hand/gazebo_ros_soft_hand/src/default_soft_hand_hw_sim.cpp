@@ -3,6 +3,7 @@
  *
  *  Copyright (c) 2013, Open Source Robotics Foundation
  *  Copyright (c) 2013, The Johns Hopkins University
+ *  Copyright (c) 2014, Research Center "E. Piaggio"
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -36,11 +37,13 @@
 
 /* Author: Dave Coleman, Johnathan Bohren
    Desc:   Hardware Interface for any simulated robot in Gazebo
+
+   Author: Carlos Rosales
+   Desc: Not any simulated robot! This is the soft hand hardware interface for simulation
 */
 
 
 #include <gazebo_ros_soft_hand/default_soft_hand_hw_sim.h>
-
 
 namespace
 {
@@ -67,10 +70,53 @@ bool DefaultSoftHandHWSim::initSim(
   // parameter's name is "joint_limits/<joint name>". An example is "joint_limits/axle_joint".
   const ros::NodeHandle joint_limit_nh(model_nh, robot_namespace);
 
-  // Resize vectors to our DOF
-  n_dof_ = transmissions.size();
+  ROS_INFO("INSIDE THE initSim function of the plugin");
+
+  // there should be only two transmissions
+  // the one for the synergy joint, to be treated as in the default robot plugin
+  transmission_interface::TransmissionInfo synergy_trans_info;
+  // and the other one, whose control is not accessible from outside
+  // instead it defines the state of the adaptive joints in 
+  // the simulation (in fact it requires values from the simulation)
+  // which are controlled
+  transmission_interface::TransmissionInfo adaptive_trans_info;
+
+  // select which of the transmission is which. we expect they were filled correctly
+  if( transmissions[0].type_ == "transmission_interface/SimpleTransmission" )
+  {
+    synergy_trans_info = transmissions[0];
+    adaptive_trans_info = transmissions[1];
+  }
+  else
+  {
+    synergy_trans_info = transmissions[1];
+    adaptive_trans_info = transmissions[0];
+  }
+
+  /////////////////////////////////
+  //  INIT ADAPTIVE TRANSMISSION //
+  /////////////////////////////////
+  TransmissionPluginLoader loader;
+  boost::shared_ptr<transmission_interface::TransmissionLoader> transmission_loader = 
+    loader.create(adaptive_trans_info.type_);
+
+  assert(0 != transmission_loader);
+
+  TransmissionPtr transmission;
+  const transmission_interface::TransmissionInfo& info = adaptive_trans_info;
+  
+  transmission = transmission_loader->load(info);
+  
+  assert(0 != transmission);
+
+  // Validate transmission
+  adaptive_trans_ = dynamic_cast<transmission_interface::AdaptiveSynergyTransmission*>(transmission.get());
+
+  assert(0 != adaptive_trans_);
+
+  // Resize vectors to our DOF + our mimic joints
+  n_dof_ = adaptive_trans_info.joints_.size() + 14;
   joint_names_.resize(n_dof_);
-  joint_types_.resize(n_dof_);
   joint_lower_limits_.resize(n_dof_);
   joint_upper_limits_.resize(n_dof_);
   joint_effort_limits_.resize(n_dof_);
@@ -79,65 +125,174 @@ bool DefaultSoftHandHWSim::initSim(
   joint_position_.resize(n_dof_);
   joint_velocity_.resize(n_dof_);
   joint_effort_.resize(n_dof_);
+  joint_effort_cur_.resize(n_dof_);
   joint_effort_command_.resize(n_dof_);
   joint_position_command_.resize(n_dof_);
   joint_velocity_command_.resize(n_dof_);
 
-  // Initialize values
-  for(unsigned int j=0; j < n_dof_; j++)
+  ////////////////////////
+  // INIT SYNERGY JOINT //
+  ////////////////////////
+
+  ROS_INFO("Initializing synergy joint...");
+
+  std::vector<std::string> synergy_interfaces = synergy_trans_info.joints_[0].hardware_interfaces_;
+  if (synergy_interfaces.empty())
   {
-    // Check that this transmission has one joint
-    if(transmissions[j].joints_.size() == 0)
-    {
-      ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim","Transmission " << transmissions[j].name_
-        << " has no associated joints.");
-      continue;
-    }
-    else if(transmissions[j].joints_.size() > 1)
-    {
-      ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim","Transmission " << transmissions[j].name_
-        << " has more than one joint. Currently the default robot hardware simulation "
-        << " interface only supports one.");
-      continue;
-    }
+    ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim", "Joint " << synergy_trans_info.joints_[0].name_ <<
+      " of transmission " << synergy_trans_info.name_ << " does not specify any hardware interface. " <<
+      "Not adding it to the robot hardware simulation.");
+  }
+  else if (synergy_interfaces.size() > 1)
+  {
+    ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim", "Joint " << synergy_trans_info.joints_[0].name_ <<
+      " of transmission " << synergy_trans_info.name_ << " specifies multiple hardware interfaces. " <<
+      "Currently the default soft hand hardware simulation interface only supports one. Using the first entry!");
+  }
 
-    std::vector<std::string> joint_interfaces = transmissions[j].joints_[0].hardware_interfaces_;
-    if (joint_interfaces.empty() &&
-        !(transmissions[j].actuators_.empty()) &&
-        !(transmissions[j].actuators_[0].hardware_interfaces_.empty()))
-    {
-      // TODO: Deprecate HW interface specification in actuators in ROS J
-      joint_interfaces = transmissions[j].actuators_[0].hardware_interfaces_;
-      ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim", "The <hardware_interface> element of tranmission " <<
-        transmissions[j].name_ << " should be nested inside the <joint> element, not <actuator>. " <<
-        "The transmission will be properly loaded, but please update " <<
-        "your robot model to remain compatible with future versions of the plugin.");
-    }
-    if (joint_interfaces.empty())
-    {
-      ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim", "Joint " << transmissions[j].joints_[0].name_ <<
-        " of transmission " << transmissions[j].name_ << " does not specify any hardware interface. " <<
-        "Not adding it to the robot hardware simulation.");
-      continue;
-    }
-    else if (joint_interfaces.size() > 1)
-    {
-      ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim", "Joint " << transmissions[j].joints_[0].name_ <<
-        " of transmission " << transmissions[j].name_ << " specifies multiple hardware interfaces. " <<
-        "Currently the default robot hardware simulation interface only supports one. Using the first entry!");
-      //continue;
-    }
+  // Add data from transmission
+  synergy_name_ = synergy_trans_info.joints_[0].name_;
+  synergy_position_ = 1.0;
+  synergy_velocity_ = 0.0;
+  synergy_effort_ = 1.0;  // N/m for continuous joints
+  synergy_effort_command_ = 0.0;
+  synergy_position_command_ = 0.0;
+  synergy_velocity_command_ = 0.0;
 
+  const std::string& hardware_interface_syn = synergy_interfaces.front();
+
+  // Debug
+  ROS_DEBUG_STREAM_NAMED("default_soft_hand_hw_sim","Loading joint '" << synergy_name_
+    << "' of type '" << hardware_interface_syn << "'");
+
+  // Create joint state interface for the synergy joint
+  js_interface_.registerHandle(hardware_interface::JointStateHandle(
+    synergy_name_, &synergy_position_, &synergy_velocity_, &synergy_effort_));
+
+  // Decide what kind of command interface the synergy joint has
+  hardware_interface::JointHandle synergy_handle;
+  if(hardware_interface_syn == "EffortJointInterface")
+  {
+    // Create effort joint interface
+    synergy_control_method_ = EFFORT;
+    synergy_handle = hardware_interface::JointHandle(js_interface_.getHandle(synergy_name_),
+                                                   &synergy_effort_command_);
+    ej_interface_.registerHandle(synergy_handle);
+  }
+  else if(hardware_interface_syn == "PositionJointInterface")
+  {
+    // Create position joint interface
+    synergy_control_method_ = POSITION;
+    synergy_handle = hardware_interface::JointHandle(js_interface_.getHandle(synergy_name_),
+                                                   &synergy_position_command_);
+    pj_interface_.registerHandle(synergy_handle);
+  }
+  else if(hardware_interface_syn == "VelocityJointInterface")
+  {
+    // Create velocity joint interface
+    synergy_control_method_ = VELOCITY;
+    synergy_handle = hardware_interface::JointHandle(js_interface_.getHandle(synergy_name_),
+                                                   &synergy_velocity_command_);
+    vj_interface_.registerHandle(synergy_handle);
+  }
+  else
+  {
+    ROS_FATAL_STREAM_NAMED("default_soft_hand_hw_sim","No matching hardware interface found for '"
+      << hardware_interface_syn );
+    return false;
+  }
+
+  // Get the gazebo joint that corresponds to the robot joint.
+  gazebo::physics::JointPtr joint = parent_model->GetJoint(synergy_name_);
+  if (!joint)
+  {
+    ROS_ERROR_STREAM("This robot has a joint named \"" << synergy_name_
+      << "\" which is not in the gazebo model.");
+    return false;
+  }
+  sim_joints_.push_back(joint);
+
+  registerJointLimits(synergy_name_, synergy_handle, synergy_control_method_,
+                      joint_limit_nh, urdf_model,
+                      &synergy_lower_limit_, &synergy_upper_limit_,
+                      &synergy_effort_limit_);
+
+  if (synergy_control_method_ != EFFORT)
+  {
+    // Initialize the PID controller. If no PID gain values are found, use joint->SetAngle() or
+    // joint->SetVelocity() to control the joint.
+    const ros::NodeHandle nh(model_nh, robot_namespace + "/gazebo_ros_soft_hand/pid_gains/" +
+                             synergy_name_);
+    if (pid_controller_.init(nh, true))
+    {
+      switch (synergy_control_method_)
+      {
+        case POSITION:
+          synergy_control_method_ = POSITION_PID;
+          break;
+        case VELOCITY:
+          synergy_control_method_ = VELOCITY_PID;
+          break;
+      }
+    }
+    else
+    {
+      // joint->SetMaxForce() must be called if joint->SetAngle() or joint->SetVelocity() are
+      // going to be called. joint->SetMaxForce() must *not* be called if joint->SetForce() is
+      // going to be called.
+      joint->SetMaxForce(0, synergy_effort_limit_);
+    }
+  }
+
+  ////////////////////////////////////
+  // INIT ADAPTIVE AND MIMIC JOINTS //
+  ////////////////////////////////////
+
+  // Check that this transmission has one joint
+  if(adaptive_trans_info.joints_.size() == 0)
+  {
+    ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim","Transmission " << adaptive_trans_info.name_
+      << " has no associated joints.");
+  }
+  else if(adaptive_trans_info.joints_.size() > 19)
+  {
+    ROS_WARN_STREAM_NAMED("default_soft_hand_hw_sim","Transmission " << adaptive_trans_info.name_
+      << " has more than nineteen joints. Currently the default soft hand hardware simulation "
+      << " interface only supports nineteen.");
+  }
+
+  ROS_INFO("Initializing adaptive and mimic joints...");
+  int j_mimic = 19; // joint mimic counter
+  for(unsigned int j=0; j < n_dof_; ++j)
+  {
     // Add data from transmission
-    joint_names_[j] = transmissions[j].joints_[0].name_;
+    if(j<19)
+    {
+      joint_names_[j] = adaptive_trans_info.joints_[j].name_;  
+    }
+
+    if( j==1 || j==2 || 
+        j==4 || j==5 || j==6 || 
+        j==8 || j==9 || j==10 || 
+        j==12 || j==13 || j==14 || 
+        j==16 || j==17 || j==18 )
+    { 
+      joint_names_[j_mimic] = adaptive_trans_info.joints_[j].name_ + std::string("_mimic");
+      j_mimic++;
+    }
+    
+    // std::cout << joint_names_[j] << std::endl;
+
     joint_position_[j] = 1.0;
     joint_velocity_[j] = 0.0;
     joint_effort_[j] = 1.0;  // N/m for continuous joints
+    joint_effort_cur_[j] = 1.0;  // N/m for continuous joints
     joint_effort_command_[j] = 0.0;
     joint_position_command_[j] = 0.0;
     joint_velocity_command_[j] = 0.0;
 
-    const std::string& hardware_interface = joint_interfaces.front();
+    // take the first of the first
+    const std::string& hardware_interface = adaptive_trans_info.joints_[0].hardware_interfaces_[0];
 
     // Debug
     ROS_DEBUG_STREAM_NAMED("default_soft_hand_hw_sim","Loading joint '" << joint_names_[j]
@@ -147,31 +302,23 @@ bool DefaultSoftHandHWSim::initSim(
     js_interface_.registerHandle(hardware_interface::JointStateHandle(
         joint_names_[j], &joint_position_[j], &joint_velocity_[j], &joint_effort_[j]));
 
-    // Decide what kind of command interface this actuator/joint has
+    // Decide what kind of command interface the synergy joint has
     hardware_interface::JointHandle joint_handle;
     if(hardware_interface == "EffortJointInterface")
     {
       // Create effort joint interface
       joint_control_methods_[j] = EFFORT;
-      joint_handle = hardware_interface::JointHandle(js_interface_.getHandle(joint_names_[j]),
+      /*joint_handle = hardware_interface::JointHandle(js_interface_.getHandle(joint_names_[j]),
                                                      &joint_effort_command_[j]);
-      ej_interface_.registerHandle(joint_handle);
+      ej_interface_.registerHandle(joint_handle);*/
     }
     else if(hardware_interface == "PositionJointInterface")
     {
       // Create position joint interface
       joint_control_methods_[j] = POSITION;
-      joint_handle = hardware_interface::JointHandle(js_interface_.getHandle(joint_names_[j]),
+      /*joint_handle = hardware_interface::JointHandle(js_interface_.getHandle(joint_names_[j]),
                                                      &joint_position_command_[j]);
-      pj_interface_.registerHandle(joint_handle);
-    }
-    else if(hardware_interface == "VelocityJointInterface")
-    {
-      // Create velocity joint interface
-      joint_control_methods_[j] = VELOCITY;
-      joint_handle = hardware_interface::JointHandle(js_interface_.getHandle(joint_names_[j]),
-                                                     &joint_velocity_command_[j]);
-      vj_interface_.registerHandle(joint_handle);
+      pj_interface_.registerHandle(joint_handle);*/
     }
     else
     {
@@ -183,7 +330,8 @@ bool DefaultSoftHandHWSim::initSim(
     // Get the gazebo joint that corresponds to the robot joint.
     //ROS_DEBUG_STREAM_NAMED("default_soft_hand_hw_sim", "Getting pointer to gazebo joint: "
     //  << joint_names_[j]);
-    gazebo::physics::JointPtr joint = parent_model->GetJoint(joint_names_[j]);
+    //gazebo::physics::JointPtr joint = parent_model->GetJoint(joint_names_[j]);
+    joint = parent_model->GetJoint(joint_names_[j]);
     if (!joint)
     {
       ROS_ERROR_STREAM("This robot has a joint named \"" << joint_names_[j]
@@ -192,68 +340,153 @@ bool DefaultSoftHandHWSim::initSim(
     }
     sim_joints_.push_back(joint);
 
-    registerJointLimits(joint_names_[j], joint_handle, joint_control_methods_[j],
+    /*registerJointLimits(joint_names_[j], joint_handle, joint_control_methods_[j],
                         joint_limit_nh, urdf_model,
-                        &joint_types_[j], &joint_lower_limits_[j], &joint_upper_limits_[j],
-                        &joint_effort_limits_[j]);
+                        &joint_lower_limits_[j], &joint_upper_limits_[j],
+                        &joint_effort_limits_[j]);*/
+    
     if (joint_control_methods_[j] != EFFORT)
     {
       // Initialize the PID controller. If no PID gain values are found, use joint->SetAngle() or
       // joint->SetVelocity() to control the joint.
       const ros::NodeHandle nh(model_nh, robot_namespace + "/gazebo_ros_soft_hand/pid_gains/" +
                                joint_names_[j]);
-      if (pid_controllers_[j].init(nh, true))
+
+      pid_controllers_[j] = control_toolbox::Pid(1.0,0.5,0.1,30.0,0.01);
+      if(true)//pid_controllers_[j].init(nh, true))
       {
         switch (joint_control_methods_[j])
         {
           case POSITION:
             joint_control_methods_[j] = POSITION_PID;
             break;
-          case VELOCITY:
-            joint_control_methods_[j] = VELOCITY_PID;
-            break;
         }
       }
       else
       {
+        std::cout << "Couldn't init pid_controller " << j << " for joint " << joint_names_[j] <<
+                     ", using estrict positioning in simulation" << std::endl;
         // joint->SetMaxForce() must be called if joint->SetAngle() or joint->SetVelocity() are
         // going to be called. joint->SetMaxForce() must *not* be called if joint->SetForce() is
         // going to be called.
         joint->SetMaxForce(0, joint_effort_limits_[j]);
       }
     }
+
   }
 
-  // Register interfaces
+  ROS_INFO("registering joint interfaces");
+
+  // register joint  interfaces
   registerInterface(&js_interface_);
   registerInterface(&ej_interface_);
   registerInterface(&pj_interface_);
   registerInterface(&vj_interface_);
+
+  ROS_INFO("registering transmission interfaces");
+  // wrap simple transmission raw data - current state
+  a_cmd_data_.position.push_back(&synergy_position_);
+  //a_cmd_data_.effort.push_back(&synergy_effort_);
+
+  a_state_data_.position.push_back(&synergy_position_);
+  a_state_data_.effort.push_back(&synergy_effort_);
+
+  // wrap only the non-mimic joints, the first 19 from the vector
+  for(int j = 0; j < 19; ++j)
+  {
+
+    // velocity is not used
+    // we need to choose a causality:
+    // 1. compute the generated joint efforts reading the current position,
+    //    and then compute the position it should have to that will
+    //    take the hand to equilibrium eventually, and
+    //    control the simulation using position PID
+    // std::cout << joint_names_[j] << std::endl;
+
+    //j_state_data_.position.push_back(&joint_position_[j]);
+    j_state_data_.effort.push_back(&joint_effort_[j]);
+
+    j_pos_data_.position.push_back(&joint_position_command_[j]);
+    j_pos_data_.effort.push_back(&joint_effort_cur_[j]);
+
+    //j_eff_data_.position.push_back(&joint_position_[j]);
+    //j_eff_data_.effort.push_back(&joint_effort_command_[j]);
+
+    // 2. compute the position it should have reading the current efforts
+    //    and then compute the effort that will take the hand to the
+    //    equilibrium position eventually, and 
+    //    control the simulation using effort
+    // j_pos_data_.position.push_back(&joint_position_command_[j]);
+    // j_pos_data_.effort.push_back(&joint_effort_[j]);
+
+    // j_eff_data_.position.push_back(&joint_position_command_[j]);
+    // j_eff_data_.effort.push_back(&joint_effort_command_[j]);
+  }
+  
+  // register transmissions to each interface, order not important here
+  jnt_to_act_eff_.registerHandle(transmission_interface::JointToActuatorEffortHandle(
+                                                             adaptive_trans_info.name_,
+                                                             adaptive_trans_,
+                                                             a_state_data_,
+                                                             j_state_data_));
+
+  /*act_to_jnt_eff_.registerHandle(transmission_interface::ActuatorToJointEffortHandle(
+                                                             adaptive_trans_info.name_+"_eff",
+                                                             adaptive_trans_,
+                                                             a_cmd_data_,
+                                                             j_eff_data_));*/
+
+  act_to_jnt_pos_.registerHandle(transmission_interface::ActuatorToJointPositionHandle(
+                                                             adaptive_trans_info.name_,
+                                                             adaptive_trans_,
+                                                             a_cmd_data_,
+                                                             j_pos_data_));
+
+  jnt_to_act_eff_.propagate();
+  act_to_jnt_pos_.propagate();
+
+  ROS_INFO("Done initizalization!");
 
   return true;
 }
 
 void DefaultSoftHandHWSim::readSim(ros::Time time, ros::Duration period)
 {
-  for(unsigned int j=0; j < n_dof_; j++)
+
+  // read values from simulation (our hardware)
+
+  // synergy joint by construction the first one
+  synergy_position_ += angles::shortest_angular_distance(synergy_position_,
+                          sim_joints_[0]->GetAngle(0).Radian());
+  synergy_velocity_ = sim_joints_[0]->GetVelocity(0);
+  // synergy_effort_ = sim_joints_[0]->GetForce((unsigned int)(0));
+
+  // adaptive joints
+  for(unsigned int j=0; j < n_dof_; ++j)
   {
-    // Gazebo has an interesting API...
-    if (joint_types_[j] == urdf::Joint::PRISMATIC)
-    {
-      joint_position_[j] = sim_joints_[j]->GetAngle(0).Radian();
-    }
-    else
-    {
-      joint_position_[j] += angles::shortest_angular_distance(joint_position_[j],
-                            sim_joints_[j]->GetAngle(0).Radian());
-    }
-    joint_velocity_[j] = sim_joints_[j]->GetVelocity(0);
-    joint_effort_[j] = sim_joints_[j]->GetForce((unsigned int)(0));
+    // only revolute joints
+    joint_position_[j] += angles::shortest_angular_distance(joint_position_[j],
+                            sim_joints_[j+1]->GetAngle(0).Radian());
+    joint_velocity_[j] = sim_joints_[j+1]->GetVelocity(0);
+    joint_effort_[j] = sim_joints_[j+1]->GetForce((unsigned int)(0));
+    joint_effort_cur_[j] = joint_effort_[j];
   }
+
+  // from joint measurment, estimate the state of the actuator effort to control
+  //std::cout << "before propagate readSim" << std::endl;
+  //jnt_to_act_eff_.propagate();
+  //std::cout << "after propagate readSim" << std::endl;
+
 }
 
 void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
 {
+
+  // from measurements, compute the set point for the joint position PID controller
+  //std::cout << "before propagate writeSim" << std::endl;
+  //act_to_jnt_pos_.propagate();
+  //std::cout << "after propagate writeSim" << std::endl;
+
   ej_sat_interface_.enforceLimits(period);
   ej_limits_interface_.enforceLimits(period);
   pj_sat_interface_.enforceLimits(period);
@@ -261,69 +494,127 @@ void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
   vj_sat_interface_.enforceLimits(period);
   vj_limits_interface_.enforceLimits(period);
 
-  for(unsigned int j=0; j < n_dof_; j++)
+  // synergy joint simulation control (typically with position PID)
+  switch (synergy_control_method_)
+  {
+    case EFFORT:
+      {
+        const double effort = synergy_effort_command_;
+        sim_joints_[0]->SetForce(0, effort);
+      }
+      break;
+
+    case POSITION:
+      sim_joints_[0]->SetPosition(0, synergy_position_command_);
+      break;
+
+    case POSITION_PID:
+      {
+        double error;
+        angles::shortest_angular_distance_with_limits(synergy_position_,
+                                                      synergy_position_command_,
+                                                      synergy_lower_limit_,
+                                                      synergy_upper_limit_,
+                                                      error);
+
+        const double effort_limit = synergy_effort_limit_;
+        const double effort = clamp(pid_controller_.computeCommand(error, period),
+                                    -effort_limit, effort_limit);
+        sim_joints_[0]->SetForce(0, effort);
+      }
+      break;
+  }
+
+  int jmimic = 19;
+  // adaptive joints simulation control (position PID)
+  for(unsigned int j=0; j < n_dof_; ++j)
   {
     switch (joint_control_methods_[j])
     {
       case EFFORT:
         {
+          // mirror command values to the mimic ones
+          if( j==1 || j==2 || 
+              j==4 || j==5 || j==6 || 
+              j==8 || j==9 || j==10 || 
+              j==12 || j==13 || j==14 || 
+              j==16 || j==17 || j==18 )
+          {
+            joint_effort_command_[jmimic] = joint_effort_command_[j];
+          }
+          jmimic++;
+
+          std::cout << "joint_effort_command_ " << j << " " << joint_effort_command_[j] << std::endl;
+
           const double effort = joint_effort_command_[j];
-          sim_joints_[j]->SetForce(0, effort);
+          sim_joints_[0]->SetForce(0, effort);
         }
         break;
 
       case POSITION:
-#if GAZEBO_MAJOR_VERSION >= 4
-        sim_joints_[j]->SetPosition(0, joint_position_command_[j]);
-#else
-        sim_joints_[j]->SetAngle(0, joint_position_command_[j]);
-#endif
+        {
+           // mirror command values to the mimic ones
+           if( j==1 || j==2 ||
+               j==4 || j==5 || j==6 ||
+               j==8 || j==9 || j==10 ||
+               j==12 || j==13 || j==14 ||
+               j==16 || j==17 || j==18 )
+           {
+             joint_position_command_[jmimic] = joint_position_command_[j];
+             jmimic++;
+           }
+           
+
+          std::cout << "joint_position_command_ " << j << " " << joint_position_command_[j] << std::endl;
+          // remember the first one is the synergy
+          sim_joints_[j+1]->SetPosition(0, joint_position_command_[j]);
+        }
         break;
 
       case POSITION_PID:
         {
-          double error;
-          switch (joint_types_[j])
+          // mirror command values to the mimic ones
+          if( j==1 || j==2 || 
+              j==4 || j==5 || j==6 || 
+              j==8 || j==9 || j==10 || 
+              j==12 || j==13 || j==14 || 
+              j==16 || j==17 || j==18 )
           {
-            case urdf::Joint::REVOLUTE:
-              angles::shortest_angular_distance_with_limits(joint_position_[j],
-                                                            joint_position_command_[j],
-                                                            joint_lower_limits_[j],
-                                                            joint_upper_limits_[j],
-                                                            error);
-              break;
-            case urdf::Joint::CONTINUOUS:
-              error = angles::shortest_angular_distance(joint_position_[j],
-                                                        joint_position_command_[j]);
-              break;
-            default:
-              error = joint_position_command_[j] - joint_position_[j];
+            joint_position_command_[jmimic] = joint_position_command_[j];
+            jmimic++;
           }
+          
 
-          const double effort_limit = joint_effort_limits_[j];
+          std::cout << "joint_position_ for " << joint_names_[j] << " " << joint_position_[j] << std::endl;
+          std::cout << "joint_position_command_ for " << joint_names_[j] << " " << joint_position_command_[j] << std::endl;
+
+          double error;
+          angles::shortest_angular_distance_with_limits(joint_position_[j],
+                                                        joint_position_command_[j],
+                                                        joint_lower_limits_[j],
+                                                        joint_upper_limits_[j],
+                                                        error);
+
+          std::cout << "error for joint " << joint_names_[j] << " " << error << std::endl;
+
+          // this should be read from the urdf!
+          const double effort_limit = 100;//joint_effort_limits_[j];
+
+          std::cout << "effort limit for joint " << joint_names_[j] << " " << effort_limit << std::endl;
+
           const double effort = clamp(pid_controllers_[j].computeCommand(error, period),
                                       -effort_limit, effort_limit);
-          sim_joints_[j]->SetForce(0, effort);
+
+          std::cout << "set effort for joint " << joint_names_[j] << " " << effort << std::endl;
+          // remember the first one is the synergy
+          sim_joints_[j+1]->SetForce(0, effort);
         }
-        break;
-
-      case VELOCITY:
-        sim_joints_[j]->SetVelocity(0, joint_velocity_command_[j]);
-        break;
-
-      case VELOCITY_PID:
-        const double error = joint_velocity_command_[j] - joint_velocity_[j];
-        const double effort_limit = joint_effort_limits_[j];
-        const double effort = clamp(pid_controllers_[j].computeCommand(error, period),
-                                    -effort_limit, effort_limit);
-        sim_joints_[j]->SetForce(0, effort);
         break;
     }
   }
 }
 
-
-// Register the limits of the joint specified by joint_name and joint_handle. The limits are
+// Register the limits of the joint specified by joint_name and\ joint_handle. The limits are
 // retrieved from joint_limit_nh. If urdf_model is not NULL, limits are retrieved from it also.
 // Return the joint's type, lower position limit, upper position limit, and effort limit.
 void DefaultSoftHandHWSim::registerJointLimits(const std::string& joint_name,
@@ -331,10 +622,9 @@ void DefaultSoftHandHWSim::registerJointLimits(const std::string& joint_name,
                          const ControlMethod ctrl_method,
                          const ros::NodeHandle& joint_limit_nh,
                          const urdf::Model *const urdf_model,
-                         int *const joint_type, double *const lower_limit,
-                         double *const upper_limit, double *const effort_limit)
+                         double *const lower_limit, double *const upper_limit, 
+                         double *const effort_limit)
 {
-  *joint_type = urdf::Joint::UNKNOWN;
   *lower_limit = -std::numeric_limits<double>::max();
   *upper_limit = std::numeric_limits<double>::max();
   *effort_limit = std::numeric_limits<double>::max();
@@ -349,7 +639,6 @@ void DefaultSoftHandHWSim::registerJointLimits(const std::string& joint_name,
     const boost::shared_ptr<const urdf::Joint> urdf_joint = urdf_model->getJoint(joint_name);
     if (urdf_joint != NULL)
     {
-      *joint_type = urdf_joint->type;
       // Get limits from the URDF file.
       if (joint_limits_interface::getJointLimits(urdf_joint, limits))
         has_limits = true;
@@ -363,23 +652,6 @@ void DefaultSoftHandHWSim::registerJointLimits(const std::string& joint_name,
 
   if (!has_limits)
     return;
-
-  if (*joint_type == urdf::Joint::UNKNOWN)
-  {
-    // Infer the joint type.
-
-    if (limits.has_position_limits)
-    {
-      *joint_type = urdf::Joint::REVOLUTE;
-    }
-    else
-    {
-      if (limits.angle_wraparound)
-        *joint_type = urdf::Joint::CONTINUOUS;
-      else
-        *joint_type = urdf::Joint::PRISMATIC;
-    }
-  }
 
   if (limits.has_position_limits)
   {
@@ -444,7 +716,6 @@ void DefaultSoftHandHWSim::registerJointLimits(const std::string& joint_name,
     }
   }
 }
-
 
 }
 
