@@ -10,22 +10,22 @@
     <arg name="gui" value="false" />
     <arg name="robot_name" value="soft_hand_adaptive"/>
     <arg name="use_rviz" value="true"/>
-    <arg name="use_joint_state_publisher" value="false"/>
-    <arg name="use_mimic_tag" value="false"/>
+    <arg name="use_joint_state_publisher" value="false"/> 
+    <!-- if you choose true, it automatically loads the pure kinematic control plugin
+         otherwise the default adaptive transmission plugin is loaded -->
+    <arg name="use_mimic_tag" value="false"/> 
   </include>
 
-  <!-- arg name="init_pose" default="-x 0 -y 0 -z 0 -R 0 -P 0 -Y 0" /-->
-
   <!-- Spawn a robot into Gazebo -->
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand" respawn="false" output="screen" />
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand" respawn="false" output="screen"/>
 
-<!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find soft_hand_description)/worlds/simple_environment.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
-    <arg name="headless" value="false"/>
+    <arg name="headless" value="true"/>
     <arg name="debug" value="false"/>
   </include>
 

@@ -1,12 +1,16 @@
-pisa-iit-soft-hand
-==================
+pisa-iit-soft-hand (ROS/Gazebo packages)
+========================================
 
 This repository contains the model of the Pisa/IIT hand as described in:
 
 * M. G. Catalano, Grioli, G., Farnioli, E., Serio, A., Piazza, C., and Bicchi, A., “Adaptive Synergies for the Design and Control of the Pisa/IIT SoftHand”, International Journal of Robotics Research, vol. 33, no. 5, pp. 768–782, 2014
 
+[Free version of the paper](http://www.centropiaggio.unipi.it/sites/default/files/PisaIIT_SoftHand_0.pdf)
+[IJRR version (access required)](http://ijr.sagepub.com/content/33/5/768.abstract)
 
-Unless stated otherwise, all files within the repository are released under the BSD 3-Clause License, see the file LICENSE for the details.
+CAD model freely available through the [Natural Machine Motion Initiative][http://www.naturalmachinemotioninitiative.com/#!softhand/c24r2]
+
+Unless stated otherwise, all files within the repository are released under the BSD 3-Clause License, see the [LICENSE](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/blob/master/LICENSE) file for the details.
 
 0. Dependencies
 ---------------
@@ -40,7 +44,7 @@ Close the hand with:
 2. Fully actuated model
 -----------------------
 
-This model might be useful for any application that implements the adaptive synergy externally, or any other kind of transmission, and publishes the computed torque for each joint.
+This model might be useful for any application that implements the adaptive synergy "by soft", in which you compute the torque for each joint and publish it.
 
 IMPORTANT: You must ensure that the mimic joints have the same value as the joints they are mimicking!
 

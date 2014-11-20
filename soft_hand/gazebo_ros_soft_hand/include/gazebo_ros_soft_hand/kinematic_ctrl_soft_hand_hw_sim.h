@@ -3,7 +3,6 @@
  *
  *  Copyright (c) 2013, Open Source Robotics Foundation
  *  Copyright (c) 2013, The Johns Hopkins University
- *  Copyright (c) 2014, Research Center "E. Piaggio"
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -39,11 +38,11 @@
    Desc:   Hardware Interface for any simulated robot in Gazebo
 
    Author: Carlos Rosales
-   Desc: Not any simulated robot, this is the soft hand hardware interface for simulation
+   Desc: Not any simulated robot! This is the soft hand hardware interface for simulation
 */
 
-#ifndef _GAZEBO_ROS_SOFT_HAND___DEFAULT_SOFT_HAND_HW_SIM_H_
-#define _GAZEBO_ROS_SOFT_HAND___DEFAULT_SOFT_HAND_HW_SIM_H_
+#ifndef _GAZEBO_ROS_SOFT_HAND___KINEMATIC_CTRL_SOFT_HAND_HW_SIM_H_
+#define _GAZEBO_ROS_SOFT_HAND___KINEMATIC_CTRL_SOFT_HAND_HW_SIM_H_
 
 // ros_control
 #include <control_toolbox/pid.h>
@@ -83,7 +82,7 @@
 namespace gazebo_ros_soft_hand
 {
 
-class DefaultSoftHandHWSim : public gazebo_ros_soft_hand::SoftHandHWSim
+class KinematicCtrlSoftHandHWSim : public gazebo_ros_soft_hand::SoftHandHWSim
 {
 public:
 
@@ -98,7 +97,7 @@ public:
 
   virtual void writeSim(ros::Time time, ros::Duration period);
 
-//protected:
+protected:
   // Methods used to control a joint.
   enum ControlMethod {EFFORT, POSITION, POSITION_PID, VELOCITY, VELOCITY_PID};
 
@@ -113,8 +112,10 @@ public:
                            double *const lower_limit, double *const upper_limit, 
                            double *const effort_limit);
 
+  // void actuatorToJointEffort(const transmission_interface::ActuatorData& act_data, transmission_interface::JointData& jnt_data);
+  // void actuatorToJointPosition(const transmission_interface::ActuatorData& act_data, transmission_interface::JointData& jnt_data);
+
   unsigned int n_dof_;
-  unsigned int n_mimic_;
 
   hardware_interface::JointStateInterface    js_interface_;
   hardware_interface::EffortJointInterface   ej_interface_;
@@ -133,69 +134,53 @@ public:
   double synergy_position_;
   double synergy_velocity_;
   double synergy_effort_;
-  double synergy_effort_command_;
-  double synergy_position_command_;
-  double synergy_velocity_command_;
   double synergy_lower_limit_;
   double synergy_upper_limit_;
   double synergy_effort_limit_;
   ControlMethod synergy_control_method_;
   control_toolbox::Pid pid_controller_;
+  double synergy_effort_command_;
+  double synergy_position_command_;
+  double synergy_velocity_command_;
 
+  // synergy joint in simulation
   gazebo::physics::JointPtr sim_synergy_;
 
-  // joint states controlled through the transmission
+  // joint states
   std::vector<std::string> joint_names_;
   std::vector<double> joint_position_;
   std::vector<double> joint_velocity_;
   std::vector<double> joint_effort_;
-  std::vector<double> joint_effort_command_;
-  std::vector<double> joint_position_command_;
-  std::vector<double> joint_velocity_command_;
   std::vector<double> joint_lower_limits_;
   std::vector<double> joint_upper_limits_;
   std::vector<double> joint_effort_limits_;
+
+  // to write simulation
   std::vector<ControlMethod> joint_control_methods_;
   std::vector<control_toolbox::Pid> pid_controllers_;
+  std::vector<double> joint_effort_command_;
+  std::vector<double> joint_position_command_;
+  std::vector<double> joint_velocity_command_;
 
   std::vector<gazebo::physics::JointPtr> sim_joints_;
 
-  // joint mimic states controlled through the transmission
-  std::vector<std::string> joint_names_mimic_;
-  std::vector<double> joint_position_mimic_;
-  std::vector<double> joint_velocity_mimic_;
-  std::vector<double> joint_effort_mimic_;
-  std::vector<double> joint_effort_command_mimic_;
-  std::vector<double> joint_position_command_mimic_;
-  std::vector<double> joint_velocity_command_mimic_;
-  std::vector<double> joint_lower_limits_mimic_;
-  std::vector<double> joint_upper_limits_mimic_;
-  std::vector<double> joint_effort_limits_mimic_;
-  std::vector<ControlMethod> joint_control_methods_mimic_;
-  std::vector<control_toolbox::Pid> pid_controllers_mimic_;
-
-  std::vector<gazebo::physics::JointPtr> sim_joints_mimic_;
-
-  // adaptive transmission only, the simple transmission of the synergy joint
+  // adaptive transmission only, the simple transmission from the synergy joint
   // is not used so far, but it could be a way to model motor dynamics later
-  transmission_interface::AdaptiveSynergyTransmission* adaptive_trans_;
+  transmission_interface::AdaptiveSynergyTransmission* adaptive_trans_;  
 
   // transmission interfaces
   transmission_interface::JointToActuatorEffortInterface jnt_to_act_eff_;
   transmission_interface::JointToActuatorPositionInterface jnt_to_act_pos_;
   transmission_interface::ActuatorToJointEffortInterface act_to_jnt_eff_;
   transmission_interface::ActuatorToJointPositionInterface act_to_jnt_pos_;
-  transmission_interface::ActuatorData a_state_data_[2];
-  transmission_interface::ActuatorData a_cmd_data_[2];
-  transmission_interface::JointData j_state_data_[2];
-  transmission_interface::JointData j_cmd_data_[2];
-
-  // and simple interface for the actuator
-  transmission_interface::SimpleTransmission* synergy_trans_;
+  transmission_interface::ActuatorData a_state_data_;
+  transmission_interface::ActuatorData a_cmd_data_;
+  transmission_interface::JointData j_state_data_;
+  transmission_interface::JointData j_cmd_data_;
 };
 
-typedef boost::shared_ptr<DefaultSoftHandHWSim> DefaultSoftHandHWSimPtr;
+typedef boost::shared_ptr<KinematicCtrlSoftHandHWSim> KinematicCtrlSoftHandHWSimPtr;
 
 }
 
-#endif // #ifndef __GAZEBO_ROS_SOFT_HAND_PLUGIN_DEFAULT_SOFT_HAND_HW_SIM_H_
+#endif // #ifndef __GAZEBO_ROS_SOFT_HAND_PLUGIN_KINEMATIC_CTRL_SOFT_HAND_HW_SIM_H_

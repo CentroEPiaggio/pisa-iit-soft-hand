@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 # Depend on system install of Gazebo 
 find_package(gazebo REQUIRED)
+find_package(Boost REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
@@ -42,8 +43,24 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 add_library(default_soft_hand_hw_sim src/default_soft_hand_hw_sim.cpp)
 target_link_libraries(default_soft_hand_hw_sim ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+add_library(kinematic_ctrl_soft_hand_hw_sim src/kinematic_ctrl_soft_hand_hw_sim.cpp)
+target_link_libraries(kinematic_ctrl_soft_hand_hw_sim ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+## Helper plugins
+add_library(gazebo_ros_mimic_joint_plugin src/gazebo_ros_mimic_joint_plugin.cpp)
+target_link_libraries(gazebo_ros_mimic_joint_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES}
+)
+
+add_library(gazebo_ros_disable_link_plugin src/gazebo_ros_disable_link_plugin.cpp)
+target_link_libraries(gazebo_ros_disable_link_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+
 ## Install
 install(TARGETS ${PROJECT_NAME} default_soft_hand_hw_sim
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  )
+
+install(TARGETS ${PROJECT_NAME} kinematic_ctrl_soft_hand_hw_sim
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   )
 

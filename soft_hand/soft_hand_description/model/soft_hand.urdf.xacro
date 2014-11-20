@@ -433,7 +433,7 @@
 		<xacro:soft_finger parent="${name}_palm_link" name="${name}_little" position="0.030 0.0808918 0.00205" orientation="${180*pi/180} 0 ${(-90-20)*pi/180}" useMimicTag="${useMimicTag}" abd_R="${little_abd_R}" inner_R="${little_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${little_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${little_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
 		<xacro:soft_hand_transmission name="${name}" withAdaptiveTransmission="${withAdaptiveTransmission}"/>
-		<xacro:soft_hand_gazebo name="${name}" withAdaptiveTransmission="${withAdaptiveTransmission}"/>
+		<xacro:soft_hand_gazebo name="${name}" withAdaptiveTransmission="${withAdaptiveTransmission}" useMimicTag="${useMimicTag}"/>
 		
 	</xacro:macro>
 

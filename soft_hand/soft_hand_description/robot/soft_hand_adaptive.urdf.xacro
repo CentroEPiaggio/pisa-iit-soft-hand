@@ -27,8 +27,38 @@
 		<static>true</static>
 	</gazebo>
 
-	<xacro:soft_hand parent="wrist" name="hand" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)">
+	<xacro:soft_hand parent="wrist" name="soft_hand" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)">
 		<origin xyz="0 0 1" rpy="1.570796 0 0"/>
 	</xacro:soft_hand>
+
+	<joint name="wrist_object_joint" type="fixed">
+		<origin xyz="0 0.05 1.1" rpy="0 0 0" />
+		<parent link="wrist"/>
+		<child link="object"/>
+	</joint>
+
+	<link name="object">
+		<inertial>
+			<insert_block name="negligible_inertia"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="0.05 0.05 0.05"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="0.05 0.05 0.05"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<gazebo reference="object">
+		<static>true</static>
+		<selfCollide>True</selfCollide>
+	</gazebo>
+
 
 </robot>

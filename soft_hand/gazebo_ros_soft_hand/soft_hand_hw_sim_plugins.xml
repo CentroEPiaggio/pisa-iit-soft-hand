@@ -8,3 +8,14 @@
     </description>
   </class>
 </library>
+
+<library path="lib/libkinematic_ctrl_soft_hand_hw_sim">
+  <class
+    name="gazebo_ros_soft_hand/KinematicCtrlSoftHandHWSim"
+    type="gazebo_ros_soft_hand::KinematicCtrlSoftHandHWSim"
+    base_class_type="gazebo_ros_soft_hand::SoftHandHWSim">
+    <description>
+      A kinematic-only soft hand simulation interface.
+    </description>
+  </class>
+</library>
