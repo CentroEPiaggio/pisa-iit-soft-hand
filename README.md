@@ -25,9 +25,7 @@ And you need the forked version of ros_control where the adaptive synergy transm
 1. Adaptive model
 -----------------
 
-This model uses one joint actuated by position, and propagate the resulting configuration using the adaptive synergy transmission.
-
-NOTE: The gazebo simulation is still not working!
+This model uses one joint controlled by position, and propagate the resulting configuration using the adaptive synergy transmission to the subactuated joints.
 
 To see an example, launch:
 
@@ -40,6 +38,8 @@ Open the hand with:
 Close the hand with:
 
 `rostopic pub /soft_hand/hand_synergy_joint_position_controller/command std_msgs/Float64 "data: 1.0" &`
+
+You can also modify the `gazebo_adaptive_actuation.launch` at will, for instance, by selectin mimic_joint, you load a different hardware interface for simulation where the synergy works un pure kinematic control.
 
 2. Fully actuated model
 -----------------------
@@ -129,6 +129,3 @@ rostopic pub /soft_hand/hand_ring_inner_joint_mimic_position_controller/command 
 rostopic pub /soft_hand/hand_ring_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.5" &
 rostopic pub /soft_hand/hand_ring_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.6" &
 ```
-
-Here is a video of the gazebo simulator and rviz fed with the simulator data:
-[![VIDEO](https://www.youtube.com/upload_thumbnail?v=css6i2ZP3J0&t=3&ts=1415543675751)](http://www.youtube.com/watch?v=css6i2ZP3J0).
