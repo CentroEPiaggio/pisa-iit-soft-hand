@@ -142,7 +142,7 @@
       <!-- work in progress -->
       <transmission name="synergy_trans">
           <type>transmission_interface/SimpleTransmission</type>
-          <joint name="synergy_joint">
+          <joint name="${name}_synergy_joint">
             <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
           <actuator name="synergy_motor">

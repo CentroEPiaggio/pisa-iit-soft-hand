@@ -7,5 +7,5 @@ soft_hand:
   # Position Controllers ---------------------------------------
   hand_synergy_joint_position_controller:
     type: effort_controllers/JointPositionController
-    joint: synergy_joint
+    joint: soft_hand_synergy_joint
     pid: {p: 1.0, i: 0.1, d: 0.5}
