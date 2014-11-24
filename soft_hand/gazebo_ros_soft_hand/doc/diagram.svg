@@ -164,12 +164,12 @@
        height="54.847713"
        width="227.22624" />
     <rect
-       style="fill:#808000;fill-opacity:1;stroke:#ffffff;stroke-width:0.99810636;stroke-opacity:1"
+       style="fill:#808000;fill-opacity:1;stroke:#ffffff;stroke-width:1.05934787;stroke-opacity:1"
        id="rect3837"
-       width="530.83868"
-       height="454.28763"
-       x="260.76065"
-       y="411.60196" />
+       width="530.77747"
+       height="511.80508"
+       x="260.79126"
+       y="411.63257" />
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
@@ -223,17 +223,17 @@
          style="font-size:20px"
          y="987.57007"
          x="20.285713"
-         sodipodi:role="line">O adaptive synergy mapping:</tspan><tspan
+         sodipodi:role="line">O available propagations:</tspan><tspan
          style="font-size:20px"
          y="1012.5701"
          x="20.285713"
          sodipodi:role="line"
-         id="tspan3028">     * actuator -&gt; joint (position, velocity, effort)</tspan><tspan
+         id="tspan3028">     * actuator -&gt; joint (position, effort)</tspan><tspan
          style="font-size:20px"
          y="1037.5701"
          x="20.285713"
          sodipodi:role="line"
-         id="tspan3032">     * joint -&gt; actuator (position, velocity, effort)</tspan><tspan
+         id="tspan3032">     * joint -&gt; actuator (position, effort)</tspan><tspan
          style="font-size:20px"
          y="1062.5701"
          x="20.285713"
@@ -254,15 +254,10 @@
          sodipodi:role="line"
          x="20.285713"
          y="806.42725"
-         style="font-size:20px">O set command through</tspan><tspan
+         style="font-size:20px">O set command</tspan><tspan
          sodipodi:role="line"
          x="20.285713"
          y="831.42725"
-         style="font-size:20px"
-         id="tspan3176">effort_controllers/joint_position_controller</tspan><tspan
-         sodipodi:role="line"
-         x="20.285713"
-         y="856.42725"
          style="font-size:20px"
          id="tspan5321">   (position -&gt; effort)</tspan></text>
     <text
@@ -285,7 +280,7 @@
          y="586.77454"
          x="809.04102"
          sodipodi:role="line"
-         id="tspan3071">O 14 mimic joints</tspan><tspan
+         id="tspan3071">O 14 (mimic) joints</tspan><tspan
          style="font-size:20px"
          y="611.77454"
          x="809.04102"
@@ -306,7 +301,7 @@
          y="806.42725"
          x="810.16406"
          sodipodi:role="line"
-         id="tspan3083">O read_sim</tspan><tspan
+         id="tspan3083">O readSim</tspan><tspan
          style="font-size:20px"
          y="831.42725"
          x="810.16406"
@@ -321,7 +316,7 @@
          y="881.42725"
          x="810.16406"
          sodipodi:role="line"
-         id="tspan3089">O write_sim</tspan><tspan
+         id="tspan3089">O writeSim</tspan><tspan
          style="font-size:20px"
          y="906.42725"
          x="810.16406"
@@ -335,102 +330,136 @@
     <text
        sodipodi:linespacing="125%"
        id="text3135"
-       y="516.98645"
+       y="494.98645"
        x="325.56192"
        style="font-size:20px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
-         y="516.98645"
+         y="494.98645"
          x="325.56192"
          id="tspan3137"
          sodipodi:role="line"
-         style="font-size:40px">init</tspan><tspan
-         y="547.05145"
+         style="font-size:40px">initSim</tspan><tspan
+         y="525.05145"
          x="325.56192"
          sodipodi:role="line"
          id="tspan5397"
-         style="font-size:20px">robot_init_parameters</tspan><tspan
-         y="572.05145"
+         style="font-size:20px"> load kinematics</tspan><tspan
+         y="550.05145"
          x="325.56192"
          sodipodi:role="line"
          style="font-size:20px"
-         id="tspan5403">adaptive_transmission_init_parameters</tspan><tspan
-         y="597.05145"
+         id="tspan5403"> load adaptive transmission</tspan><tspan
+         y="575.05145"
+         x="325.56192"
+         sodipodi:role="line"
+         style="font-size:20px"
+         id="tspan3065"> contact  topic subscription</tspan><tspan
+         y="600.05145"
+         x="325.56192"
+         sodipodi:role="line"
+         style="font-size:20px"
+         id="tspan3070"> register interfaces</tspan><tspan
+         y="625.05145"
          x="325.56192"
          sodipodi:role="line"
          style="font-size:20px"
          id="tspan5401" /><tspan
-         y="622.05145"
+         y="650.05145"
          x="325.56192"
          sodipodi:role="line"
          style="font-size:20px"
          id="tspan5399" /><tspan
          style="font-size:20px"
-         y="647.05145"
+         y="675.05145"
          x="325.56192"
          sodipodi:role="line"
          id="tspan3139" /></text>
     <path
        style="fill:#ffffff;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)"
-       d="m 146.49242,523.88999 171.72595,18.18274"
+       d="m 146.49242,523.88999 169.70564,-6.06092"
        id="path3141"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
-    <path
-       sodipodi:nodetypes="cc"
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)"
-       d="M 124.24876,813.68194 320.21837,759.1337"
-       id="path5319"
-       inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
        x="329.33145"
-       y="656.96118"
+       y="644.96118"
        id="text5345"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5347"
          x="329.33145"
-         y="656.96118">update</tspan><tspan
+         y="644.96118">update</tspan><tspan
          id="tspan5357"
          sodipodi:role="line"
          x="329.33145"
-         y="687.02618"
-         style="font-size:20px">joint_effort_command = </tspan><tspan
+         y="675.02618"
+         style="font-size:20px"> joint_effort_contact = </tspan><tspan
          sodipodi:role="line"
          x="329.33145"
-         y="712.02618"
+         y="700.02618"
          style="font-size:20px"
-         id="tspan5393">adaptive_transmission( actuatorToJointEffort )</tspan><tspan
+         id="tspan3117">      updateKineStatics(joint_position,</tspan><tspan
          sodipodi:role="line"
          x="329.33145"
-         y="737.02618"
+         y="725.02618"
+         style="font-size:20px"
+         id="tspan3119">                                    contact_wrenches)</tspan><tspan
+         sodipodi:role="line"
+         x="329.33145"
+         y="750.02618"
+         style="font-size:20px"
+         id="tspan3088" /><tspan
+         sodipodi:role="line"
+         x="329.33145"
+         y="775.02618"
+         style="font-size:20px"
+         id="tspan3086"> synergy_effort_ = </tspan><tspan
+         sodipodi:role="line"
+         x="329.33145"
+         y="800.02618"
+         style="font-size:20px"
+         id="tspan5393">      jnt_to_act_effort(synergy_position, </tspan><tspan
+         sodipodi:role="line"
+         x="329.33145"
+         y="825.02618"
+         style="font-size:20px"
+         id="tspan3072">                                 joint_effort_contact)</tspan><tspan
+         sodipodi:role="line"
+         x="329.33145"
+         y="850.02618"
          style="font-size:20px"
          id="tspan3058" /><tspan
          sodipodi:role="line"
          x="329.33145"
-         y="762.02618"
+         y="875.02618"
          style="font-size:20px"
-         id="tspan3060">joint_position_command = </tspan><tspan
+         id="tspan3060"> jnt_effort_cmd = </tspan><tspan
          sodipodi:role="line"
          x="329.33145"
-         y="787.02618"
+         y="900.02618"
          style="font-size:20px"
-         id="tspan3062">adaptive_transmission( actuatorToJointPosition )</tspan><tspan
+         id="tspan3062">      act_to_jnt_effrt(synergy_effort,</tspan><tspan
+         sodipodi:role="line"
+         x="329.33145"
+         y="925.02618"
+         style="font-size:20px"
+         id="tspan3079">                               joint_position)</tspan><tspan
          id="tspan5359"
          sodipodi:role="line"
          x="329.33145"
-         y="812.02618"
+         y="950.02618"
          style="font-size:20px" /></text>
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path5389"
-       d="M 818.24386,801.56011 751.5738,735.90019"
+       d="M 803.09157,796.50935 C 749.89021,772.60241 818.9173,697.17768 714.19816,696.50424"
        style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)" />
     <path
        style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)"
-       d="M 311.14728,772.26568 C 269.49009,832.59836 297.7144,928.19618 812.18295,874.2911"
+       d="m 324.27927,869.24032 c -66.91102,-49.77395 206.78037,-17.8157 476.792,5.05077"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
        id="path5391" />
@@ -438,7 +467,7 @@
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path5411"
-       d="M 146.49242,523.88999 313.1676,565.30624"
+       d="m 146.49242,523.88999 170.71579,21.2132"
        style="fill:#ffffff;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)" />
     <path
        sodipodi:nodetypes="csc"
@@ -446,12 +475,6 @@
        id="path5413"
        d="M 67.700518,497.62602 C 63.341305,367.26282 337.18486,388.99329 525.46659,386.64508 743.0229,383.93176 843.90579,370.64213 845.51799,487.5245"
        style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path3064"
-       d="m 190.91883,816.7124 132.33,-102.02541"
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)"
-       sodipodi:nodetypes="cc" />
     <text
        sodipodi:linespacing="125%"
        id="text3066"
@@ -459,8 +482,12 @@
        xml:space="preserve"
        transform="translate(0,-6)"><textPath
          xlink:href="#path5391"
-         id="textPath3168"><tspan
-           style="font-size:20px"
-           id="tspan3078">                      position pid control, write effort</tspan></textPath></text>
+         id="textPath3168"> </textPath></text>
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)"
+       d="m 191.94928,799.53981 c 115.49411,0.33672 177.45014,35.01862 327.28944,9.09136"
+       id="path3121"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>
