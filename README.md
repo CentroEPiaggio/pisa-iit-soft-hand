@@ -20,7 +20,7 @@ Refer to CMakeLists.txt files and compilation errors if you are missing one.
 Typically, all related package with ros_control, controllers, simulation gazebo4, and so on. Simulations tested with Gazebo4.
 
 And you need the forked version of ros_control where the adaptive synergy transmission is implemented:
-`git clone  https://github.com/CentroEPiaggio/ros_control`
+`git clone  https://github.com/CentroEPiaggio/ros_control.git`
 
 1. Adaptive model
 -----------------
@@ -42,7 +42,7 @@ Close the hand with:
 You can also modify the `gazebo_adaptive_actuation.launch` at will, for instance, by setting use_mimic_joint to true, you load a different hardware interface for simulation where the synergy works in pure kinematic control.
 
 
-###Push the finger
+###Push the finger (Not implemented)
 
 Test the adaptive synergy transmission by applying a wrench to the middle fingertip (you must choose start_time and duration according to the ROS time clock)
 
