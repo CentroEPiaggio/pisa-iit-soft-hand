@@ -5,7 +5,7 @@ This repository contains the model of the Pisa/IIT hand as described in:
 
 * M. G. Catalano, Grioli, G., Farnioli, E., Serio, A., Piazza, C., and Bicchi, A., “Adaptive Synergies for the Design and Control of the Pisa/IIT SoftHand”, International Journal of Robotics Research, vol. 33, no. 5, pp. 768–782, 2014
 
-[Free version of the paper](http://www.centropiaggio.unipi.it/sites/default/files/PisaIIT_SoftHand_0.pdf)
+[Free version of the paper](http://www.centropiaggio.unipi.it/sites/default/files/PisaIIT_SoftHand_0.pdf) and
 [IJRR version (access required)](http://ijr.sagepub.com/content/33/5/768.abstract)
 
 CAD model freely available through the [Natural Machine Motion Initiative][http://www.naturalmachinemotioninitiative.com/#!softhand/c24r2]
