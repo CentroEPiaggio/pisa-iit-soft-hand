@@ -1,29 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-	<!-- configure how all bodies will behave in gazebo (particular behavior can be set at each link as well) -->
-	<xacro:property name="gazebo_body_elements">
-		<!-- material>Gazebo/FlatBlack</material -->
-		<gravity>true</gravity>
-		<mu1>0.2</mu1>
-    	<mu2>0.2</mu2>
-    	<!-- selfCollide>True</selfCollide -->
-		<!--
-		<dampingFactor> </dampingFactor>
-		<maxVel> </maxVel>
-		<minDepth> </minDepth>
-		<mu1> </mu1>
-		<mu2> </mu2>
-		<fdir1> </fdir1>
-		<kp> 100000.0 </kp>
-		<kd> 1.0 </kd>
-		<selfCollide> </selfCollide>
-		<maxContacts> </maxContacts>
-		<laserRetro> </laserRetro>
-		-->
-		<!-- sensors plugins -->
-	</xacro:property>
-
 	<!-- configure how all joints will behave in gazebo (particular behavior can be set at each joint as well) -->
 	<xacro:property name="gazebo_joint_elements">
 		<provideFeedback>True</provideFeedback>
@@ -32,7 +9,6 @@
 		<kd> 1.0 </kd>
 		<stopCfm> </stopCfm>
 		<stopErp> </stopErp>
-		
 		<cfmDamping> </cfmDamping>
 		<fudgeFactor> </fudgeFactor>
 		-->
@@ -68,83 +44,503 @@
 
 		<!-- LINKS -->
 		<gazebo reference="${name}_palm_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_palm_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_palm_link_collision</collision>
+					<topic>${name}_palm_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_palm_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_palm_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_palm_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_knuckle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_thumb_knuckle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_thumb_knuckle_link_collision</collision>
+					<topic>${name}_thumb_knuckle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_thumb_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_thumb_knuckle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_thumb_knuckle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_proximal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_thumb_proximal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_thumb_proximal_link_collision</collision>
+					<topic>${name}_thumb_proximal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_thumb_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_thumb_proximal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_thumb_proximal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_distal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_thumb_distal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_thumb_distal_link_collision</collision>
+					<topic>${name}_thumb_distal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_thumb_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_thumb_distal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_thumb_distal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_index_knuckle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_index_knuckle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_index_knuckle_link_collision</collision>
+					<topic>${name}_index_knuckle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_index_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_index_knuckle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_index_knuckle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_index_proximal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_index_proximal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_index_proximal_link_collision</collision>
+					<topic>${name}_index_proximal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_index_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_index_proximal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_index_proximal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_index_middle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_index_middle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_index_middle_link_collision</collision>
+					<topic>${name}_index_middle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_index_middle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_index_middle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_index_middle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_index_distal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_index_distal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_index_distal_link_collision</collision>
+					<topic>${name}_index_distal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_index_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_index_distal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_index_distal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_knuckle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_middle_knuckle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_middle_knuckle_link_collision</collision>
+					<topic>${name}_middle_knuckle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_middle_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_middle_knuckle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_middle_knuckle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_proximal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_middle_proximal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_middle_proximal_link_collision</collision>
+					<topic>${name}_middle_proximal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_middle_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_middle_proximal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_middle_proximal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_middle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_middle_middle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_middle_middle_link_collision</collision>
+					<topic>${name}_middle_middle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_middle_middle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_middle_middle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_middle_middle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_distal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_middle_distal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_middle_distal_link_collision</collision>
+					<topic>${name}_middle_distal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_middle_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_middle_distal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_middle_distal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_knuckle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_ring_knuckle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_ring_knuckle_link_collision</collision>
+					<topic>${name}_ring_knuckle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_ring_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_ring_knuckle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_ring_knuckle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_proximal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_ring_proximal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_ring_proximal_link_collision</collision>
+					<topic>${name}_ring_proximal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_ring_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_ring_proximal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_ring_proximal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_middle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_ring_middle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_ring_middle_link_collision</collision>
+					<topic>${name}_ring_middle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_ring_middle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_ring_middle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_ring_middle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_distal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_ring_distal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_ring_distal_link_collision</collision>
+					<topic>${name}_ring_distal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_ring_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_ring_distal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_ring_distal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_little_knuckle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_little_knuckle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_little_knuckle_link_collision</collision>
+					<topic>${name}_little_knuckle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_little_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_little_knuckle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_little_knuckle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_little_proximal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_little_proximal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_little_proximal_link_collision</collision>
+					<topic>${name}_little_proximal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_little_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_little_proximal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_little_proximal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_little_middle_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_little_middle_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_little_middle_link_collision</collision>
+					<topic>${name}_little_middle_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_little_middle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_little_middle_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_little_middle_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_little_distal_link">
-			<xacro:insert_block name="gazebo_body_elements"/>
+			<sensor type="contact" name="${name}_little_distal_link_contact">
+				<!-- the gazebo contact sensor -->
+				<always_on>1</always_on>
+				<update_rate>1000.0</update_rate>
+				<contact>
+					<collision>${name}_little_distal_link_collision</collision>
+					<topic>${name}_little_distal_link_collision</topic>
+				</contact>
+				<!-- to publish a ros message with contact information -->
+				<plugin name="${name}_little_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
+					<alwaysOn>true</alwaysOn>
+					<frameName>${name}_little_distal_link</frameName>
+					<updateRate>100.0</updateRate>
+					<bumperTopicName>contacts/${name}_little_distal_link</bumperTopicName>
+				</plugin>
+			</sensor>
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
 		</gazebo>
 
 		<!-- JOINTS -->

@@ -8,7 +8,6 @@
   <license>BSD</license>
 
   <author>Carlos Rosales</author>
-  <author>Marco Bartolomei</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -20,7 +19,11 @@
   <build_depend>transmission_interface</build_depend> 
   <build_depend>joint_limits_interface</build_depend>
   <build_depend>urdf</build_depend>
-  
+  <build_depend>orocos_kdl</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>kdl_conversions</build_depend>
+  <build_depend>cmake_modules</build_depend>
+
   <run_depend>roscpp</run_depend> 
   <run_depend>gazebo_ros</run_depend> 
   <run_depend>control_toolbox</run_depend> 
@@ -28,6 +31,8 @@
   <run_depend>pluginlib</run_depend> 
   <run_depend>transmission_interface</run_depend> 
   <run_depend>urdf</run_depend>
+  <run_depend>orocos_kdl</run_depend>
+  <run_depend>geometry_msgs</run_depend>
 
   <export>
     <gazebo_ros_soft_hand plugin="${prefix}/soft_hand_hw_sim_plugins.xml"/>

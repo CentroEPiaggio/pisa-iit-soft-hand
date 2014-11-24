@@ -2,12 +2,4 @@
 
 `default_soft_hand_hw_sim.h` implements how the hand moves by default. Other behaviors can be implemented deriving from the abstract class `soft_hand_hw_sim.h`.
 
-Using the plugin:
-
-```
-<gazebo>
-	<plugin name="gazebo_ros_soft_hand" filename="libgazebo_ros_soft_hand.so">
-		<robotNamespace>soft_hand</robotNamespace>
-	</plugin>
-</gazebo>
-```
+See the [diagram](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/blob/master/soft_hand/gazebo_ros_soft_hand/doc/diagram.pdf)

@@ -39,7 +39,7 @@
    Desc:   Hardware Interface for any simulated robot in Gazebo
 
    Author: Carlos Rosales
-   Desc: Not any simulated robot! This is the soft hand hardware interface for simulation
+   Desc: Not any simulated robot, this is the soft hand hardware interface for simulation
 */
 
 

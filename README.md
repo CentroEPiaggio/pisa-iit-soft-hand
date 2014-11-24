@@ -20,7 +20,7 @@ Refer to CMakeLists.txt files and compilation errors if you are missing one.
 Typically, all related package with ros_control, controllers, simulation gazebo4, and so on. Simulations tested with Gazebo4.
 
 And you need the forked version of ros_control where the adaptive synergy transmission is implemented:
-`git clone  https://github.com/CentroEPiaggio/ros_control.git`
+`git clone  https://github.com/CentroEPiaggio/ros_control`
 
 1. Adaptive model
 -----------------
@@ -39,7 +39,24 @@ Close the hand with:
 
 `rostopic pub /soft_hand/hand_synergy_joint_position_controller/command std_msgs/Float64 "data: 1.0" &`
 
-You can also modify the `gazebo_adaptive_actuation.launch` at will, for instance, by selectin mimic_joint, you load a different hardware interface for simulation where the synergy works un pure kinematic control.
+You can also modify the `gazebo_adaptive_actuation.launch` at will, for instance, by setting use_mimic_joint to true, you load a different hardware interface for simulation where the synergy works in pure kinematic control.
+
+
+###Push the finger
+
+Test the adaptive synergy transmission by applying a wrench to the middle fingertip (you must choose start_time and duration according to the ROS time clock)
+
+```
+rosservice call /gazebo/apply_body_wrench "body_name: 'soft_hand::soft_hand_middle_distal_link'
+wrench:
+  force: {x: 0.0, y: 0.0, z: 10.0}
+  torque: {x: 0.0, y: 0.0, z: 0.0}
+duration: {secs: -1, nsecs: 0}"
+```
+
+And clear the wrench in case you want to continue working normally
+
+`rosservice call /gazebo/clear_body_wrenches "body_name: 'soft_hand::soft_hand_middle_distal_link'"`
 
 2. Fully actuated model
 -----------------------
