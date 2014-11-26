@@ -61,163 +61,172 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        hand_index_distal_link:
+        box:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_index_fake_link1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_index_fake_link2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_index_fake_link3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_index_knuckle_link:
+        object:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_index_middle_link:
+        soft_hand_index_distal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_index_proximal_link:
+        soft_hand_index_fake_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_index_fake_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_index_fake_link3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_index_knuckle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_little_distal_link:
+        soft_hand_index_middle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_little_fake_link1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_little_fake_link2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_little_fake_link3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_little_knuckle_link:
+        soft_hand_index_proximal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_little_middle_link:
+        soft_hand_invisible_wire_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_little_distal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_little_proximal_link:
+        soft_hand_little_fake_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_little_fake_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_little_fake_link3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_little_knuckle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_middle_distal_link:
+        soft_hand_little_middle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_middle_fake_link1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_middle_fake_link2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_middle_fake_link3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_middle_knuckle_link:
+        soft_hand_little_proximal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_middle_middle_link:
+        soft_hand_middle_distal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_middle_proximal_link:
+        soft_hand_middle_fake_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_middle_fake_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_middle_fake_link3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_middle_knuckle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_palm_link:
+        soft_hand_middle_middle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_ring_distal_link:
+        soft_hand_middle_proximal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_ring_fake_link1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_ring_fake_link2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_ring_fake_link3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_ring_knuckle_link:
+        soft_hand_palm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_ring_middle_link:
+        soft_hand_ring_distal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_ring_proximal_link:
+        soft_hand_ring_fake_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_ring_fake_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_ring_fake_link3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_ring_knuckle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_thumb_distal_link:
+        soft_hand_ring_middle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_thumb_fake_link1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_thumb_fake_link3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hand_thumb_knuckle_link:
+        soft_hand_ring_proximal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hand_thumb_proximal_link:
+        soft_hand_thumb_distal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wrist:
+        soft_hand_thumb_fake_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_thumb_fake_link3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        soft_hand_thumb_knuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        soft_hand_thumb_proximal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -245,7 +254,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: wrist
+    Fixed Frame: box
     Frame Rate: 30
   Name: root
   Tools:
@@ -266,22 +275,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.809156
+      Distance: 0.183769
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0184827
-        Y: -0.213831
-        Z: 1.05418
+        X: -0.162843
+        Y: -0.170029
+        Z: 1.16693
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.227636
+      Pitch: 0.302636
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.56991
+      Yaw: 3.91309
     Saved: ~
 Window Geometry:
   Displays:

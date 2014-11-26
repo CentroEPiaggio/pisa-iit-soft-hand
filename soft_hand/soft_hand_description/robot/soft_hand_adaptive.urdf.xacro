@@ -3,7 +3,7 @@
 
 	<xacro:include filename="$(find soft_hand_description)/model/soft_hand.urdf.xacro"/>
 
-	<link name="wrist">
+	<link name="box">
 		<inertial>
 			<mass value="50.0"/>
 			<inertia  ixx="1" ixy="0.00"  ixz="0.00" iyy="1" iyz="0.00" izz="1" />
@@ -22,36 +22,34 @@
 		</collision>
 	</link>
 
-	<!-- comment or uncomment depending if you want to simulate a fixed or a flying hand -->
-	<gazebo reference="wrist">
+	<gazebo reference="box">
 		<static>true</static>
 	</gazebo>
 
-	<xacro:soft_hand parent="wrist" name="soft_hand" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)">
-		<origin xyz="0 0 1" rpy="1.570796 0 0"/>
+	<xacro:soft_hand parent="box" name="soft_hand" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)" left="false">
+		<origin xyz="0.0 0.0 1.02" rpy="0 0 0"/>
 	</xacro:soft_hand>
 
-	<!-- a wall to test the adaptivity -->
-	<joint name="wrist_object_joint" type="fixed">
-		<origin xyz="0 0.06 1.15" rpy="0 0 0" />
-		<parent link="wrist"/>
+	<!-- a wall to test the adaptivity 
+	<joint name="box_object_joint" type="fixed">
+		<origin xyz="0.06 0 1.15" rpy="0 0 0" />
+		<parent link="box"/>
 		<child link="object"/>
 	</joint>
 
 	<link name="object">
 		<inertial>
-			<insert_block name="negligible_inertia"/>
+			<mass value="50.0"/>
+			<inertia  ixx="1" ixy="0.00"  ixz="0.00" iyy="1" iyz="0.00" izz="1" />
 		</inertial>
 		<visual>
-			<origin xyz="0 0 0" rpy="0 0 0"/>
 			<geometry>
-				<box size="0.07 0.05 0.25"/>
+				<box size="0.05 0.07 0.25"/>
 			</geometry>
 		</visual>
 		<collision>
-			<origin xyz="0 0 0" rpy="0 0 0"/>
 			<geometry>
-				<box size="0.07 0.05 0.25"/>
+				<box size="0.05 0.07 0.25"/>
 			</geometry>
 		</collision>
 	</link>
@@ -59,5 +57,6 @@
 	<gazebo reference="object">
 		<selfCollide>True</selfCollide>
 	</gazebo>
+	-->
 
 </robot>

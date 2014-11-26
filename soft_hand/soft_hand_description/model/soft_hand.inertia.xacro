@@ -23,138 +23,139 @@
     </xacro:property>
 
 <!-- MESHLAB RESULT 
-Opened mesh knuckle.stl in 69 msec
-All files opened in 1632 msec
-Mesh Bounding Box Size 34.237190 14.000000 24.628571
-Mesh Bounding Box Diag 44.438179 
-Mesh Volume is 3977.586182
-Mesh Surface is 6276.664062
-Thin shell barycenter -0.916360 0.000922 1.028573
-Center of Mass is -1.079081 0.000337 0.753063
+Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/knuckle.stl in 9 msec
+All files opened in 1398 msec
+Enabled Decorate mode Show Axis
+Mesh Bounding Box Size 34.382004 14.000006 24.628571
+Mesh Bounding Box Diag 44.549847 
+Mesh Volume is 3450.446777
+Mesh Surface is 4583.448730
+Thin shell barycenter 1.201245 0.001308 0.586193
+Center of Mass is 1.285644 -0.000958 0.425011
 Inertia Tensor is :
-| 172479.187500 -6.220451 -16370.953125 |
-| -6.220451 357108.218750 -0.635058 |
-| -16370.953125 -0.635058 287765.937500 |
+| 160373.578125 -18.966606 13918.184570 |
+| -18.966606 311858.187500 59.538574 |
+| 13918.184570 59.538574 249686.000000 |
 Principal axes are :
-| 0.990444 -0.000034 -0.137918 |
-| 0.000033 1.000000 -0.000003 |
-| 0.137918 -0.000001 0.990444 |
+| 0.988611 -0.000038 0.150492 |
+| 0.000180 1.000000 -0.000933 |
+| -0.150492 0.000949 0.988611 |
 axis momenta are :
-| 170199.562500 357108.218750 290045.562500 |
+| 158254.859375 311858.250000 251804.656250 |
 -->
     <xacro:property name="knuckle_mass" value="${9*gr_to_Kg}"/>
     <xacro:property name="knuckle_inertia">
-        <origin xyz="${-1.079081*mm_to_m} ${0.000337*mm_to_m} ${0.753063*mm_to_m}"/>
+        <origin xyz="${1.285644*mm_to_m} ${-0.000958*mm_to_m} ${0.425011*mm_to_m}"/>
         <mass value="${knuckle_mass}"/>
         <inertia ixx="${knuckle_mass * 45 * mm2_to_m2}" ixy="0.0" ixz="${knuckle_mass * 5 * mm2_to_m2}" iyy="${knuckle_mass * 90 * mm2_to_m2}" iyz="0.0" izz="${knuckle_mass * 70 * mm2_to_m2}"/>
     </xacro:property>
 
 <!-- MESHLAB RESULT 
-Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/thumb_knuckle.stl in 33 msec
-All files opened in 1285 msec
-Mesh Bounding Box Size 37.244030 21.967697 19.374882
-Mesh Bounding Box Diag 47.382313 
-Mesh Volume is 4018.971680
-Mesh Surface is 6237.625488
-Thin shell barycenter -13.401266 0.384179 -2.923481
-Center of Mass is -12.920005 0.086090 -2.952951
+Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/thumb_knuckle.stl in 6 msec
+All files opened in 1493 msec
+Enabled Decorate mode Show Axis
+Mesh Bounding Box Size 38.298431 21.449932 21.967697
+Mesh Bounding Box Diag 49.086140 
+Mesh Volume is 3444.315186
+Mesh Surface is 4292.456543
+Thin shell barycenter 14.662230 -0.440256 0.060471
+Center of Mass is 13.608098 -0.532174 -0.216691
 Inertia Tensor is :
-| 139223.968750 11012.299805 -26258.990234 |
-| 11012.299805 393254.875000 8340.372070 |
-| -26258.990234 8340.372070 406121.718750 |
+| 121779.453125 -25104.320312 -7351.798340 |
+| -25104.320312 336414.968750 4401.581055 |
+| -7351.798340 4401.581055 333794.062500 |
 Principal axes are :
-| 0.994124 0.079107 -0.073887 |
-| -0.045758 0.925711 0.375454 |
-| 0.098099 -0.369867 0.923891 |
+| 0.992996 -0.113512 0.032781 |
+| 0.113844 0.845023 -0.522470 |
+| 0.031606 0.522542 0.852027 |
 axis momenta are :
-| 136125.875000 390863.562500 411611.125000 |
+| 118667.312500 342509.062500 330812.125000 |
 -->
     <xacro:property name="thumb_knuckle_mass" value="${9*gr_to_Kg}"/>
     <xacro:property name="thumb_knuckle_inertia">
-        <origin xyz="${-12.920005*mm_to_m} ${0.086090*mm_to_m} ${-2.952951*mm_to_m}"/>
+        <origin xyz="${13.608098*mm_to_m} ${-0.532174*mm_to_m} ${-0.216691*mm_to_m}"/>
         <mass value="${thumb_knuckle_mass}"/>
         <inertia ixx="${thumb_knuckle_mass * 35 * mm2_to_m2}" ixy="${thumb_knuckle_mass * 3 * mm2_to_m2}" ixz="${thumb_knuckle_mass * -6 * mm2_to_m2}" iyy="${thumb_knuckle_mass * 100 * mm2_to_m2}" iyz="${thumb_knuckle_mass * 2 * mm2_to_m2}" izz="${thumb_knuckle_mass * 100 * mm2_to_m2}"/>
     </xacro:property>
 
 <!-- MESHLAB RESULT 
-Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/phalanx.stl in 15 msec
-All files opened in 5296 msec
-Mesh Bounding Box Size 25.074703 14.000000 19.203310
-Mesh Bounding Box Diag 34.547184 
-Mesh Volume is 2527.398682
-Mesh Surface is 4282.738770
-Thin shell barycenter -4.782971 0.001171 0.771010
-Center of Mass is -4.960685 0.000243 0.383254
+Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/phalanx.stl in 8 msec
+All files opened in 1240 msec
+Mesh Bounding Box Size 25.158094 14.000006 18.515181
+Mesh Bounding Box Diag 34.230713 
+Mesh Volume is 2003.388916
+Mesh Surface is 2495.472412
+Thin shell barycenter 5.001481 0.001261 0.002639
+Center of Mass is 5.074337 -0.004524 -0.262953
 Inertia Tensor is :
-| 91677.093750 -4.200803 5307.292480 |
-| -4.200803 140748.296875 -0.069856 |
-| 5307.292480 -0.069856 133253.640625 |
+| 79493.273438 -2.796152 -5974.423340 |
+| -2.796152 121398.460938 16.481358 |
+| -5974.423340 16.481358 122965.343750 |
 Principal axes are :
-| 0.992200 -0.000094 0.124656 |
-| 0.000084 1.000000 0.000087 |
-| -0.124656 -0.000076 0.992200 |
+| 0.991019 0.000928 -0.133714 |
+| 0.000013 0.999975 0.007040 |
+| 0.133718 -0.006979 0.990995 |
 axis momenta are :
-| 91010.304688 140748.296875 133920.421875 |
+| 78687.148438 121398.343750 123771.585938 |
 -->
     <xacro:property name="phalanx_mass" value="${5*gr_to_Kg}"/>
     <xacro:property name="phalanx_inertia">
-        <origin xyz="${-4.960685*mm_to_m} ${0.000243*mm_to_m} ${0.383254*mm_to_m}"/>
+        <origin xyz="${5.074337*mm_to_m} ${-0.004524*mm_to_m} ${-0.262953*mm_to_m}"/>
         <mass value="${phalanx_mass}"/>
         <inertia ixx="${phalanx_mass * 35 * mm2_to_m2}" ixy="0.0" ixz="${phalanx_mass * 2 * mm2_to_m2}" iyy="${phalanx_mass * 55 * mm2_to_m2}" iyz="0.0" izz="${phalanx_mass * 55 * mm2_to_m2}"/>
     </xacro:property>
 
 <!-- MESHLAB RESULT 
-Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/fingertip.stl in 82 msec
-All files opened in 3016 msec
-Mesh Bounding Box Size 32.374172 14.000000 19.227772
-Mesh Bounding Box Diag 40.172058 
-Mesh Volume is 4161.331055
-Mesh Surface is 5938.988770
-Thin shell barycenter -3.455730 0.000099 1.169912
-Center of Mass is -5.103504 -0.002699 1.327406
+Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/fingertip.stl in 7 msec
+All files opened in 1241 msec
+Mesh Bounding Box Size 32.299561 14.000006 19.228573
+Mesh Bounding Box Diag 40.112339 
+Mesh Volume is 3519.114502
+Mesh Surface is 4175.043945
+Thin shell barycenter 8.126755 0.000146 0.955067
+Center of Mass is 9.849094 0.000560 0.820286
 Inertia Tensor is :
-| 138290.968750 262.585175 8672.266602 |
-| 262.585175 335387.531250 -90.169434 |
-| 8672.266602 -90.169434 317194.593750 |
+| 133971.296875 -13.962580 -14369.020508 |
+| -13.962580 308096.281250 -12.146572 |
+| -14369.020508 -12.146572 287758.875000 |
 Principal axes are :
-| 0.998832 0.001138 0.048311 |
-| -0.001350 0.999990 0.004353 |
-| -0.048305 -0.004414 0.998823 |
+| 0.995737 -0.000033 -0.092238 |
+| 0.000086 1.000000 0.000569 |
+| 0.092238 -0.000574 0.995737 |
 axis momenta are :
-| 137871.203125 335388.218750 317613.656250 |
+| 132640.250000 308096.281250 289089.906250 |
 -->
     <xacro:property name="fingertip_mass" value="${10*gr_to_Kg}"/>
     <xacro:property name="fingertip_inertia">
-        <origin xyz="${-5.103504*mm_to_m} ${-0.002699*mm_to_m} ${1.327406*mm_to_m}"/>
+        <origin xyz="${9.849094*mm_to_m} ${0.000560*mm_to_m} ${0.820286*mm_to_m}"/>
         <mass value="${fingertip_mass}"/>
         <inertia ixx="${fingertip_mass * 35 * mm2_to_m2}" ixy="0.0" ixz="${fingertip_mass * 2 * mm2_to_m2}" iyy="${fingertip_mass * 80 * mm2_to_m2}" iyz="0.0" izz="${fingertip_mass * 76 * mm2_to_m2}"/>
     </xacro:property>
 
 <!-- MESHLAB RESULT 
-Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/palm.stl in 40 msec
-All files opened in 1150 msec
-Mesh Bounding Box Size 90.965683 117.891800 66.000000
-Mesh Bounding Box Diag 162.877975 
-Mesh Volume is 101846.578125
-Mesh Surface is 75418.046875
-Thin shell barycenter -0.867350 52.302502 2.996120
-Center of Mass is -1.674316 51.799427 2.533894
+Opened mesh /home/crosales/Code/catkin_ws/src/pisa-iit-soft-hand/soft_hand/soft_hand_description/meshes/palm_right.stl in 13 msec
+All files opened in 1178 msec
+Mesh Bounding Box Size 36.539444 91.129791 84.829025
+Mesh Bounding Box Diag 129.752579 
+Mesh Volume is 76748.765625
+Mesh Surface is 52111.375000
+Thin shell barycenter -5.584415 -7.926011 28.832655
+Center of Mass is -4.568758 -6.808116 27.653328
 Inertia Tensor is :
-| 86174528.000000 3524991.000000 -568985.375000 |
-| 3524991.000000 55811964.000000 -2272494.250000 |
-| -568985.375000 -2272494.250000 112441512.000000 |
+| 55001040.000000 -714369.625000 -867280.437500 |
+| -714369.625000 31722332.000000 -1570798.250000 |
+| -867280.437500 -1570798.250000 37379544.000000 |
 Principal axes are :
-| 0.993255 -0.112739 -0.027115 |
-| 0.111559 0.992883 -0.041686 |
-| 0.031622 0.038380 0.998763 |
+| 0.998540 0.038402 0.037998 |
+| -0.027432 0.966351 -0.255759 |
+| -0.046541 0.254343 0.965993 |
 axis momenta are :
-| 86552328.000000 55323868.000000 112551808.000000 |
-
+| 55061088.000000 31280510.000000 37761316.000000 |
 -->
     <xacro:property name="palm_mass" value="${228*gr_to_Kg}"/>
     <xacro:property name="palm_inertia">
-        <origin xyz="${-1.674316*mm_to_m} ${51.799427*mm_to_m} ${2.533894*mm_to_m}"/>
+        <origin xyz="${-4.568758*mm_to_m} ${-6.808116*mm_to_m} ${27.653328*mm_to_m}"/>
         <mass value="${palm_mass}"/>
-        <inertia ixx="${palm_mass * 850 * mm2_to_m2}" ixy="0.0" ixz="0.0" iyy="${palm_mass * 550 * mm2_to_m2}" iyz="0.0" izz="${palm_mass * 1000 * mm2_to_m2}"/>
+        <inertia ixx="${palm_mass * 715 * mm2_to_m2}" ixy="${palm_mass * 10 * mm2_to_m2}" ixz="${palm_mass * 10 * mm2_to_m2}" iyy="${palm_mass * 415 * mm2_to_m2}" iyz="${palm_mass * 20 * mm2_to_m2}" izz="${palm_mass * 485 * mm2_to_m2}"/>
     </xacro:property>
 </robot>
