@@ -140,17 +140,17 @@
     <xacro:if value="${withAdaptiveTransmission}">
 
       <!-- work in progress -->
-      <transmission name="synergy_trans">
+      <transmission name="${name}_synergy_trans">
           <type>transmission_interface/SimpleTransmission</type>
           <joint name="${name}_synergy_joint">
             <hardwareInterface>EffortJointInterface</hardwareInterface>
           </joint>
-          <actuator name="synergy_motor">
+          <actuator name="${name}_synergy_motor">
             <mechanicalReduction>1.0</mechanicalReduction>
           </actuator>
       </transmission>
 
-      <transmission name="${name}">
+      <transmission name="${name}_joint_trans">
         <type>transmission_interface/AdaptiveSynergyTransmission</type>
           <joint name="${name}_thumb_abd_joint">
             <role>joint1</role>

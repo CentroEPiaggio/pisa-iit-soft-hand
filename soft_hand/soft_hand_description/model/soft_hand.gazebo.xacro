@@ -21,7 +21,7 @@
 			<!-- work in progess -->
 			<gazebo>
 				<plugin name="gazebo_ros_soft_hand" filename="libgazebo_ros_soft_hand.so">
-					<robotNamespace>soft_hand</robotNamespace>
+					<robotNamespace>${name}</robotNamespace>
 					<!-- select which type of hardware simulation you want:
 					     - DefatulSoftHandHWSim: underactuated with adaptivity
 					     - KinematicCtrlSoftHandHWSim: underactuation with pure kinematic 
