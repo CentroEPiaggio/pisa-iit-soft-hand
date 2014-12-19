@@ -72,13 +72,17 @@ bool DefaultSoftHandHWSim::initSim(
 
   ROS_INFO("Default Soft Hand HW Sim Plugin initialization:");
 
-  // there should be only two transmissions
+  // IMPORTANT:
+  // there should be only two transmissions, the hand must be loaded in robot_namespace/robot_description
+  // for this to work, for now.
   // the one for the synergy joint, to be treated as in the default robot plugin
   transmission_interface::TransmissionInfo synergy_trans_info;
   // and the other one, whose control is not accessible from outside
   // instead it defines the state of the adaptive joints in 
   // the simulation through the adaptive transmission
   transmission_interface::TransmissionInfo adaptive_trans_info;
+
+  // std::cout << "transmissions.size() " << transmissions.size() << std::endl;
 
   // select which of the transmission is which.
   if( transmissions[0].type_ == "transmission_interface/SimpleTransmission" )

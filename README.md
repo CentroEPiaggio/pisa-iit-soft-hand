@@ -8,7 +8,7 @@ This repository contains the model of the Pisa/IIT hand as described in:
 [Free version of the paper](http://www.centropiaggio.unipi.it/sites/default/files/PisaIIT_SoftHand_0.pdf) and
 [IJRR version (access required)](http://ijr.sagepub.com/content/33/5/768.abstract)
 
-CAD model freely available through the [Natural Machine Motion Initiative][http://www.naturalmachinemotioninitiative.com/#!softhand/c24r2]
+CAD model freely available through the [Natural Machine Motion Initiative](http://www.naturalmachinemotioninitiative.com/#!softhand/c24r2) for old version, not the implemented here.
 
 Unless stated otherwise, all files within the repository are released under the BSD 3-Clause License, see the [LICENSE](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/blob/master/LICENSE) file for the details.
 
