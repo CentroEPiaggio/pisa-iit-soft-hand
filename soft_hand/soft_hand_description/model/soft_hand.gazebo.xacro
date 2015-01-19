@@ -57,10 +57,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_palm_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_palm_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_palm_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -82,10 +82,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_thumb_knuckle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_thumb_knuckle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_thumb_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -107,10 +107,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_thumb_proximal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_thumb_proximal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_thumb_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -132,10 +132,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_thumb_distal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_thumb_distal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_thumb_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -157,10 +157,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_index_knuckle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_index_knuckle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_index_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -182,10 +182,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_index_proximal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_index_proximal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_index_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -207,10 +207,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_index_middle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_index_middle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_index_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -232,10 +232,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_index_distal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_index_distal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_index_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -257,10 +257,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_middle_knuckle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_middle_knuckle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_middle_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -282,10 +282,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_middle_proximal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_middle_proximal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_middle_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -307,10 +307,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_middle_middle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_middle_middle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_middle_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -332,10 +332,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_middle_distal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_middle_distal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_middle_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -357,10 +357,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_ring_knuckle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_ring_knuckle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_ring_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -382,10 +382,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_ring_proximal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_ring_proximal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_ring_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -407,10 +407,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_ring_middle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_ring_middle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_ring_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -432,10 +432,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_ring_distal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_ring_distal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_ring_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -457,10 +457,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_little_knuckle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_little_knuckle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_little_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -482,10 +482,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_little_proximal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_little_proximal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_little_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -507,10 +507,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_little_middle_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_little_middle_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_little_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>
@@ -532,10 +532,10 @@
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_little_distal_link</frameName>
 					<updateRate>100.0</updateRate>
-					<bumperTopicName>contacts/${name}_little_distal_link</bumperTopicName>
+					<bumperTopicName>/contacts/${name}_little_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide -->
+			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
 			<mu1>500.0</mu1>
 			<mu2>500.0</mu2>

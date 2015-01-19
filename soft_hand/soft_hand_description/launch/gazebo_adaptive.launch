@@ -31,4 +31,8 @@
 
   <include file="$(find soft_hand_ros_control)/launch/soft_hand_adaptive.launch"/>
 
+  <!-- adding an object to test the adaptivity -->
+  <param name="object_description" command="$(find xacro)/xacro.py $(find soft_hand_description)/objects/object.urdf.xacro" />
+  <node name="spawn_object" pkg="gazebo_ros" type="spawn_model" args="-param object_description -urdf -model object -x 0.06 -y 0 -z 1.15 " respawn="false" output="screen"/>
+
 </launch>

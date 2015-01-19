@@ -9,6 +9,8 @@ Panels:
         - /Grid1
         - /RobotModel1
         - /TF1
+        - /RobotModel2
+        - /RobotModel2/Status1
       Splitter Ratio: 0.5
     Tree Height: 424
   - Class: rviz/Selection
@@ -62,11 +64,6 @@ Visualization Manager:
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
         box:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        object:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -251,6 +248,31 @@ Visualization Manager:
         {}
       Update Interval: 0
       Value: false
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        object:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Name: RobotModel
+      Robot Description: object_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

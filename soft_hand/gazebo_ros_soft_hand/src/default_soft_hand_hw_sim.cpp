@@ -58,7 +58,6 @@ double clamp(const double val, const double min_val, const double max_val)
 namespace gazebo_ros_soft_hand
 {
 
-
 bool DefaultSoftHandHWSim::initSim(
   const std::string& robot_namespace,
   ros::NodeHandle model_nh,
@@ -358,7 +357,7 @@ bool DefaultSoftHandHWSim::initSim(
     link_names_[j] = (link->GetName());
 
     // Subscribe to contact topics
-    sub_contacts_.push_back(model_nh.subscribe(model_nh.resolveName("/contacts/" + link->GetName()), 10, &DefaultSoftHandHWSim::getContacts, this));
+    sub_contacts_.push_back(model_nh.subscribe(model_nh.resolveName(std::string("/contacts/") + link->GetName()), 10, &DefaultSoftHandHWSim::getContacts, this));
 
     // create map for contact information
     link_applied_wrench_.insert( std::pair<std::string, KDL::Wrench>( std::string(link->GetName()), KDL::Wrench::Zero() ) );
@@ -739,7 +738,7 @@ void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
 
       case POSITION_PID:
         {
-          std::cout << "position command: " << joint_position_command_[j] << std::endl;
+          // std::cout << "position command: " << joint_position_command_[j] << std::endl;
           double error;
           angles::shortest_angular_distance_with_limits(joint_position_[j],
                                                         joint_position_command_[j],
@@ -753,7 +752,7 @@ void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
           const double effort = clamp(pid_controllers_[j].computeCommand(error, period),
                                       -effort_limit, effort_limit);
 
-          std::cout << "effort: " << effort << std::endl;
+          // std::cout << "effort: " << effort << std::endl;
 
           // remember that the first one is the synergy
           sim_joints_[j]->SetForce(0, effort);

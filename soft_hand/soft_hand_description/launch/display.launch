@@ -14,7 +14,7 @@
 		<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 	</group>
 
-	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"  />
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
 
 	<group if="$(arg use_rviz)">
 		<node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find soft_hand_description)/launch/my_rviz.rviz" output="screen"/>
