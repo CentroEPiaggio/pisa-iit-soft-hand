@@ -1,3 +1,6 @@
 [submodule "hand-tools/qbAPI"]
 	path = hand-tools/qbAPI
 	url = https://github.com/qbrobotics/qbAPI.git
+[submodule "hand-tools/handadmin/handadmin"]
+	path = hand-tools/handadmin/handadmin
+	url = https://github.com/qbrobotics/handadmin.git
