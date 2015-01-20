@@ -1,13 +1,16 @@
 <launch>
 
-  <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find soft_hand_ros_control)/config/soft_hand_adaptive.yaml" command="load"/>
+ 	<!-- Load joint controller configurations from YAML file to parameter server -->
+  	<rosparam file="$(find soft_hand_ros_control)/config/soft_hand_adaptive.yaml" command="load"/>
 
-  <!-- load position controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  	<rosparam file="$(find soft_hand_ros_control)/config/joint_names.yaml" command="load"/>
+
+  	<!-- load position controllers -->
+  	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen" ns="/soft_hand" args="
-    joint_state_controller 
-    hand_synergy_joint_position_controller"
-  />
+    joint_state_controller hand_synergy_joint_position_controller"/>
+
+    <!-- node ns="soft_hand" name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="joint_state_controller hand_synergy_joint_trajectory_controller" /-->
 
 </launch>

@@ -4,11 +4,23 @@ project(soft_hand_ros_control)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    control_toolbox
+    controller_interface
+    controller_manager
+    hardware_interface
+    realtime_tools
+    cmake_modules
+    joint_limits_interface
+    tf
+    urdf
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
+SET(HAND_TOOLS ../../hand-tools/qbAPI)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -88,24 +100,33 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(include
+  ${catkin_INCLUDE_DIRS}
+  ${HAND_TOOLS}/src
+)
 
 ## Declare a cpp library
-# add_library(soft_hand_ros_control
-#   src/${PROJECT_NAME}/soft_hand_ros_control.cpp
-# )
+add_library(qbmove SHARED
+	${HAND_TOOLS}/src/qbmovelibrary.cpp
+	${HAND_TOOLS}/src/qbmove_communications.cpp
+)
 
 ## Declare a cpp executable
-# add_executable(soft_hand_ros_control_node src/soft_hand_ros_control_node.cpp)
+add_executable(soft_hand_hw
+	src/soft_hand_hw.cpp
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(soft_hand_ros_control_node soft_hand_ros_control_generate_messages_cpp)
+add_dependencies(soft_hand_hw
+	qbmove
+)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(soft_hand_ros_control_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(soft_hand_hw
+	${catkin_LIBRARIES}
+	qbmove
+)
 
 #############
 ## Install ##
