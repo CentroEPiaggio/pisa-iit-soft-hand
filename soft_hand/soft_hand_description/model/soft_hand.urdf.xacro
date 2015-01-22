@@ -31,30 +31,31 @@
 	<xacro:property name="friction" value="0.0" />
 
 	<!-- synergy vector -->
-	<xacro:property name="thumb_abd_R" value="1.3" />
-	<xacro:property name="thumb_inner_R" value="1.3" />
-	<xacro:property name="thumb_outer_R" value="1.0" />
-	<xacro:property name="index_abd_R" value="-0.2" />
-	<xacro:property name="index_inner_R" value="1.0" />
-	<xacro:property name="index_middle_R" value="1.0" />
-	<xacro:property name="index_outer_R" value="1.0" />
-	<xacro:property name="middle_abd_R" value="0.0" />
-	<xacro:property name="middle_inner_R" value="1.0" />
-	<xacro:property name="middle_middle_R" value="1.0" />
-	<xacro:property name="middle_outer_R" value="1.0" />
-	<xacro:property name="ring_abd_R" value="0.2" />
-	<xacro:property name="ring_inner_R" value="1.0" />
-	<xacro:property name="ring_middle_R" value="1.0" />
-	<xacro:property name="ring_outer_R" value="1.0" />
-	<xacro:property name="little_abd_R" value="0.4" />
-	<xacro:property name="little_inner_R" value="1.0" />
-	<xacro:property name="little_middle_R" value="1.0" />
-	<xacro:property name="little_outer_R" value="1.0" />
+	<xacro:property name="syn_amp" value="0.00005555555" /> <!-- 1/18000 -->
+	<xacro:property name="thumb_abd_R" value="${1.3*syn_amp}" />
+	<xacro:property name="thumb_inner_R" value="${1.3*syn_amp}" />
+	<xacro:property name="thumb_outer_R" value="${1.0*syn_amp}" />
+	<xacro:property name="index_abd_R" value="-${0.2*syn_amp}" />
+	<xacro:property name="index_inner_R" value="${1.0*syn_amp}" />
+	<xacro:property name="index_middle_R" value="${1.0*syn_amp}" />
+	<xacro:property name="index_outer_R" value="${1.0*syn_amp}" />
+	<xacro:property name="middle_abd_R" value="${0.0*syn_amp}" />
+	<xacro:property name="middle_inner_R" value="${1.0*syn_amp}" />
+	<xacro:property name="middle_middle_R" value="${1.0*syn_amp}" />
+	<xacro:property name="middle_outer_R" value="${1.0*syn_amp}" />
+	<xacro:property name="ring_abd_R" value="${0.2*syn_amp}" />
+	<xacro:property name="ring_inner_R" value="${1.0*syn_amp}" />
+	<xacro:property name="ring_middle_R" value="${1.0*syn_amp}" />
+	<xacro:property name="ring_outer_R" value="${1.0*syn_amp}" />
+	<xacro:property name="little_abd_R" value="${0.4*syn_amp}" />
+	<xacro:property name="little_inner_R" value="${1.0*syn_amp}" />
+	<xacro:property name="little_middle_R" value="${1.0*syn_amp}" />
+	<xacro:property name="little_outer_R" value="${1.0*syn_amp}" />
 
 	<!-- synergy joint properties -->
-	<xacro:property name="synergy_lb" value="-5.0" />
-	<xacro:property name="synergy_ub" value="5.0" />
-	<xacro:property name="max_synergy_velocity" value="100" />
+	<xacro:property name="synergy_lb" value="0.0" />
+	<xacro:property name="synergy_ub" value="18000.0" />
+	<xacro:property name="max_synergy_velocity" value="10000" />
 	<xacro:property name="max_synergy_effort" value="100" />
 	<xacro:property name="synergy_damping" value="0.0" />
 	<xacro:property name="synergy_friction" value="0.0" />
@@ -88,7 +89,7 @@
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/knuckle.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/knuckle_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
@@ -136,7 +137,7 @@
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
@@ -183,7 +184,7 @@
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
@@ -230,7 +231,7 @@
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/fingertip.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/fingertip_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
@@ -267,7 +268,7 @@
 				</visual>
 				<collision>
 					<geometry>
-						<mesh filename="package://soft_hand_description/meshes/thumb_knuckle_left.stl" scale=" .001 .001 .001" />
+						<mesh filename="package://soft_hand_description/meshes/thumb_knuckle_left_collision.stl" scale=" .001 .001 .001" />
 					</geometry>
 				</collision>
 			</link>
@@ -311,7 +312,7 @@
 				</visual>
 				<collision>
 					<geometry>
-						<mesh filename="package://soft_hand_description/meshes/thumb_knuckle_right.stl" scale=" .001 .001 .001" />
+						<mesh filename="package://soft_hand_description/meshes/thumb_knuckle_right_collision.stl" scale=" .001 .001 .001" />
 					</geometry>
 				</collision>
 			</link>
@@ -360,7 +361,7 @@
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
@@ -407,7 +408,7 @@
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/fingertip.stl" scale=" .001 .001 .001" />
+					<mesh filename="package://soft_hand_description/meshes/fingertip_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
@@ -450,7 +451,7 @@
 				</visual>
 				<collision>
 					<geometry>
-						<mesh filename="package://soft_hand_description/meshes/palm_left.stl" scale=" .001 .001 .001" />
+						<mesh filename="package://soft_hand_description/meshes/palm_left_collision.stl" scale=" .001 .001 .001" />
 					</geometry>
 				</collision>
 			</xacro:if>
@@ -463,7 +464,7 @@
 				</visual>
 				<collision>
 					<geometry>
-						<mesh filename="package://soft_hand_description/meshes/palm_right.stl" scale=" .001 .001 .001" />
+						<mesh filename="package://soft_hand_description/meshes/palm_right_collision.stl" scale=" .001 .001 .001" />
 					</geometry>
 				</collision>
 			</xacro:unless>

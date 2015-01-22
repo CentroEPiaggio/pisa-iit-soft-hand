@@ -1,0 +1,14 @@
+#include <math.h>
+
+#define HANDADMIN_VERSION "v5.0.0"
+
+#define NUM_OF_SENSORS 3
+#define NUM_OF_MOTORS 2
+#define NUM_OF_EMGS 2
+#define PI 3.14159265359
+
+#define DEFAULT_RESOLUTION 3
+#define BROADCAST_ID 0
+#define DEFAULT_INCREMENT 100 //in tick
+
+#define DEG_TICK_MULTIPLIER (65536.0 / (360.0 * (pow(2, DEFAULT_RESOLUTION))))

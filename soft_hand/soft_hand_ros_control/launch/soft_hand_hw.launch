@@ -1,0 +1,15 @@
+<launch>
+
+	<include file="$(find soft_hand_description)/launch/display.launch">
+		<arg name="gui" value="false" />
+		<arg name="robot_name" value="soft_hand_adaptive"/>
+		<arg name="use_rviz" value="true"/>
+		<arg name="use_joint_state_publisher" value="true"/>
+		<arg name="use_mimic_tag" default="true"/> <!-- the synergy is applied with pure kinematics -->
+	</include>
+
+	<node ns="soft_hand" name="soft_hand_HW" pkg="soft_hand_ros_control" type="soft_hand_hw" respawn="false" output="screen"/>
+
+	<remap from="/soft_hand/joint_states" to="/joint_states"/>
+
+</launch>
