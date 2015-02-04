@@ -417,20 +417,6 @@
 	<!-- SOFT HAND MODEL -->
 	<xacro:macro name="soft_hand" params="parent name withAdaptiveTransmission useMimicTag left *origin">
 
-		<!-- MOTOR JOINT -->
-		<joint name="${name}_synergy_joint" type="revolute" >
-			<parent link="${parent}" />
-			<child link="${name}_invisible_wire_link"/>
-			<axis xyz="0 0 1" />
-			<limit lower="${synergy_lb}" upper="${synergy_ub}" effort="${max_synergy_effort}" velocity="${max_synergy_velocity}"/>
-			<dynamics damping="${synergy_damping}" friction="${synergy_friction}"/>
-		</joint>
-		<link name="${name}_invisible_wire_link">
-			<inertial>
-				<insert_block name="negligible_inertia"/>
-			</inertial>
-		</link>
-
 		<!-- PALM -->
 		<joint name="${name}_palm_joint" type="fixed" >
 			<insert_block name="origin"/>
@@ -468,6 +454,20 @@
 					</geometry>
 				</collision>
 			</xacro:unless>
+		</link>
+
+		<!-- MOTOR JOINT -->
+		<joint name="${name}_synergy_joint" type="revolute" >
+			<parent link="${name}_palm_link" />
+			<child link="${name}_invisible_wire_link"/>
+			<axis xyz="0 0 1" />
+			<limit lower="${synergy_lb}" upper="${synergy_ub}" effort="${max_synergy_effort}" velocity="${max_synergy_velocity}"/>
+			<dynamics damping="${synergy_damping}" friction="${synergy_friction}"/>
+		</joint>
+		<link name="${name}_invisible_wire_link">
+			<inertial>
+				<insert_block name="negligible_inertia"/>
+			</inertial>
 		</link>
 
 		<!-- THUMB AND FINGERS -->

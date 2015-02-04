@@ -518,7 +518,7 @@ bool DefaultSoftHandHWSim::initSim(
     return false;
   }
 
-  ROS_INFO("Hand kinemeatic successfully parsed with %d joints, and %d segments.",hand_tree_.getNrOfJoints(),hand_tree_.getNrOfJoints());
+  ROS_INFO("Hand kinematic successfully parsed with %d joints, and %d segments.",hand_tree_.getNrOfJoints(),hand_tree_.getNrOfJoints());
 
   std::string root_name = hand_tree_.getRootSegment()->first;
 
