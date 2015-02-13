@@ -257,6 +257,22 @@ std::string GazeboRosSoftHandPlugin::getURDF(std::string param_name) const
 bool GazeboRosSoftHandPlugin::parseTransmissionsFromURDF(const std::string& urdf_string)
 {
   transmission_interface::TransmissionParser::parse(urdf_string, transmissions_);
+
+  std::vector<transmission_interface::TransmissionInfo>::iterator it = transmissions_.begin();
+  for(; it != transmissions_.end(); ) 
+  {
+    if (robot_namespace_.compare(it->robot_namespace_) != 0)
+    {
+      ROS_WARN_STREAM_NAMED("gazebo_ros_control", "gazebo_ros_control plugin deleted transmission "
+        << it->name_
+        << " because it is not in the same robotNamespace as this plugin. This might be normal in a multi-robot configuration though.");
+      it = transmissions_.erase(it);
+    }
+    else
+    {
+      ++it;
+    }
+  }
   return true;
 }
 
