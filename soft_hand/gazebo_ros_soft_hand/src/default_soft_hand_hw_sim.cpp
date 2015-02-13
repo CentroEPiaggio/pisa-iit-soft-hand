@@ -355,6 +355,7 @@ bool DefaultSoftHandHWSim::initSim(
 
     sim_links_.push_back(link);
     link_names_[j] = (link->GetName());
+    // std::cout << link_names_[j] << std::endl;
 
     // Subscribe to contact topics
     sub_contacts_.push_back(model_nh.subscribe(model_nh.resolveName(std::string("/contacts/") + link->GetName()), 10, &DefaultSoftHandHWSim::getContacts, this));
@@ -520,7 +521,8 @@ bool DefaultSoftHandHWSim::initSim(
 
   ROS_INFO("Hand kinematic successfully parsed with %d joints, and %d segments.",hand_tree_.getNrOfJoints(),hand_tree_.getNrOfJoints());
 
-  std::string root_name = hand_tree_.getRootSegment()->first;
+
+  std::string root_name = robot_namespace + std::string("_palm_link"); //hand_tree_.getRootSegment()->first;
 
   // KINEMATICS
   // IMPORTANT:
@@ -1029,7 +1031,7 @@ void DefaultSoftHandHWSim::updateKinematics()
 void DefaultSoftHandHWSim::updateStatics()
 {
   // force scale due to high contact force that generate too high efforts
-  // ToDo: scale everything well to avoid this
+  // ToDo: scale everything well to avoid this magic value
   float effort_scale = -1*0.001;
 
   // link counter
