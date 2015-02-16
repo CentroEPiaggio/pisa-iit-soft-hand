@@ -1,7 +1,7 @@
 <launch>
 	<!-- LAUNCH INTERFACE -->
 	<arg name="gui" default="true" />
-	<arg name="robot_name" default="soft_hand_simple"/>
+	<arg name="robot_name" default="soft_hand_kinematic_synergy"/>
 	<arg name="use_rviz" default="true"/>
 	<arg name="use_joint_state_publisher" default="true"/>
 	<arg name="use_mimic_tag" default="true"/> <!-- the synergy is applied with pure kinematics -->
