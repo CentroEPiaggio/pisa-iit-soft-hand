@@ -149,7 +149,7 @@ namespace soft_hand_hw
      nh_.param("device_id", device_id_, BROADCAST_ID);
 
     // TODO: use transmission configuration to get names directly from the URDF model
-    if( ros::param::get("/joints", this->device_->joint_names) )
+    if( ros::param::get("joints", this->device_->joint_names) )
     {
       if( !(this->device_->joint_names.size()==N_SYN) )
       {
