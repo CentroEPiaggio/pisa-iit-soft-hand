@@ -319,7 +319,8 @@
 
 			<!-- PROXIMAL PHALANGE -->
 			<joint name="${name}_inner_joint" type="revolute">
-				<origin xyz="0.022726230 0.00811475 0.0" rpy="0.42662757656587236 0.0 0.18131960430075023" />
+				<!-- <origin xyz="0.022500000 -0.003300000 0.0" rpy="0.42662757656587236 0.0 0.18131960430075023" /> -->
+				<origin xyz="0.022500000 -0.003300000 0.0" rpy="0.42662757656587236 0.0 0.0"/>
 				<parent link="${name}_knuckle_link"/>
 				<child link="${name}_fake_link1"/>
 				<axis xyz="0 -1 0" />
@@ -484,7 +485,7 @@
 			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_little" position="-0.00349856 0.039000000 0.045391802" orientation="1.5707963267948957 -1.2217307407768807 1.570796326794897" useMimicTag="${useMimicTag}" abd_R="${little_abd_R}" inner_R="${little_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${little_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${little_outer_R *(outer_ub - outer_lb)*pi/180}" />
 		</xacro:if>
 		<xacro:unless value="${left}">
-			<xacro:soft_thumb parent="${name}_palm_link" parent_name="${name}" name="${name}_thumb" left="${left}" position="0.005669722 0.032876873 0.018373996" orientation="0.08389097788000696 -0.4287012609015684 1.3712034099005517" useMimicTag="${useMimicTag}" abd_R="${thumb_abd_R *(thumb_abd_ub - thumb_abd_lb)*pi/180}" inner_R="${thumb_inner_R *(inner_ub - inner_lb)*pi/180}" outer_R="${thumb_outer_R *(outer_ub - outer_lb)*pi/180}"/>
+			<xacro:soft_thumb parent="${name}_palm_link" parent_name="${name}" name="${name}_thumb" left="${left}" position="0.005669722 0.032876873 0.018373996" orientation="0.0 -0.43633198577877447 1.5707963267948966" useMimicTag="${useMimicTag}" abd_R="${thumb_abd_R *(thumb_abd_ub - thumb_abd_lb)*pi/180}" inner_R="${thumb_inner_R *(inner_ub - inner_lb)*pi/180}" outer_R="${thumb_outer_R *(outer_ub - outer_lb)*pi/180}"/>
 
 			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_index" position="-0.003300000 0.019500000 0.058891802" orientation="1.5707963267948957 -1.2217307407768807 1.570796326794897" useMimicTag="${useMimicTag}" abd_R="${index_abd_R}" inner_R="${index_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${index_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${index_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
