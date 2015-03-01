@@ -22,6 +22,12 @@ Typically, all related package with ros_control, controllers, simulation gazebo4
 And you need the forked version of ros_control where the adaptive synergy transmission is implemented:
 `git clone  https://github.com/CentroEPiaggio/ros_control.git`
 
+You need also to fetch the submodule from QB robotics repositories, on the root folder type:
+
+`git submodule init`
+
+`git submodule update`
+
 1. Adaptive model
 -----------------
 
