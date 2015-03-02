@@ -2,13 +2,12 @@
 
 	<!-- LAUNCH INTERFACE -->
 
-	<arg name="namespace" default="soft_hand"/>
 	<arg name="use_deafult_joint_names" default="true"/>
 	<arg name="load_hand_description" default="true"/> <!-- to allow launching this file alone -->
 	<arg name="load_rviz" default="true"/> <!-- to allow launching this file alone -->
 
 	<!-- LAUNCH IMPLEMENTATION -->
 
-	<node ns="$(arg namespace)" name="soft_hand_HW" pkg="soft_hand_ros_control" type="soft_hand_hw" respawn="false" output="screen"/>
+	<node name="soft_hand_HW" pkg="soft_hand_ros_control" type="soft_hand_hw" respawn="false" output="screen"/>
 
 </launch>

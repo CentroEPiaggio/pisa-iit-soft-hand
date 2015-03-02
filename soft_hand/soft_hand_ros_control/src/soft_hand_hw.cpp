@@ -161,7 +161,7 @@ namespace soft_hand_hw
       ROS_ERROR("No joints to be handled, ensure you load a yaml file naming the joint names this hardware interface refers to.");
       throw std::runtime_error("No joint name specification");
     }
-    if( !(urdf_model_.initParam("/robot_description")) )
+    if( !(urdf_model_.initParam("robot_description")) )
     {
       ROS_ERROR("No URDF model in the robot_description parameter, this is required to define the joint limits.");
       throw std::runtime_error("No URDF model available");
