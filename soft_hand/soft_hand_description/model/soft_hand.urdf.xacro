@@ -61,7 +61,7 @@
 
 	<!-- synergy joint properties -->
 	<xacro:property name="synergy_lb" value="0.0" />
-	<xacro:property name="synergy_ub" value="18000.0"/>
+	<xacro:property name="synergy_ub" value="1.0"/>
 	<xacro:property name="max_synergy_velocity" value="100000" />
 	<xacro:property name="max_synergy_effort" value="100" />
 	<xacro:property name="synergy_damping" value="0.0" />
