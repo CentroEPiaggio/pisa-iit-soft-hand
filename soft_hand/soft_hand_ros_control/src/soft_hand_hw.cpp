@@ -243,9 +243,9 @@ namespace soft_hand_hw
         // fill the state variables
         for (int j = 0; j < N_SYN; j++)
         {
-            this->device_->joint_position_prev[j] = this->device_->joint_position[j];
-            this->device_->joint_position[j] = inputs[0];
-            this->device_->joint_effort[j] = currents[0];
+            this->device_->joint_position_prev[j] = this->device_->joint_position[j]/17000;
+            this->device_->joint_position[j] = inputs[0]/17000.0;
+            this->device_->joint_effort[j] = currents[0]*1.0;
             this->device_->joint_velocity[j] = filters::exponentialSmoothing((this->device_->joint_position[j]-this->device_->joint_position_prev[j])/period.toSec(), this->device_->joint_velocity[j], 0.2);
         }
 
@@ -262,17 +262,8 @@ namespace soft_hand_hw
 
         // write to the hand
         short int pos;
-        // Activate motors
-        //commActivate(&comm_settings_t_, device_id_, 1);
-
-        pos = (short int)this->device_->joint_position_command[0];
-      
+        pos = (short int)(17000.0*this->device_->joint_position_command[0]);
         set_input(pos);
-   
-        // usleep(1000);
-
-        // Deactivate motors
-        //commActivate(&comm_settings_t_, device_id_, 0);
 
         return;
     }
