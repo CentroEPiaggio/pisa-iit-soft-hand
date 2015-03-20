@@ -156,7 +156,8 @@
           <robotNamespace>${name}</robotNamespace>
           <type>transmission_interface/SimpleTransmission</type>
           <joint name="${name}_synergy_joint">
-            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
           </joint>
           <actuator name="${name}_synergy_motor">
             <mechanicalReduction>1.0</mechanicalReduction>

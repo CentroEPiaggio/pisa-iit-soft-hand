@@ -12,12 +12,12 @@ CAD model freely available through the [Natural Machine Motion Initiative](http:
 
 Unless stated otherwise, all files within the repository are released under the BSD 3-Clause License, see the [LICENSE](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/blob/master/LICENSE) file for the details.
 
-0. Dependencies
+Dependencies
 ---------------
 
 Refer to CMakeLists.txt files and compilation errors if you are missing one.
 
-Typically, all related package with ros_control, controllers, simulation gazebo4, and so on. Simulations tested with Gazebo4.
+Typically, all related package with ros_control, ros_controllers, gazebo4.
 
 And you need the forked version of ros_control where the adaptive synergy transmission is implemented:
 `git clone  https://github.com/CentroEPiaggio/ros_control.git`
