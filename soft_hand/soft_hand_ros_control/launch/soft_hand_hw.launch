@@ -5,9 +5,11 @@
 	<arg name="use_deafult_joint_names" default="true"/>
 	<arg name="load_hand_description" default="true"/> <!-- to allow launching this file alone -->
 	<arg name="load_rviz" default="true"/> <!-- to allow launching this file alone -->
+	<arg name="hand_id" default="1"/>
 
 	<!-- LAUNCH IMPLEMENTATION -->
-
-	<node name="soft_hand_HW" pkg="soft_hand_ros_control" type="soft_hand_hw" respawn="false" output="screen"/>
+	<node name="soft_hand_HW" pkg="soft_hand_ros_control" type="soft_hand_hw" respawn="false" output="screen">
+		<param name="device_id" value="$(arg hand_id)"/>
+	</node>
 
 </launch>
