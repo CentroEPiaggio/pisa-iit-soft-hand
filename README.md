@@ -107,8 +107,11 @@ rostopic pub /soft_hand/hand_ring_outer_joint_mimic_position_controller/command 
 Ensure you have the correct configuration for the the hand to be used either through USB or with the handle (joystick) using [handmoveadmin](hand-tools/) tools.
 
 Compile following instructions by [qbrobotics](https://github.com/qbrobotics/handadmin) and use:
+
 `./handmoveadmin -p` <- To check the Input mode
 
 `./handmoveadmin -m` <- To change the input mode
+
 [0] is for USB communication.
+
 [1] is for the handle.
