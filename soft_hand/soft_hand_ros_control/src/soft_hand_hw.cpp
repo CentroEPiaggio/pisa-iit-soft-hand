@@ -234,7 +234,7 @@ namespace soft_hand_hw
       {
         ROS_WARN("Hand not found in all available ports, trying again...");
         // randomize the waiting to avoid conflict in files (probabilistically speaking)
-        sleep( 2*((double) rand() / (RAND_MAX)) );
+        sleep( 4*((double) rand() / (RAND_MAX)) );
       }
     }
   }
@@ -386,10 +386,11 @@ namespace soft_hand_hw
           ROS_DEBUG_STREAM("List of devices:");
           for(int d = 0; d < aux_int; ++d)
           {
-            ROS_DEBUG_STREAM( (int) list_of_devices[d] );
-            if( (int) list_of_devices[d] == id )
+            ROS_DEBUG_STREAM( static_cast<int>(list_of_devices[d]) );
+            ROS_DEBUG_STREAM( "searching id" << id );
+            if( static_cast<int>(list_of_devices[d]) == id )
             {
-              ROS_INFO_STREAM("Hand found at port: " << ports[i] << " !");
+              ROS_DEBUG_STREAM("Hand found at port: " << ports[i] << " !");
               strcpy(my_port, ports[i]);
               closeRS485(&comm_settings_t);
               sleep(1);
@@ -411,7 +412,7 @@ namespace soft_hand_hw
 
   int SHHW::open_port(char* port) 
   {
-    ROS_INFO_STREAM("Opening serial port: " << port << " for hand_id: " << device_id_);
+    ROS_DEBUG_STREAM("Opening serial port: " << port << " for hand_id: " << device_id_);
     fflush(stdout);
 
     openRS485(&comm_settings_t_, port);
