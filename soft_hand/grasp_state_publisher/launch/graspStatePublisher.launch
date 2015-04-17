@@ -1,0 +1,17 @@
+<launch>
+
+	<!-- LAUNCH (USER) INTERFACE -->
+	<arg name="test" default="false" doc="It loads a three joint model to do a grasp/no-grasp classification"/>
+
+	<!-- LAUNCH IMPLEMENTATION -->
+
+	<group if="$(arg test)">
+		<rosparam command="load" file="$(find grasp_state_publisher)/config/softgrasp_test.yaml" />
+	</group>
+	<group unless="$(arg test)">
+		<rosparam command="load" file="$(find grasp_state_publisher)/config/softgrasp.yaml" />
+	</group>
+	
+	<node name="grasp_state_publisher" pkg="grasp_state_publisher" type="grasp_state_publisher" respawn="true" output="screen" />
+
+</launch>
