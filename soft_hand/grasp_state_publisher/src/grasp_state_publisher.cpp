@@ -4,7 +4,7 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#include <sensor_msgs/JointState.h>
+#include <control_msgs/JointTrajectoryControllerState.h>
 
 // bfl
 #include <bfl/pdf/gaussian.h>
@@ -30,14 +30,15 @@ private:
 	ros::NodeHandle priv_nh_;
 
 	// subscribers
-	message_filters::Subscriber<sensor_msgs::JointState> sub_joint_states_sim_;
-	message_filters::Subscriber<sensor_msgs::JointState> sub_joint_states_imu_;
+    ros::Subscriber sub_hand_controller_state_;
+    // message_filters::Subscriber<sensor_msgs::JointState> sub_joint_states_sim_;
+    // message_filters::Subscriber<sensor_msgs::JointState> sub_joint_states_imu_;
 	// message_filters::Subscriber<geometry_msgs::WrenchStamped> sub_ft_measurement_;
 	// message_filters::Subscriber<geometry_msgs::PoseStamped> sub_hand_object_relative_pose_;
 
 	// sync-er
-	typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::JointState, sensor_msgs::JointState> SyncPolicy_;
-	message_filters::Synchronizer<SyncPolicy_> sensor_sync_;
+    // typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::JointState, sensor_msgs::JointState> SyncPolicy_;
+    // message_filters::Synchronizer<SyncPolicy_> sensor_sync_;
 
 	// publishers
 	ros::Publisher pub_grasp_states_;
@@ -53,21 +54,18 @@ private:
 
 public:
 	// callback functions
-	void estimateGraspState(const sensor_msgs::JointState::ConstPtr & sim_joints, const sensor_msgs::JointState::ConstPtr & imu_joints);
+    void estimateGraspState(const control_msgs::JointTrajectoryControllerState::ConstPtr & state);
     void publishGraspState();
 
 	// constructor
 	GraspStatePublisher(ros::NodeHandle nh) : 
 		nh_(nh), 
-		priv_nh_("~"),
-		// subscribe to topics
-		sub_joint_states_sim_(nh, nh.resolveName("joint_states"), 4),
-		sub_joint_states_imu_(nh, nh.resolveName("glove/joint_states"), 4),
-		// create the sync-er, 4 is the queue size
-		sensor_sync_(SyncPolicy_(4), sub_joint_states_sim_, sub_joint_states_imu_)
+        priv_nh_("~")
 	{
-		// register the callback function
-		sensor_sync_.registerCallback(boost::bind(&GraspStatePublisher::estimateGraspState, this, _1, _2));
+        sub_hand_controller_state_ = nh_.subscribe<control_msgs::JointTrajectoryControllerState>(nh_.resolveName("joint_trajectory_controller/state"),
+                                                                                     10,
+                                                                                     &GraspStatePublisher::estimateGraspState,
+                                                                                     this);
 
 		// advertise topics
 		pub_grasp_states_ = nh_.advertise<grasp_state_publisher::GraspState>(nh_.resolveName("grasp_state"), 10);
@@ -97,34 +95,28 @@ public:
 };
 
 // the grouped callback function
-void GraspStatePublisher::estimateGraspState(const sensor_msgs::JointState::ConstPtr & sim_joints, const sensor_msgs::JointState::ConstPtr & imu_joints)
+void GraspStatePublisher::estimateGraspState(const control_msgs::JointTrajectoryControllerState::ConstPtr & state)
 {
 
+
 	// control that the size of the message in the topics is the same as in the PDFs
-	if ( grasp_observer_.getNumberOfVars() != sim_joints->position.size() )
+    if ( grasp_observer_.getNumberOfVars() != state->error.positions.size() )
 	{
 		ROS_FATAL("The internal model and input dimensions do not match!");
-	}
-
-	// control that sizes are the same for both joint states
-	if( sim_joints->position.size() != imu_joints->position.size() )
-	{
-		ROS_ERROR("Message dropped, joint state sources of different sizes");
-		return;
 	}
 
     // compute the x vector as the differences in absolute values of joint positions
     // between a synergistic and measured model
     std::vector<double> x;
-    x.resize(sim_joints->position.size());
+    x.resize( state->error.positions.size() );
 
     ROS_INFO("Updating input vector");
 
-    for( int i = 0; i < sim_joints->position.size(); ++i)
+    for( int i = 0; i < state->error.positions.size(); ++i)
     {
     	ROS_INFO("inside for loop");
-        x.at(i) = std::abs ( sim_joints->position.at(i) - imu_joints->position.at(i) );
-        std::cout << "input vector at " << i << ": " << x.at(i) << std::endl;
+        x.at(i) = state->error.positions.at(i);
+        // std::cout << "input vector at " << i << ": " << x.at(i) << std::endl;
     }
 
     // estimate the grasp using the observer
@@ -132,7 +124,7 @@ void GraspStatePublisher::estimateGraspState(const sensor_msgs::JointState::Cons
 
     ROS_INFO("Filling the message");
 
-    msg_grasp_state_.header = sim_joints->header;
+    msg_grasp_state_.header = state ->header;
     msg_grasp_state_.grasp = grasp_observer_.isGrasping();
     msg_grasp_state_.grasp_confidence = grasp_observer_.getGraspConfidence();
     msg_grasp_state_.no_grasp_confidence = grasp_observer_.getNoGraspConfidence();

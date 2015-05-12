@@ -1,5 +1,0 @@
-# Three joints to identify a grasp/no-grasp situation
-mu_grasp: [0.3, 0.3, 0.3]
-var_grasp: [0.2, 0.2, 0.2]
-mu_no_grasp: [0.0, 0.0, 0.0]
-var_no_grasp: [0.2, 0.2, 0.2]
