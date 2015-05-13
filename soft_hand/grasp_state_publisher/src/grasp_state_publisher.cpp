@@ -110,11 +110,11 @@ void GraspStatePublisher::estimateGraspState(const control_msgs::JointTrajectory
     std::vector<double> x;
     x.resize( state->error.positions.size() );
 
-    ROS_INFO("Updating input vector");
+    // ROS_INFO("Updating input vector");
 
     for( int i = 0; i < state->error.positions.size(); ++i)
     {
-    	ROS_INFO("inside for loop");
+        // ROS_INFO("inside for loop");
         x.at(i) = state->error.positions.at(i);
         // std::cout << "input vector at " << i << ": " << x.at(i) << std::endl;
     }
@@ -122,7 +122,7 @@ void GraspStatePublisher::estimateGraspState(const control_msgs::JointTrajectory
     // estimate the grasp using the observer
     grasp_observer_.setX( x );
 
-    ROS_INFO("Filling the message");
+    // ROS_INFO("Filling the message");
 
     msg_grasp_state_.header = state ->header;
     msg_grasp_state_.grasp = grasp_observer_.isGrasping();

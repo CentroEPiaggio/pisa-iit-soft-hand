@@ -244,7 +244,7 @@ namespace soft_hand_hw
       // update the hand synergy joints
       // read from hand
       static short int inputs[2];
-      commGetInputs(&comm_settings_t_, device_id_, inputs);
+      commGetMeasurements(&comm_settings_t_, device_id_, inputs);
 
       static short int currents[2];
       commGetCurrents(&comm_settings_t_, device_id_, currents);
