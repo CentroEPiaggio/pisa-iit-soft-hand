@@ -355,6 +355,7 @@ bool DefaultSoftHandHWSim::initSim(
 
     sim_links_.push_back(link);
     link_names_[j] = (link->GetName());
+    // std::cout << link_names_[j] << std::endl;
 
     // Subscribe to contact topics
     sub_contacts_.push_back(model_nh.subscribe(model_nh.resolveName(std::string("/contacts/") + link->GetName()), 10, &DefaultSoftHandHWSim::getContacts, this));
@@ -460,53 +461,56 @@ bool DefaultSoftHandHWSim::initSim(
   // transmission here is used a bit different from what expected
 
   // wrap simple transmission raw data - current state
-  a_state_data_[0].position.push_back(&synergy_position_);
+  a_state_data_[0].position.push_back(&synergy_position_command_);
+  a_state_data_[0].effort.push_back(&synergy_effort_);
 
-  a_state_data_[1].position.push_back(&synergy_position_);
-  a_state_data_[1].effort.push_back(&synergy_effort_);
+  //a_state_data_[1].position.push_back(&synergy_position_);
+  //a_state_data_[1].effort.push_back(&synergy_effort_);
 
-  a_cmd_data_[0].effort.push_back(&synergy_effort_);
+  // this is not really commanding anything, it is needed for transmission calculations
+  a_cmd_data_[0].position.push_back(&synergy_position_);
+  //a_cmd_data_[0].effort.push_back(&synergy_effort_);
 
-  a_cmd_data_[1].position.push_back(&synergy_position_);
+
+  a_cmd_data_[1].effort.push_back(&synergy_effort_);
 
   // wrap only the non-mimic joints
   for(int j = 0; j < n_dof_; ++j)
   {
     j_state_data_[0].position.push_back(&joint_position_[j]);
+    j_state_data_[0].effort.push_back(&joint_effort_contact_[j]);
 
-    j_state_data_[1].effort.push_back(&joint_effort_contact_[j]);
-
-    j_cmd_data_[0].position.push_back(&joint_position_[j]);
-    j_cmd_data_[0].effort.push_back(&joint_effort_command_[j]);
+    j_cmd_data_[0].position.push_back(&joint_position_command_[j]);
+    j_cmd_data_[0].effort.push_back(&joint_effort_contact_[j]);
 
     j_cmd_data_[1].position.push_back(&joint_position_[j]);
-    j_cmd_data_[1].effort.push_back(&joint_effort_contact_[j]);
+    j_cmd_data_[1].effort.push_back(&joint_effort_command_[j]);
   }
 
   // register transmissions to each interface, order not important here
-  jnt_to_act_pos_.registerHandle(transmission_interface::JointToActuatorPositionHandle(
+//  jnt_to_act_pos_.registerHandle(transmission_interface::JointToActuatorPositionHandle(
+//                                                            adaptive_trans_info.name_,
+//                                                             adaptive_trans_,
+//                                                             a_state_data_[0],
+//                                                             j_state_data_[0]));
+
+  jnt_to_act_eff_.registerHandle(transmission_interface::JointToActuatorEffortHandle(
                                                              adaptive_trans_info.name_,
                                                              adaptive_trans_,
                                                              a_state_data_[0],
                                                              j_state_data_[0]));
 
-  jnt_to_act_eff_.registerHandle(transmission_interface::JointToActuatorEffortHandle(
-                                                             adaptive_trans_info.name_,
-                                                             adaptive_trans_,
-                                                             a_state_data_[1],
-                                                             j_state_data_[1]));
-
-  act_to_jnt_eff_.registerHandle(transmission_interface::ActuatorToJointEffortHandle(
+  act_to_jnt_pos_.registerHandle(transmission_interface::ActuatorToJointPositionHandle(
                                                              adaptive_trans_info.name_,
                                                              adaptive_trans_,
                                                              a_cmd_data_[0],
                                                              j_cmd_data_[0]));
 
-  act_to_jnt_pos_.registerHandle(transmission_interface::ActuatorToJointPositionHandle(
-                                                             adaptive_trans_info.name_,
-                                                             adaptive_trans_,
-                                                             a_cmd_data_[1],
-                                                             j_cmd_data_[1]));
+  act_to_jnt_eff_.registerHandle(transmission_interface::ActuatorToJointEffortHandle(
+                                                           adaptive_trans_info.name_,
+                                                           adaptive_trans_,
+                                                           a_cmd_data_[1],
+                                                           j_cmd_data_[1]));
 
   ////////////////////////////////////////////
   /// INIT KINEMATIC TREES AND JOINT ARRAYS //
@@ -520,7 +524,8 @@ bool DefaultSoftHandHWSim::initSim(
 
   ROS_INFO("Hand kinematic successfully parsed with %d joints, and %d segments.",hand_tree_.getNrOfJoints(),hand_tree_.getNrOfJoints());
 
-  std::string root_name = hand_tree_.getRootSegment()->first;
+
+  std::string root_name = robot_namespace + std::string("_palm_link"); //hand_tree_.getRootSegment()->first;
 
   // KINEMATICS
   // IMPORTANT:
@@ -652,10 +657,9 @@ void DefaultSoftHandHWSim::readSim(ros::Time time, ros::Duration period)
   // read values from simulation (our hardware)
   synergy_position_ += angles::shortest_angular_distance(synergy_position_, sim_synergy_->GetAngle(0).Radian());
   synergy_velocity_ = 0.0; //sim_synergy_->GetVelocity(0);
+  // this is published below with the transmission propagate
   //synergy_effort_ = sim_synergy_->GetForce((unsigned int)(0));
 
-  // populate from joint measurements to actuator state
-  //jnt_to_act_pos_.propagate();
   // obtain the actuator effort as a consequence of the synergy position and contacts
   jnt_to_act_eff_.propagate();
 
@@ -668,10 +672,10 @@ void DefaultSoftHandHWSim::readSim(ros::Time time, ros::Duration period)
 void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
 {
   // populate from synergy command to joint commands and control simulation
-  //act_to_jnt_pos_.propagate();
-  // obtain the joint command as a result of the synergy effort (computed using the contact forces) and the elastic at the joints
+  // obtain the joint effort commands as a result of the synergy effort (computed using the contact forces) and the elastic at the joints
   // if no contact, the synergy effort is proportional to the synergy position
   // the resulting joint effort command is proportional to the difference between the synergy effort and the elastics
+  act_to_jnt_pos_.propagate();
   act_to_jnt_eff_.propagate();
 
   // ensure limits
@@ -1029,7 +1033,7 @@ void DefaultSoftHandHWSim::updateKinematics()
 void DefaultSoftHandHWSim::updateStatics()
 {
   // force scale due to high contact force that generate too high efforts
-  // ToDo: scale everything well to avoid this
+  // ToDo: scale everything well to avoid this magic value
   float effort_scale = -1*0.001;
 
   // link counter
