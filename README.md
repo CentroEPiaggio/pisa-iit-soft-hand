@@ -7,18 +7,18 @@ This repository contains the model of the Pisa/IIT hand as described in:
 [Free version of the paper](http://www.centropiaggio.unipi.it/sites/default/files/PisaIIT_SoftHand_0.pdf) and
 [IJRR version (access required)](http://ijr.sagepub.com/content/33/5/768.abstract)
 
-CAD model freely available through the [Natural Machine Motion Initiative](http://www.naturalmachinemotioninitiative.com/#!softhand/c24r2) for old version, not the implemented here.
-
 Unless stated otherwise, all files within the repository are released under the BSD 3-Clause License, see the [LICENSE](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/blob/master/LICENSE) file for the details.
 
 ## Dependencies
 
-Refer to CMakeLists.txt files and compilation errors if you are missing one.
+ToDo: Create a travis.yml file for this.
 
-Typically, all related package with ros_control, ros_controllers, gazebo4.
-
-And you need the forked version of ros_control where the adaptive synergy transmission is implemented:
-`git clone  https://github.com/CentroEPiaggio/ros_control.git`
+You need the forked version of ros_control where the adaptive synergy transmission is implemented:
+``` bash
+git clone https://github.com/CentroEPiaggio/ros_control.git
+cd ros_control
+git checkout multi-robot-test
+```
 
 ## Adaptive model
 
