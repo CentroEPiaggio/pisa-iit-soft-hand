@@ -4,10 +4,7 @@
   <description>gazebo_ros_soft_hand</description>
 
   <maintainer email="cjrosales@gmail.com">Carlos Rosales</maintainer>
-
-  <license>BSD</license>
-
-  <author>Carlos Rosales</author>
+  <license>GPLv2</license>
 
   <buildtool_depend>catkin</buildtool_depend>
 

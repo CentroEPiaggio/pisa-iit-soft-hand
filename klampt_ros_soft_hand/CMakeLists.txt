@@ -1,31 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(soft_hand_ros_control)
+project(klampt_ros_soft_hand)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-    roscpp
-    control_toolbox
-    controller_interface
-    controller_manager
-    hardware_interface
-    realtime_tools
-    cmake_modules
-    joint_limits_interface
-    tf
-    urdf
-)
+find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
-SET(HAND_TOOLS ../../hand-tools/qbAPI)
-
-## Uncomment this if the package has a setup.py. This macro ensures
-## modules and global scripts declared therein get installed
-## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
+# find_package(KLAMPT REQUIRED)
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -89,7 +68,7 @@ SET(HAND_TOOLS ../../hand-tools/qbAPI)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES soft_hand_ros_control
+#  LIBRARIES klampt_ros_soft_hand
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
@@ -100,33 +79,24 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include
-  ${catkin_INCLUDE_DIRS}
-  ${HAND_TOOLS}/src
-)
+# include_directories(include)
 
 ## Declare a cpp library
-add_library(qbmove SHARED
-	${HAND_TOOLS}/src/qbmovelibrary.cpp
-	${HAND_TOOLS}/src/qbmove_communications.cpp
-)
+# add_library(klampt_ros_soft_hand
+#   src/${PROJECT_NAME}/klampt_ros_soft_hand.cpp
+# )
 
 ## Declare a cpp executable
-add_executable(soft_hand_hw
-	src/soft_hand_hw.cpp
-)
+# add_executable(klampt_ros_soft_hand_node src/klampt_ros_soft_hand_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(soft_hand_hw
-	qbmove
-)
+# add_dependencies(klampt_ros_soft_hand_node klampt_ros_soft_hand_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(soft_hand_hw
-	${catkin_LIBRARIES}
-	qbmove
-)
+# target_link_libraries(klampt_ros_soft_hand_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -143,7 +113,7 @@ target_link_libraries(soft_hand_hw
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS soft_hand_ros_control soft_hand_ros_control_node
+# install(TARGETS klampt_ros_soft_hand klampt_ros_soft_hand_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -168,7 +138,7 @@ target_link_libraries(soft_hand_hw
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_soft_hand_ros_control.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_klampt_ros_soft_hand.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

@@ -4,10 +4,9 @@
   <description>
     ROS meta-package containing soft_hand ROS packages.
   </description>
-  <maintainer email="carlos.rosales@for.unipi.it">Carlos Rosales</maintainer>
+
+  <maintainer email="cjrosales@gmail.com">Carlos Rosales</maintainer>
   <license>GPLv2</license>
-  
-  <author>Carlos Rosales</author>
   
   <buildtool_depend>catkin</buildtool_depend>
 
