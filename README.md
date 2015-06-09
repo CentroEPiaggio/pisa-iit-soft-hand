@@ -21,8 +21,7 @@ git checkout multi-robot-test
 ```
 
 ## Examples
-There are several [examples](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/tree/master/examples). Those are ROS packages.
-
+There are several [examples](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/tree/master/examples) that show how the hand can be used in different configurations.
 
 ###Push the finger (Not implemented)
 
