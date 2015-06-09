@@ -60,15 +60,6 @@ target_link_libraries(default_soft_hand_hw_sim ${catkin_LIBRARIES} ${GAZEBO_LIBR
 add_library(kinematic_ctrl_soft_hand_hw_sim src/kinematic_ctrl_soft_hand_hw_sim.cpp)
 target_link_libraries(kinematic_ctrl_soft_hand_hw_sim ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
-## Helper plugins
-add_library(gazebo_ros_mimic_joint_plugin src/gazebo_ros_mimic_joint_plugin.cpp)
-target_link_libraries(gazebo_ros_mimic_joint_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES}
-)
-
-add_library(gazebo_ros_disable_link_plugin src/gazebo_ros_disable_link_plugin.cpp)
-target_link_libraries(gazebo_ros_disable_link_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-
-
 ## Install
 install(TARGETS ${PROJECT_NAME} default_soft_hand_hw_sim
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
@@ -85,4 +76,3 @@ install(DIRECTORY include/${PROJECT_NAME}/
 install(FILES soft_hand_hw_sim_plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   )
-

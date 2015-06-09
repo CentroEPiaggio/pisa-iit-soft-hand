@@ -39,6 +39,10 @@
    using pluginlib
 */
 
+/* Author: Carlos J. Rosales
+   Desc: Plugin adapted to handle specific soft_hand issues, and robot composability.
+*/ 
+
 // Boost
 #include <boost/bind.hpp>
 
@@ -263,7 +267,7 @@ bool GazeboRosSoftHandPlugin::parseTransmissionsFromURDF(const std::string& urdf
   {
     if (robot_namespace_.compare(it->robot_namespace_) != 0)
     {
-      ROS_WARN_STREAM_NAMED("gazebo_ros_control", "gazebo_ros_control plugin deleted transmission "
+      ROS_WARN_STREAM_NAMED("gazebo_ros_soft_hand", "gazebo_ros_soft_hand plugin deleted transmission "
         << it->name_
         << " because it is not in the same robotNamespace as this plugin. This might be normal in a multi-robot configuration though.");
       it = transmissions_.erase(it);

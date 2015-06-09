@@ -1,47 +1,11 @@
-/*********************************************************************
- * Software License Agreement (BSD License)
- *
- *  Copyright (c) 2013, Open Source Robotics Foundation
- *  Copyright (c) 2013, The Johns Hopkins University
- *  Copyright (c) 2014, Research Center "E. Piaggio"
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions
- *  are met:
- *
- *   * Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above
- *     copyright notice, this list of conditions and the following
- *     disclaimer in the documentation and/or other materials provided
- *     with the distribution.
- *   * Neither the name of the Open Source Robotics Foundation
- *     nor the names of its contributors may be
- *     used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- *  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- *  POSSIBILITY OF SUCH DAMAGE.
- *********************************************************************/
-
-/* Author: Dave Coleman, Johnathan Bohren
-   Desc:   Hardware Interface for any simulated robot in Gazebo
-
+/* 
    Author: Carlos Rosales
-   Desc: Not any simulated robot, this is the soft hand hardware interface for simulation
+   Desc: Not any simulated robot, this is the soft hand hardware interface for simulation.
+   Based on the Hardware Interface for any simulated robot in Gazebo by
+   Dave Coleman, Johnathan Bohren
+   Copyright (c) 2013, Open Source Robotics Foundation
+   Copyright (c) 2013, The Johns Hopkins University
 */
-
 
 #include <gazebo_ros_soft_hand/default_soft_hand_hw_sim.h>
 
@@ -164,16 +128,13 @@ bool DefaultSoftHandHWSim::initSim(
   js_interface_.registerHandle(hardware_interface::JointStateHandle(
     synergy_name_, &synergy_position_, &synergy_velocity_, &synergy_effort_));
 
-  // Decide what kind of command interface the synergy joint has
+  // The synergy joint only accepts PositionJointInterface, since this is how tipically the hand motor is controlled from ROS
   hardware_interface::JointHandle synergy_handle;
   if(hardware_interface_syn == "EffortJointInterface")
   {
-    // Create effort joint interface
-    synergy_control_method_ = EFFORT;
-    synergy_handle = hardware_interface::JointHandle(js_interface_.getHandle(synergy_name_),
-                                                   &synergy_effort_command_);
-
-    ej_interface_.registerHandle(synergy_handle);
+    ROS_ERROR_STREAM("The synergy joint \"" << synergy_name_
+      << " only accepts PositionJointInterface. Check the transmission defintion.");
+    return false;
   }
   else if(hardware_interface_syn == "PositionJointInterface")
   {
@@ -185,11 +146,9 @@ bool DefaultSoftHandHWSim::initSim(
   }
   else if(hardware_interface_syn == "VelocityJointInterface")
   {
-    // Create velocity joint interface
-    synergy_control_method_ = VELOCITY;
-    synergy_handle = hardware_interface::JointHandle(js_interface_.getHandle(synergy_name_),
-                                                   &synergy_velocity_command_);
-    vj_interface_.registerHandle(synergy_handle);
+    ROS_ERROR_STREAM("The synergy joint \"" << synergy_name_
+      << " only accepts PositionJointInterface. Check the transmission defintion.");
+    return false;
   }
   else
   {
@@ -225,9 +184,6 @@ bool DefaultSoftHandHWSim::initSim(
       {
         case POSITION:
           synergy_control_method_ = POSITION_PID;
-          break;
-        case VELOCITY:
-          synergy_control_method_ = VELOCITY_PID;
           break;
       }
     }
