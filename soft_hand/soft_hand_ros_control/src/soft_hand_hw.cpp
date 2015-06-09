@@ -55,7 +55,8 @@ namespace soft_hand_hw
                            double *const effort_limit);
 
     // from QBtools
-    int port_selection(char*);
+    // port selection by id
+    int port_selection(const int id, char* my_port);
     int open_port(char*);
     void set_input(short int);
 
@@ -149,7 +150,7 @@ namespace soft_hand_hw
      nh_.param("device_id", device_id_, BROADCAST_ID);
 
     // TODO: use transmission configuration to get names directly from the URDF model
-    if( ros::param::get("/joints", this->device_->joint_names) )
+    if( ros::param::get("joints", this->device_->joint_names) )
     {
       if( !(this->device_->joint_names.size()==N_SYN) )
       {
@@ -161,7 +162,7 @@ namespace soft_hand_hw
       ROS_ERROR("No joints to be handled, ensure you load a yaml file naming the joint names this hardware interface refers to.");
       throw std::runtime_error("No joint name specification");
     }
-    if( !(urdf_model_.initParam("/robot_description")) )
+    if( !(urdf_model_.initParam("robot_description")) )
     {
       ROS_ERROR("No URDF model in the robot_description parameter, this is required to define the joint limits.");
       throw std::runtime_error("No URDF model available");
@@ -217,40 +218,48 @@ namespace soft_hand_hw
     this->registerInterface(&position_interface_);
 
     // Finally, do the qb tools thing
-    
-    // get the port from the command line
-    assert(port_selection(port_));
-    // open the port
-    assert(open_port(port_));
-    // and activate the hand
-    commActivate(&comm_settings_t_, device_id_, 1);
-
-    ROS_INFO("Done initialization !");
-
-    return true;
+    // get the port by id
+    while(true)
+    {
+      if( port_selection(device_id_, port_) )
+      {
+        // open the port
+        assert(open_port(port_));
+        // and activate the hand
+        commActivate(&comm_settings_t_, device_id_, 1);
+        ROS_INFO("Done initialization !");
+        return true;
+      }
+      else
+      {
+        ROS_WARN("Hand not found in all available ports, trying again...");
+        // randomize the waiting to avoid conflict in files (probabilistically speaking)
+        sleep( 4*((double) rand() / (RAND_MAX)) );
+      }
+    }
   }
 
-    bool SHHW::read(ros::Time time, ros::Duration period)
-    {
-        // update the hand synergy joints
-        // read from hand
-        static short int inputs[2];
-        commGetInputs(&comm_settings_t_, device_id_, inputs);
+  bool SHHW::read(ros::Time time, ros::Duration period)
+  {
+      // update the hand synergy joints
+      // read from hand
+      static short int inputs[2];
+      commGetMeasurements(&comm_settings_t_, device_id_, inputs);
 
-        static short int currents[2];
-        commGetCurrents(&comm_settings_t_, device_id_, currents);
+      static short int currents[2];
+      commGetCurrents(&comm_settings_t_, device_id_, currents);
 
-        // fill the state variables
-        for (int j = 0; j < N_SYN; j++)
-        {
-            this->device_->joint_position_prev[j] = this->device_->joint_position[j];
-            this->device_->joint_position[j] = inputs[0];
-            this->device_->joint_effort[j] = currents[0];
-            this->device_->joint_velocity[j] = filters::exponentialSmoothing((this->device_->joint_position[j]-this->device_->joint_position_prev[j])/period.toSec(), this->device_->joint_velocity[j], 0.2);
-        }
+      // fill the state variables
+      for (int j = 0; j < N_SYN; j++)
+      {
+          this->device_->joint_position_prev[j] = this->device_->joint_position[j]/17000;
+          this->device_->joint_position[j] = inputs[0]/17000.0;
+          this->device_->joint_effort[j] = currents[0]*1.0;
+          this->device_->joint_velocity[j] = filters::exponentialSmoothing((this->device_->joint_position[j]-this->device_->joint_position_prev[j])/period.toSec(), this->device_->joint_velocity[j], 0.2);
+      }
 
-        return true;
-    }
+      return true;
+  }
 
   void SHHW::write(ros::Time time, ros::Duration period)
     {
@@ -262,17 +271,8 @@ namespace soft_hand_hw
 
         // write to the hand
         short int pos;
-        // Activate motors
-        //commActivate(&comm_settings_t_, device_id_, 1);
-
-        pos = (short int)this->device_->joint_position_command[0];
-      
+        pos = (short int)(17000.0*this->device_->joint_position_command[0]);
         set_input(pos);
-   
-        // usleep(1000);
-
-        // Deactivate motors
-        //commActivate(&comm_settings_t_, device_id_, 0);
 
         return;
     }
@@ -345,57 +345,81 @@ namespace soft_hand_hw
     }
   }
 
-  int SHHW::port_selection(char* my_port)
+  // port selection by id
+  int SHHW::port_selection(const int id, char* my_port)
   {
-    int i;
-    int aux_int;
     int num_ports = 0;
     char ports[10][255];
 
-    while(1)
+    num_ports = RS485listPorts(ports);
+
+    ROS_DEBUG_STREAM("Search id in " << num_ports << " serial ports available...");
+
+    if(num_ports)
     {
-        num_ports = RS485listPorts(ports);
+      for(int i = 0; i < num_ports; i++)
+      {
+        ROS_DEBUG_STREAM("Checking port: " << ports[i]);
 
-        if(num_ports) 
+        int aux_int;
+        comm_settings comm_settings_t;
+        char list_of_devices[255];
+
+        openRS485(&comm_settings_t, ports[i]);
+
+        if(comm_settings_t.file_handle == INVALID_HANDLE_VALUE)
         {
-            puts("\nChoose the serial port for your QB:\n");
-
-            for(i = 0; i < num_ports; ++i) 
-            {
-                printf("[%d] - %s\n\n", i+1, ports[i]);
-            }
-
-            printf("Serial port: ");
-            scanf("%d", &aux_int);
-
-            if( aux_int && (aux_int <= num_ports) ) 
-            {
-                strcpy(my_port, ports[aux_int - 1]);
-            }
-            else {
-                puts("Choice not available");
-                continue;
-            }
-            return 1;
-        } 
-        else 
-        {
-            puts("No serial port available.");
-            return 0;
+          ROS_DEBUG_STREAM("Couldn't connect to the serial port. Continue with the next available.");
+          continue;
         }
+
+        aux_int = RS485ListDevices(&comm_settings_t, list_of_devices);
+
+        ROS_DEBUG_STREAM( "Number of devices: " << aux_int );
+
+        if(aux_int > 1 || aux_int < 0)
+        {
+          ROS_WARN("The current port has more than one or none device connected... that is not a SoftHand");
+        }
+        else
+        {
+          ROS_DEBUG_STREAM("List of devices:");
+          for(int d = 0; d < aux_int; ++d)
+          {
+            ROS_DEBUG_STREAM( static_cast<int>(list_of_devices[d]) );
+            ROS_DEBUG_STREAM( "searching id" << id );
+            if( static_cast<int>(list_of_devices[d]) == id )
+            {
+              ROS_DEBUG_STREAM("Hand found at port: " << ports[i] << " !");
+              strcpy(my_port, ports[i]);
+              closeRS485(&comm_settings_t);
+              sleep(1);
+              return 1;
+            }
+            sleep(1);
+          }
+        }
+        closeRS485(&comm_settings_t);
+      }
+      return 0;
+    }
+    else
+    {
+        ROS_ERROR("No serial port available.");
+        return 0;
     }
   }
 
   int SHHW::open_port(char* port) 
   {
-    printf("Opening serial port...");
+    ROS_DEBUG_STREAM("Opening serial port: " << port << " for hand_id: " << device_id_);
     fflush(stdout);
 
     openRS485(&comm_settings_t_, port);
 
     if(comm_settings_t_.file_handle == INVALID_HANDLE_VALUE)
     {
-        puts("Couldn't connect to the serial port.");
+        ROS_ERROR("Couldn't connect to the selected serial port.");
         return 0;
     }
     usleep(500000);

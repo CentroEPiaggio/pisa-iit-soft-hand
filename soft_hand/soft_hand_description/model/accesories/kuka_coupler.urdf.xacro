@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:macro name="kuka_coupler" params="parent name *origin">
+  <joint name="${parent}_${name}_joint" type="fixed">
+    <insert_block name="origin"/>
+    <parent link="${parent}"/>
+    <child link="${name}_bottom"/>
+  </joint>
+  <link name="${name}_bottom">
+    <visual>
+      <origin xyz="0 0 0.0115" rpy="0 0 0"/>
+      <geometry>
+         <!-- mesh filename="package://soft_hand_description/meshes/accesories/kuka_coupler.stl"/-->
+         <cylinder radius="0.033" length="0.023"/>
+      </geometry>
+      <material name="SoftHand/Blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.031" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.033" length="0.023"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="${parent}_${name}_base_joint" type="fixed">
+    <origin xyz="0 0 0.023" rpy="0 0 0"/>
+    <parent link="${name}_bottom"/>
+    <child link="${name}"/>
+  </joint>
+  <link name="${name}"/>
+</xacro:macro>
+
+</robot>

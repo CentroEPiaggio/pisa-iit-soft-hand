@@ -1,5 +1,4 @@
-pisa-iit-soft-hand (ROS/Gazebo packages)
-========================================
+# pisa-iit-soft-hand (ROS/Gazebo packages)
 
 This repository contains the model of the Pisa/IIT hand as described in:
 
@@ -12,24 +11,16 @@ CAD model freely available through the [Natural Machine Motion Initiative](http:
 
 Unless stated otherwise, all files within the repository are released under the BSD 3-Clause License, see the [LICENSE](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/blob/master/LICENSE) file for the details.
 
-0. Dependencies
----------------
+## Dependencies
 
 Refer to CMakeLists.txt files and compilation errors if you are missing one.
 
-Typically, all related package with ros_control, controllers, simulation gazebo4, and so on. Simulations tested with Gazebo4.
+Typically, all related package with ros_control, ros_controllers, gazebo4.
 
 And you need the forked version of ros_control where the adaptive synergy transmission is implemented:
 `git clone  https://github.com/CentroEPiaggio/ros_control.git`
 
-You need also to fetch the submodule from QB robotics repositories, on the root folder type:
-
-`git submodule init`
-
-`git submodule update`
-
-1. Adaptive model
------------------
+## Adaptive model
 
 This model uses one joint controlled by position, and propagate the resulting configuration using the adaptive synergy transmission to the subactuated joints.
 
@@ -64,18 +55,15 @@ And clear the wrench in case you want to continue working normally
 
 `rosservice call /gazebo/clear_body_wrenches "body_name: 'soft_hand::soft_hand_middle_distal_link'"`
 
-2. Fully actuated model
------------------------
+## Fully actuated model
 
 This model might be useful for any application that implements the adaptive synergy "by soft", in which you compute the torque for each joint and publish it.
-
-IMPORTANT: You must ensure that the mimic joints have the same value as the joints they are mimicking!
 
 To see an example, launch:
 
 `roslaunch soft_hand_description gazebo_full_actuation.launch`
 
-Open the hand with:
+Open hand set of commands example:
 
 ```
 rostopic pub /soft_hand/hand_thumb_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
@@ -114,41 +102,16 @@ rostopic pub /soft_hand/hand_ring_middle_joint_mimic_position_controller/command
 rostopic pub /soft_hand/hand_ring_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
 ```
 
-Close the hand with:
+## Hand configuration using QBtools (USB/Handle)
 
-```
-rostopic pub /soft_hand/hand_thumb_abd_joint_position_controller/command std_msgs/Float64 "data: 1.5" &
-rostopic pub /soft_hand/hand_thumb_inner_joint_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_thumb_outer_joint_position_controller/command std_msgs/Float64 "data: 0.6" &
-rostopic pub /soft_hand/hand_index_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_index_inner_joint_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_index_middle_joint_position_controller/command std_msgs/Float64 "data: 0.5" &
-rostopic pub /soft_hand/hand_index_outer_joint_position_controller/command std_msgs/Float64 "data: 0.6" &
-rostopic pub /soft_hand/hand_little_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_little_inner_joint_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_little_middle_joint_position_controller/command std_msgs/Float64 "data: 0.5" &
-rostopic pub /soft_hand/hand_little_outer_joint_position_controller/command std_msgs/Float64 "data: 0.6" &
-rostopic pub /soft_hand/hand_middle_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_middle_inner_joint_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_middle_middle_joint_position_controller/command std_msgs/Float64 "data: 0.5" &
-rostopic pub /soft_hand/hand_middle_outer_joint_position_controller/command std_msgs/Float64 "data: 0.6" &
-rostopic pub /soft_hand/hand_ring_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_ring_inner_joint_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_ring_middle_joint_position_controller/command std_msgs/Float64 "data: 0.5" &
-rostopic pub /soft_hand/hand_ring_outer_joint_position_controller/command std_msgs/Float64 "data: 0.6" &
+Ensure you have the correct configuration for the the hand to be used either through USB or with the handle (joystick) using [handmoveadmin](hand-tools/) tools.
 
-rostopic pub /soft_hand/hand_thumb_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_thumb_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.6" &
-rostopic pub /soft_hand/hand_index_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_index_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.5" &
-rostopic pub /soft_hand/hand_index_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.6" &
-rostopic pub /soft_hand/hand_little_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_little_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.5" &
-rostopic pub /soft_hand/hand_little_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.6" &
-rostopic pub /soft_hand/hand_middle_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_middle_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.5" &
-rostopic pub /soft_hand/hand_middle_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.6" &
-rostopic pub /soft_hand/hand_ring_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.7" &
-rostopic pub /soft_hand/hand_ring_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.5" &
-rostopic pub /soft_hand/hand_ring_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.6" &
-```
+Compile following instructions by [qbrobotics](https://github.com/qbrobotics/handadmin) and use:
+
+`./handmoveadmin -p` <- To check the Input mode
+
+`./handmoveadmin -m` <- To change the input mode
+
+[0] is for USB communication.
+
+[1] is for the handle.

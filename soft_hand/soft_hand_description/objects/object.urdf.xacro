@@ -20,8 +20,8 @@
 	</link>
 
 	<gazebo reference="object">
-		<selfCollide>True</selfCollide>
-		<static>true</static>
+		<!-- <selfCollide>True</selfCollide>
+		<static>true</static> -->
 	</gazebo>
 
 </robot>
