@@ -20,23 +20,8 @@ cd ros_control
 git checkout multi-robot-test
 ```
 
-## Adaptive model
-
-This model uses one joint controlled by position, and propagate the resulting configuration using the adaptive synergy transmission to the subactuated joints.
-
-To see an example, launch:
-
-`roslaunch soft_hand_description gazebo_adaptive_actuation.launch`
-
-Open the hand with:
-
-`rostopic pub /soft_hand/hand_synergy_joint_position_controller/command std_msgs/Float64 "data: 0.0" &`
-
-Close the hand with:
-
-`rostopic pub /soft_hand/hand_synergy_joint_position_controller/command std_msgs/Float64 "data: 1.0" &`
-
-You can also modify the `gazebo_adaptive_actuation.launch` at will, for instance, by setting use_mimic_joint to true, you load a different hardware interface for simulation where the synergy works in pure kinematic control.
+## Examples
+There are several [examples](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/tree/master/examples). Those are ROS packages.
 
 
 ###Push the finger (Not implemented)
@@ -55,56 +40,11 @@ And clear the wrench in case you want to continue working normally
 
 `rosservice call /gazebo/clear_body_wrenches "body_name: 'soft_hand::soft_hand_middle_distal_link'"`
 
-## Fully actuated model
-
-This model might be useful for any application that implements the adaptive synergy "by soft", in which you compute the torque for each joint and publish it.
-
-To see an example, launch:
-
-`roslaunch soft_hand_description gazebo_full_actuation.launch`
-
-Open hand set of commands example:
-
-```
-rostopic pub /soft_hand/hand_thumb_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_thumb_inner_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_thumb_outer_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_index_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_index_inner_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_index_middle_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_index_outer_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_little_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_little_inner_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_little_middle_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_little_outer_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_middle_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_middle_inner_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_middle_middle_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_middle_outer_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_ring_abd_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_ring_inner_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_ring_middle_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_ring_outer_joint_position_controller/command std_msgs/Float64 "data: 0.0" &
-
-rostopic pub /soft_hand/hand_thumb_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_thumb_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_index_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_index_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_index_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_little_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_little_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_little_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_middle_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_middle_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_middle_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_ring_inner_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_ring_middle_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-rostopic pub /soft_hand/hand_ring_outer_joint_mimic_position_controller/command std_msgs/Float64 "data: 0.0" &
-```
-
 ## Hand configuration using QBtools (USB/Handle)
 
-Ensure you have the correct configuration for the the hand to be used either through USB or with the handle (joystick) using [handmoveadmin](hand-tools/) tools.
+These packages assume you use qbTools to move the hand, since it is the electronics the hand is sold with.
+
+So, ensure you have the correct configuration for the the hand to be used either through USB or with the handle (joystick) using [handmoveadmin](hand-tools/) tools.
 
 Compile following instructions by [qbrobotics](https://github.com/qbrobotics/handadmin) and use:
 
