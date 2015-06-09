@@ -2,11 +2,10 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="soft_hand">
 
 	<xacro:include filename="$(find soft_hand_description)/model/soft_hand.urdf.xacro"/>
-	<xacro:include filename="$(find soft_hand_description)/model/accesories/kuka_coupler.urdf.xacro"/>
 
 	<link name="box">
 		<inertial>
-			<mass value="1.0"/>
+			<mass value="0.5"/>
 			<inertia  ixx="1" ixy="0.00"  ixz="0.00" iyy="1" iyz="0.00" izz="1" />
 		</inertial>
 		<visual>
@@ -23,8 +22,11 @@
 		</collision>
 	</link>
 
-	<xacro:soft_hand parent="box" name="soft_hand" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)" left="true">
-		<origin xyz="0.0 0.0 1.0" rpy="0 0 0"/>
+	<xacro:soft_hand parent="box" name="left_hand" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)" left="true">
+		<origin xyz="0.0 -0.1 1.0" rpy="0 0 0"/>
 	</xacro:soft_hand>
 
+	<xacro:soft_hand parent="box" name="right_hand" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)" left="false">
+		<origin xyz="0.0 0.1 1.0" rpy="0 0 0"/>
+	</xacro:soft_hand>
 </robot>

@@ -1,0 +1,85 @@
+<launch>
+    <!-- LAUNCH INTERFACE -->
+    <arg name="gui" default="false"/>
+    <arg name="use_rviz" default="true"/>
+    <arg name="use_joint_state_publisher" default="true"/>
+    <arg name="use_grasp_estimator" default="false"/>
+
+    <!-- configure whether the real hardware is enabled or not -->
+    <arg name="soft_hand_enabled" default="false"/>
+
+    <!-- choose whether or not to start the full robot simulation -->
+    <arg name="use_robot_sim" default="true"/>
+
+    <!-- LAUNCH IMPLEMENTATION -->
+
+    <!-- #### generic-->
+
+    <!-- load the full robot in robot_description, useful for visualization, collision detection and planning simultaneously -->
+    <!-- the selection is only due to the hand visualization which is different in real and simulation -->
+    <group if="$(arg use_robot_sim)">
+        <param name="robot_description" command="$(find xacro)/xacro.py $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=false"/>
+    </group>
+    <group unless="$(arg use_robot_sim)">
+        <param name="robot_description" command="$(find xacro)/xacro.py $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=true"/>
+    </group>
+
+    <group if="$(arg use_joint_state_publisher)">
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+            <param name="use_gui" value="$(arg gui)"/>
+            <rosparam param="source_list">[/soft_hand/joint_states]</rosparam>
+        </node>
+    </group>
+
+    <param name="publish_frequency" value="100"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"  />
+
+    <group if="$(arg use_rviz)">
+        <node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find adaptive_example)/launch/my_rviz.rviz" output="screen"/>
+    </group>
+
+    <!-- load controller configurations -->
+    <rosparam file="$(find adaptive_example)/config/controllers.yaml" command="load"/>
+
+    <!-- #### simulation -->
+    <group if="$(arg use_robot_sim)">
+        <!-- Spawn the full robot into Gazebo  -->
+        <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand -x 0 -y 0 -z 1.0 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
+
+        <!-- load Gazebo simulation environment -->
+        <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <arg name="world_name" value="$(find adaptive_example)/worlds/simple_environment.world"/>
+            <arg name="paused" value="false"/>
+            <!-- when using the real/sim scenario in parallel, set "use_sim_time" to false -->
+            <arg name="use_sim_time" value="true"/>
+            <arg name="gui" value="true"/>
+            <arg name="headless" value="true"/>
+            <arg name="debug" value="false"/>
+        </include>
+    </group>
+
+    <!-- #### components -->
+    <group ns="soft_hand">
+      <group if="$(arg soft_hand_enabled)">
+          <!--add a copy of the robot description within the name space -->
+          <param name="robot_description" command="$(find xacro)/xacro.py $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=true"/>
+
+          <rosparam command="load" file="$(find adaptive_example)/config/joint_names.yaml" />
+
+          <include file="$(find soft_hand_ros_control)/launch/soft_hand_hw.launch">
+              <arg name="use_deafult_joint_names" value="false"/>
+              <arg name="hand_id" value="1"/>
+          </include>
+      </group>
+
+      <!-- load the controllers in current namespace -->
+      <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true" output="screen"  args="joint_state_controller joint_trajectory_controller"/>
+
+      <!-- grasp estimator -->
+      <group if="$(arg use_grasp_estimator)">
+        <rosparam command="load" file="$(find grasp_state_publisher)/config/softgrasp.yaml" />
+        <node name="grasp_state_publisher" pkg="grasp_state_publisher" type="grasp_state_publisher" respawn="true" output="screen" />
+      </group>
+    </group>
+
+</launch>

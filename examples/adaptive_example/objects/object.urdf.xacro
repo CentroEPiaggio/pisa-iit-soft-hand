@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="object">
+
+	<!-- a wall to test the adaptivity   -->
+	<link name="object">
+		<inertial>
+			<mass value="50.0"/>
+			<inertia  ixx="1" ixy="0.00"  ixz="0.00" iyy="1" iyz="0.00" izz="1" />
+		</inertial>
+		<visual>
+			<geometry>
+				<box size="0.05 0.05 0.25"/>
+			</geometry>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.05 0.05 0.25"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<gazebo reference="object">
+		<!-- <selfCollide>True</selfCollide>
+		<static>true</static> -->
+	</gazebo>
+
+</robot>
