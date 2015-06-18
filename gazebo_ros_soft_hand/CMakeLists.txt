@@ -1,13 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(gazebo_ros_soft_hand)
 
-find_package(orocos_kdl REQUIRED)
-
-# Find the absolute path to the orocos-kdl library
-find_library(orocos_kdl_LIBRARY NAMES ${orocos_kdl_LIBRARIES} PATHS
-${orocos_kdl_LIBRARY_DIRS} NO_DEFAULT_PATH)
-set(orocos_kdl_LIBRARIES ${orocos_kdl_LIBRARY})
-
 # Load catkin and all dependencies required for this package
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -19,7 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   pluginlib
   joint_limits_interface
   urdf
-  orocos_kdl
   kdl_conversions
   kdl_parser
   geometry_msgs
@@ -31,6 +23,14 @@ find_package(gazebo REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Eigen REQUIRED)
 
+link_directories(${GAZEBO_LIBRARY_DIRS})
+include_directories(include
+  ${Boost_INCLUDE_DIR}
+  ${GAZEBO_INCLUDE_DIRS}
+  ${Eigen_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+)
+
 catkin_package(
   CATKIN_DEPENDS
     roscpp
@@ -40,14 +40,6 @@ catkin_package(
     transmission_interface
   INCLUDE_DIRS include
   DEPENDS gazebo
-)
-
-link_directories(${GAZEBO_LIBRARY_DIRS})
-include_directories(include
-  ${Boost_INCLUDE_DIR}
-  ${catkin_INCLUDE_DIRS}
-  ${GAZEBO_INCLUDE_DIRS}
-  ${Eigen_INCLUDE_DIRS}
 )
 
 ## Libraries
