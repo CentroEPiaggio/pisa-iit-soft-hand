@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="object">
+
+  <link name="object">
+    <inertial>
+      <mass value="$(arg mass)"/>
+      <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.05"/>
+    </inertial>
+    <visual>
+      <geometry>
+       <mesh filename="package://asus_scanner_models/$(arg name)/$(arg name).stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+       <mesh filename="package://asus_scanner_models/$(arg name)/$(arg name).stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo reference="$(arg name)">
+    <gravity>true</gravity>
+    <mu1>500.0</mu1>
+    <mu2>500.0</mu2>
+    <kp>1000.0</kp>
+    <kd>1.0</kd>
+  </gazebo>
+
+</robot>

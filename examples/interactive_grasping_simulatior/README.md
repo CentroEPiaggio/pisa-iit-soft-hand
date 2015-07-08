@@ -1,0 +1,1 @@
+This example requires the [pacman object database freely](https://github.com/pacman-project/pacman-object-database).
