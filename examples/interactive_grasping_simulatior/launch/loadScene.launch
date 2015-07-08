@@ -12,7 +12,7 @@
   <param name="object_description" command="$(find xacro)/xacro.py $(find interactive_grasping_simulator)/urdf/object.urdf.xacro name:=$(arg name) mass:=$(arg mass)"/>
 
   <!-- Spawn models into Gazebo  -->
-  <node name="spawn_hand" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand -x 0 -y 0.2 -z 0.3 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
+  <node name="spawn_hand" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand -x 0 -y -0.2 -z 0.3 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
 
   <node name="spawn_object" pkg="gazebo_ros" type="spawn_model" args="-param object_description -urdf -model object -x 0 -y 0.2 -z 0.3 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
 

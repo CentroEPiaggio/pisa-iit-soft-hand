@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="object">
 
+  <link name="world"/>
+
+  <joint name="ground_joint" type="fixed">
+    <parent link="world"/>
+      <child link="object"/>
+  </joint>
+
   <link name="object">
     <inertial>
       <mass value="$(arg mass)"/>
@@ -19,6 +26,7 @@
   </link>
 
   <gazebo reference="$(arg name)">
+    <static>true</static>
     <gravity>true</gravity>
     <mu1>500.0</mu1>
     <mu2>500.0</mu2>
