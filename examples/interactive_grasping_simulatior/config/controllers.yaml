@@ -1,0 +1,10 @@
+soft_hand:
+  # Publish all joint states, including mimic joints -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 100
+
+  joint_trajectory_controller:
+    type: position_controllers/JointTrajectoryController
+    joints: 
+      - soft_hand_synergy_joint
