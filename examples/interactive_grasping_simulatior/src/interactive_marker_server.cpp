@@ -15,6 +15,7 @@
 #include <sensor_msgs/JointState.h>
 
 #include <gazebo_msgs/ModelState.h>
+#include <gazebo_msgs/ModelStates.h>
 
 // Interactive Grasping Simulator
 class IGS
@@ -23,19 +24,29 @@ public:
     IGS():server_("interactive_grasping_simulator_interactive_marker")
     {
         hand_sub_ = node_.subscribe("interactive_grasping_simulator_hand", 10, &IGS::update_position, this);
+        object_sub_ = node_.subscribe("/gazebo/model_states", 10, &IGS::update_obj_position, this);
         hand_marker_pub_ = node_.advertise<visualization_msgs::Marker>( "interactive_grasping_simulator_hand", 0 );
         hand_gazebo_pub_ = node_.advertise<gazebo_msgs::ModelState>( "/gazebo/set_model_state", 0 );
 
         im_sub_hand_ = node_.subscribe("interactive_grasping_simulator_interactive_marker/feedback",1,&IGS::im_callback,this);
         js_sub_ = node_.subscribe("/soft_hand/joint_states", 1, &IGS::publishTF, this);
 
-        transform_.setOrigin( tf::Vector3(0.0, 0.0, 0.0) );
+        // These values correspond with the gazebo spawn as well
+        transform_.setOrigin( tf::Vector3(0.0, -0.2, 0.3) );
         transform_.setRotation( tf::Quaternion( 0.0, 0.0, 0.0, 1.0) );
+
+        // define fixed poses of object and camera,
+        obj_transform_.setOrigin( tf::Vector3(0.0, 0.2, 0.3) );
+        obj_transform_.setRotation( tf::Quaternion( 0.0, 0.0, 0.0, 1.0) );
+
+        asus_transform_.setOrigin( tf::Vector3(-1.0, 0.04, 0.7) );
+        asus_transform_.setRotation( tf::Quaternion( 0.0, 0.0, 0.0, 1.0) );
 
         node_.getParam("leftness", leftness_);
 
         // init pose at 0.5
-        current_pose_.position.z = 0.5;
+        current_pose_.position.y = -0.2;
+        current_pose_.position.z = 0.3;
 
         // init empty-mesh marker
         marker_.header.frame_id = "world";
@@ -64,6 +75,19 @@ public:
     }
     
 private:
+    void update_obj_position(const gazebo_msgs::ModelStates &states)
+    {
+        for(int i = 0; i < states.name.size(); ++i)
+        {
+            if( states.name.at(i).compare("object") )
+            {
+                //obj_transform_.setOrigin( tf::Vector3(states.pose.at(i).position.x, states.pose.at(i).position.y, states.pose.at(i).position.z) );
+                //obj_transform_.setRotation( tf::Quaternion( states.pose.at(i).orientation.x, states.pose.at(i).orientation.y, states.pose.at(i).orientation.z, states.pose.at(i).orientation.w) );
+                return;
+            }
+        }
+        return;
+    }
     void update_position(const visualization_msgs::Marker &marker)
     {
         visualization_msgs::InteractiveMarker int_marker;
@@ -124,18 +148,8 @@ private:
 
     void im_callback(const visualization_msgs::InteractiveMarkerFeedback& feedback)
     {
-        /*static tf::TransformListener tf;
-        tf::StampedTransform hand_palm;
-        double timeout = 5.0;
-
-        if(!tf.waitForTransform("gmu_hand_palm_link","hand",ros::Time(0), ros::Duration(timeout)))
-            hand_palm.setIdentity();
-        else
-            tf.lookupTransform("gmu_hand_palm_link","hand", ros::Time(0), hand_palm);*/
-
         transform_.setOrigin( tf::Vector3(feedback.pose.position.x, feedback.pose.position.y, feedback.pose.position.z) );
         transform_.setRotation( tf::Quaternion( feedback.pose.orientation.x, feedback.pose.orientation.y, feedback.pose.orientation.z, feedback.pose.orientation.w) );
-        /*transform_.mult(transform_, hand_palm);*/
 
         current_pose_ = feedback.pose;
 
@@ -144,7 +158,10 @@ private:
 
     void publishTF(const sensor_msgs::JointState &msg)
     {
-        tf_broadcaster_.sendTransform( tf::StampedTransform(transform_, ros::Time::now(), "world", "hand") );
+        ros::Time now = ros::Time::now();
+        tf_broadcaster_.sendTransform( tf::StampedTransform(transform_, now, "/world", "/hand") );
+        tf_broadcaster_.sendTransform( tf::StampedTransform(obj_transform_, now, "/world", "/object") );
+        tf_broadcaster_.sendTransform( tf::StampedTransform(asus_transform_, now, "/world", "/asus_link") );
         hand_gazebo_pub_.publish( hand_in_gazebo_ );
     }
     
@@ -153,6 +170,7 @@ private:
     ros::NodeHandle node_;    
 
     ros::Subscriber hand_sub_;
+    ros::Subscriber object_sub_;
 
     geometry_msgs::Pose current_pose_;
     ros::Publisher hand_marker_pub_;
@@ -162,6 +180,8 @@ private:
     ros::Subscriber js_sub_;
     
     tf::Transform transform_;
+    tf::Transform obj_transform_;
+    tf::Transform asus_transform_;
     tf::TransformBroadcaster tf_broadcaster_;
 
     gazebo_msgs::ModelState hand_in_gazebo_;
