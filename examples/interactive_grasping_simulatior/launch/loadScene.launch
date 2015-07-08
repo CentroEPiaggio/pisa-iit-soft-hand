@@ -12,9 +12,9 @@
   <param name="object_description" command="$(find xacro)/xacro.py $(find interactive_grasping_simulator)/urdf/object.urdf.xacro name:=$(arg name) mass:=$(arg mass)"/>
 
   <!-- Spawn models into Gazebo  -->
-  <node name="spawn_hand" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand -x 0 -y -0.2 -z 0.3 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
+  <node name="spawn_hand" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand" respawn="false" output="screen"/>
 
-  <node name="spawn_object" pkg="gazebo_ros" type="spawn_model" args="-param object_description -urdf -model object -x 0 -y 0.2 -z 0.3 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
+  <node name="spawn_object" pkg="gazebo_ros" type="spawn_model" args="-param object_description -urdf -model object" respawn="false" output="screen"/>
 
   <!-- load Gazebo simulation environment -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -37,7 +37,7 @@
     <rosparam param="source_list">[/soft_hand/joint_states]</rosparam>
   </node>
 
-  <param name="publish_frequency" value="100"/>
+  <param name="publish_frequency" value="500"/>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
   <!-- load slider -->
@@ -46,6 +46,9 @@
   <!-- IGS server -->
   <param name="leftness" value="$(arg isLeft)"/>
   <node required="true" name="IGS" pkg="interactive_grasping_simulator" type="interactive_marker_server" respawn="false" output="screen"/>
+
+  <include file="$(find interactive_grasping_simulator)/launch/asus_frames.launch.xml">
+  </include>
 
   <node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find interactive_grasping_simulator)/launch/my_rviz.rviz" output="screen"/>
 
