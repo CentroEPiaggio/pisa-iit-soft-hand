@@ -402,6 +402,7 @@ bool DefaultSoftHandHWSim::initSim(
         << "\" which is not in the gazebo model.");
       return false;
     }
+    joint->SetMaxForce(0, joint_effort_limits_[j]);
     sim_joints_mimic_.push_back(joint);
   }
 
