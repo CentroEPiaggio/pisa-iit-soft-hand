@@ -632,8 +632,27 @@ void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
   // obtain the joint effort commands as a result of the synergy effort (computed using the contact forces) and the elastic at the joints
   // if no contact, the synergy effort is proportional to the synergy position
   // the resulting joint effort command is proportional to the difference between the synergy effort and the elastics
-  act_to_jnt_pos_.propagate();
-  act_to_jnt_eff_.propagate();
+
+  // the act_to_jnt_pos_.propagate() call will be useful ONLY
+  // if the joints are controlled in position - let's check if at least one is
+  // same thing is true for act_to_jnt_eff_.propagate()
+  // NOTICE how calling the propagate functions is not detrimental to functionality
+  // of the code, but performing these checks adds clarity to the code
+  bool update_jnt_position_command = false;
+  bool update_jnt_effort_command = false;
+  for(unsigned int j=0; j < n_dof_; ++j)
+  {
+    if(joint_control_methods_[j] != EFFORT)
+      update_jnt_position_command = true;
+    else
+      update_jnt_effort_command = true;
+  }
+
+  if(update_jnt_position_command)
+    act_to_jnt_pos_.propagate();  // eq 11
+
+  if(update_jnt_effort_command)
+    act_to_jnt_eff_.propagate();  // eq 9
 
   // ensure limits
   ej_sat_interface_.enforceLimits(period);
