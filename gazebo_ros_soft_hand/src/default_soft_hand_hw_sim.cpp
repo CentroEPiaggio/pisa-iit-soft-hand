@@ -584,10 +584,6 @@ bool DefaultSoftHandHWSim::initSim(
     SetToZero(fingers_to_middle_jac_6x7_[f]);
   }
 
-   // just to test that everything goes well at loading time
-   updateKinematics();
-   updateStatics();
-
   ROS_INFO("Initizalization done!");
 
   return true;
