@@ -617,13 +617,13 @@ void DefaultSoftHandHWSim::readSim(ros::Time time, ros::Duration period)
   // this is published below with the transmission propagate
   //synergy_effort_ = sim_synergy_->GetForce((unsigned int)(0));
 
-  // obtain the actuator effort as a consequence of the synergy position and contacts
-  jnt_to_act_eff_.propagate();
-
   // update joint arrays, jacobians, frames, change of frames, and column completion needed for the next function
   updateKinematics();
   // update the joint effort due to contact (it uses what it is in the contact message and updated values from the function above)
   updateStatics();
+
+  // obtain the actuator effort as a consequence of the synergy position and contacts
+  jnt_to_act_eff_.propagate();  // eq 12
 }
 
 void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
