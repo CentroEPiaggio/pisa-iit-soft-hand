@@ -46,6 +46,8 @@
         <!-- Spawn the full robot into Gazebo  -->
         <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand -x 0 -y 0 -z 1.0 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
 
+        <!-- node name="spawn_urdf_object" pkg="gazebo_ros" type="spawn_model" args="-file $(find adaptive_example)/objects/object.urdf.xacro -urdf -model object -x 0.08 -y 0 -z 1.0 -R 0 -P 0 -Y 0" respawn="false" output="screen"/ -->
+
         <!-- load Gazebo simulation environment -->
         <include file="$(find gazebo_ros)/launch/empty_world.launch">
             <arg name="world_name" value="$(find adaptive_example)/worlds/simple_environment.world"/>

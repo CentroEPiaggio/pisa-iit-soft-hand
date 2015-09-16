@@ -1,0 +1,5 @@
+<launch>
+
+        <node name="spawn_urdf_object" pkg="gazebo_ros" type="spawn_model" args="-file $(find adaptive_example)/objects/object.urdf.xacro -urdf -model object -x 0.06 -y 0.008 -z 1.125 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
+
+</launch>

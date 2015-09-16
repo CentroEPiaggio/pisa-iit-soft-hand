@@ -1,4 +1,4 @@
-/* 
+/*
    Author: Carlos Rosales
    Desc: Not any simulated robot, this is the soft hand hardware interface for simulation.
    Based on the Hardware Interface for any simulated robot in Gazebo by
@@ -41,7 +41,7 @@ bool DefaultSoftHandHWSim::initSim(
   // the one for the synergy joint, to be treated as in the default robot plugin
   transmission_interface::TransmissionInfo synergy_trans_info;
   // and the other one, whose control is not accessible from outside
-  // instead it defines the state of the adaptive joints in 
+  // instead it defines the state of the adaptive joints in
   // the simulation through the adaptive transmission
   transmission_interface::TransmissionInfo adaptive_trans_info;
 
@@ -71,9 +71,9 @@ bool DefaultSoftHandHWSim::initSim(
 
   TransmissionPtr transmission;
   const transmission_interface::TransmissionInfo& info = adaptive_trans_info;
-  
+
   transmission = transmission_loader->load(info);
-  
+
   assert(0 != transmission);
 
   transmission_interface::AdaptiveSynergyTransmission* adaptive_trans = dynamic_cast<transmission_interface::AdaptiveSynergyTransmission*>(transmission.get());
@@ -313,12 +313,12 @@ bool DefaultSoftHandHWSim::initSim(
     link_names_[j] = (link->GetName());
     // std::cout << link_names_[j] << std::endl;
 
+    // create map for contact information
+    link_applied_wrench_.insert( std::pair<std::string, KDL::Wrench>( std::string(link->GetName()), KDL::Wrench::Zero() ) );
+
     // Subscribe to contact topics
     sub_contacts_.push_back(model_nh.subscribe(model_nh.resolveName(std::string("/contacts/") + link->GetName()), 10, &DefaultSoftHandHWSim::getContacts, this));
 
-    // create map for contact information
-    link_applied_wrench_.insert( std::pair<std::string, KDL::Wrench>( std::string(link->GetName()), KDL::Wrench::Zero() ) );
-    
     // Set up controls
     if (joint_control_methods_[j] != EFFORT)
     {
@@ -368,17 +368,17 @@ bool DefaultSoftHandHWSim::initSim(
   int j_mimic = 0; // joint mimic counter
   for(unsigned int j=0; j < n_dof_; ++j)
   {
-    if( j==1 || j==2 || 
-        j==4 || j==5 || j==6 || 
-        j==8 || j==9 || j==10 || 
-        j==12 || j==13 || j==14 || 
+    if( j==1 || j==2 ||
+        j==4 || j==5 || j==6 ||
+        j==8 || j==9 || j==10 ||
+        j==12 || j==13 || j==14 ||
         j==16 || j==17 || j==18 )
-    { 
+    {
       joint_names_mimic_[j_mimic] = joint_names_[j] + std::string("_mimic");
       j_mimic++;
     }
   }
-  
+
   for(unsigned int j=0; j < n_mimic_; ++j)
   {
     joint_position_mimic_[j] = 0.0;
@@ -584,6 +584,7 @@ bool DefaultSoftHandHWSim::initSim(
   }
 
    // just to test that everything goes well at loading time
+   logLinkAppliedWrench();
    updateKinematics();
    updateStatics();
 
@@ -619,6 +620,7 @@ void DefaultSoftHandHWSim::readSim(ros::Time time, ros::Duration period)
   // obtain the actuator effort as a consequence of the synergy position and contacts
   jnt_to_act_eff_.propagate();
 
+  logLinkAppliedWrench();
   // update joint arrays, jacobians, frames, change of frames, and column completion needed for the next function
   updateKinematics();
   // update the joint effort due to contact (it uses what it is in the contact message and updated values from the function above)
@@ -691,7 +693,7 @@ void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
         break;
 
       case POSITION:
-        {           
+        {
           sim_joints_[j]->SetPosition(0, joint_position_command_[j]);
         }
         break;
@@ -721,12 +723,12 @@ void DefaultSoftHandHWSim::writeSim(ros::Time time, ros::Duration period)
     }
 
     // mirror command values to mimic joints
-      if( j==1 || j==2 || 
-        j==4 || j==5 || j==6 || 
-        j==8 || j==9 || j==10 || 
-        j==12 || j==13 || j==14 || 
+      if( j==1 || j==2 ||
+        j==4 || j==5 || j==6 ||
+        j==8 || j==9 || j==10 ||
+        j==12 || j==13 || j==14 ||
         j==16 || j==17 || j==18 )
-    { 
+    {
       joint_position_command_mimic_[j_mimic] = joint_position_[j];
       j_mimic++;
     }
@@ -747,7 +749,7 @@ void DefaultSoftHandHWSim::registerJointLimits(const std::string& joint_name,
                          const ControlMethod ctrl_method,
                          const ros::NodeHandle& joint_limit_nh,
                          const urdf::Model *const urdf_model,
-                         double *const lower_limit, double *const upper_limit, 
+                         double *const lower_limit, double *const upper_limit,
                          double *const effort_limit)
 {
   *lower_limit = -std::numeric_limits<double>::max();
@@ -845,6 +847,20 @@ void DefaultSoftHandHWSim::registerJointLimits(const std::string& joint_name,
 // uses the information published by the bumper plugins in the bodies
 void DefaultSoftHandHWSim::getContacts(const gazebo_msgs::ContactsState &msg)
 {
+
+  boost::lock_guard<boost::mutex> link_applied_wrench_guard(link_applied_wrench_mutex_);
+
+    if(!log_contacts.is_open())
+    {
+        std::string filename = "/home/arocchi/contacts.json";
+        std::cout << "Opening " << filename << " to log contacts" << std::endl;
+        log_contacts.open(filename.c_str());
+    }
+    else
+    {
+        log_contacts << msg << std::endl;
+    }
+    
   // first
   std::string link_in_collision(msg.header.frame_id);
 
@@ -862,6 +878,60 @@ void DefaultSoftHandHWSim::getContacts(const gazebo_msgs::ContactsState &msg)
       wrench = KDL::Wrench::Zero();
       link_applied_wrench_.at( std::string(link_in_collision) ) = wrench;
   }
+}
+
+void DefaultSoftHandHWSim::logLinkAppliedWrench()
+{
+    typedef std::map<std::string, KDL::Wrench> wrench_map;
+
+    if(!log_wrenches.is_open())
+    {
+        t = 0.0;
+
+        std::string filename = "/home/arocchi/wrenches.csv";
+        std::cout << "Opening " << filename << " to log wrenches" << std::endl;
+        log_wrenches.open(filename.c_str());
+
+        log_wrenches << "# Here is a list of link names, every row has wrenches and t" << std::endl
+                 << "#t,\t";
+        for(wrench_map::const_iterator i_w = link_applied_wrench_.begin();
+            i_w != link_applied_wrench_.end();
+            ++i_w)
+        {
+            for(unsigned i = 0; i < 3; ++i)
+            {
+                log_wrenches << i_w->first << "_f" << i << ",\t";
+            }
+            wrench_map::const_iterator i_w_next = i_w;
+            for(unsigned i = 3; i < 6; ++i)
+            {
+                log_wrenches << i_w->first << "_tau" << i;
+                if(++i_w_next != link_applied_wrench_.end())
+                    log_wrenches << ",\t";
+            }
+        }
+        log_wrenches << std::endl;
+    }
+    else
+    {
+        boost::lock_guard<boost::mutex> link_applied_wrench_guard(link_applied_wrench_mutex_);
+
+        log_wrenches << t << ",\t";
+        for(wrench_map::const_iterator i_w = link_applied_wrench_.begin();
+            i_w != link_applied_wrench_.end();
+            ++i_w)
+        {
+            for(unsigned i = 0; i < 5; ++i)
+                log_wrenches << i_w->second[i] << ", ";
+            log_wrenches << i_w->second[5];
+            wrench_map::const_iterator i_w_next = i_w;
+            if(++i_w_next != link_applied_wrench_.end())
+                log_wrenches << ",\t";
+        }
+        log_wrenches << std::endl;
+        log_wrenches.flush();
+        t += 0.001;
+    }
 }
 
 void DefaultSoftHandHWSim::updateKinematics()
@@ -988,6 +1058,7 @@ void DefaultSoftHandHWSim::updateKinematics()
 // sum all contributions of each wrench applied to links per each joint
 void DefaultSoftHandHWSim::updateStatics()
 {
+  boost::lock_guard<boost::mutex> link_applied_wrench_guard(link_applied_wrench_mutex_);
   // force scale due to high contact force that generate too high efforts
   // ToDo: scale everything well to avoid this magic value
   float effort_scale = -1*0.001;

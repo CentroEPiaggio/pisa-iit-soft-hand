@@ -45,6 +45,10 @@
 #ifndef _GAZEBO_ROS_SOFT_HAND___DEFAULT_SOFT_HAND_HW_SIM_H_
 #define _GAZEBO_ROS_SOFT_HAND___DEFAULT_SOFT_HAND_HW_SIM_H_
 
+// mutex
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/lock_guard.hpp>
+
 // ros_control
 #include <control_toolbox/pid.h>
 #include <hardware_interface/joint_command_interface.h>
@@ -53,6 +57,7 @@
 #include <joint_limits_interface/joint_limits_interface.h>
 #include <joint_limits_interface/joint_limits_rosparam.h>
 #include <joint_limits_interface/joint_limits_urdf.h>
+#include <fstream>
 
 // you need the forked version of ros_control to have this compact loading capabilites
 // and of course, the adaptive synergy transmission, and modifications on the
@@ -125,7 +130,7 @@ protected:
                            const ControlMethod ctrl_method,
                            const ros::NodeHandle& joint_limit_nh,
                            const urdf::Model *const urdf_model,
-                           double *const lower_limit, double *const upper_limit, 
+                           double *const lower_limit, double *const upper_limit,
                            double *const effort_limit);
 
   unsigned int n_dof_;
@@ -209,6 +214,7 @@ protected:
   std::vector<gazebo_msgs::ContactsState> contacts_;
   std::vector<ros::Subscriber> sub_contacts_;
 
+  boost::mutex link_applied_wrench_mutex_;
   std::map<std::string, KDL::Wrench> link_applied_wrench_;
 
   void getContacts(const gazebo_msgs::ContactsState & msg);
@@ -267,6 +273,10 @@ protected:
   std::vector<KDL::Frame> fingers_middle_frame_;
   std::vector<KDL::Frame> fingers_distal_frame_;
 
+  std::ofstream log_wrenches;
+  std::ofstream log_contacts;
+  double t;
+  void logLinkAppliedWrench();
   void updateKinematics();
   void updateStatics();
 
