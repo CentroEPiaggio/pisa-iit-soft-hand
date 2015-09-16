@@ -850,17 +850,22 @@ void DefaultSoftHandHWSim::getContacts(const gazebo_msgs::ContactsState &msg)
 
   boost::lock_guard<boost::mutex> link_applied_wrench_guard(link_applied_wrench_mutex_);
 
+    typedef std::map<std::string, KDL::Wrench> wrench_map;
+
     if(!log_contacts.is_open())
     {
-        std::string filename = "/home/arocchi/contacts.json";
+        std::string filename = "/home/arocchi/contacts.csv";
         std::cout << "Opening " << filename << " to log contacts" << std::endl;
         log_contacts.open(filename.c_str());
+
+        log_contacts
+                << "#t,\tbody1,\tbody2,\tnumber_of_contacts,\t"
+                << "average_cp_x,\taverage_cp_y,\taverage_cp_z,\t"
+                << "average_cn_x,\taverage_cn_y,\taverage_cn_z,\t"
+                << "f_x,\tf_y,\tf_z,\t"
+                << "m_x,\tm_y,\tm_z" << std::endl;
     }
-    else
-    {
-        log_contacts << msg << std::endl;
-    }
-    
+
   // first
   std::string link_in_collision(msg.header.frame_id);
 
@@ -871,6 +876,65 @@ void DefaultSoftHandHWSim::getContacts(const gazebo_msgs::ContactsState &msg)
   {
       // one plugin per link (for now), so index 0 is ok
       tf::wrenchMsgToKDL(msg.states.at(0).total_wrench, wrench);
+
+      int n_contacts = msg.states.at(0).contact_positions.size();
+      if(n_contacts > 0)
+      {
+          KDL::Vector average_cp;
+          tf::vectorMsgToKDL(
+                      msg.states.at(0).contact_positions.at(0),
+                      average_cp);
+          KDL::Vector average_normal;
+          tf::vectorMsgToKDL(
+                      msg.states.at(0).contact_normals.at(0),
+                      average_normal);
+          for(int i = 1; i < n_contacts; ++i)
+          {
+              KDL::Vector temp;
+              tf::vectorMsgToKDL(
+                          msg.states.at(0).contact_positions.at(i),
+                          temp);
+              average_cp += temp;
+              tf::vectorMsgToKDL(
+                          msg.states.at(0).contact_normals.at(i),
+                          temp);
+              average_normal += temp;
+          }
+          average_cp = (average_cp/n_contacts);
+          average_normal = (average_normal/n_contacts);
+
+          std::string body1, body2;
+          if(msg.states.at(0).collision1_name.at(0) == 'o')
+          {
+              body1 = "object";
+              body2 = link_in_collision;
+          }
+          else
+          {
+              std::cout << "flipping.."<< std::endl;
+              body1 = link_in_collision;
+              body2 = "object";
+          }
+
+          log_contacts
+                  << t << ",\t"
+                  << msg.states.at(0).collision1_name << ",\t"
+                  << msg.states.at(0).collision2_name << ",\t"
+                  << n_contacts << ",\t"
+                  << average_cp[0] << ",\t"
+                  << average_cp[1] << ",\t"
+                  << average_cp[2] << ",\t"
+                  << average_normal[0] << ",\t"
+                  << average_normal[1] << ",\t"
+                  << average_normal[2] << ",\t"
+                  << wrench[0] << ",\t"
+                  << wrench[1] << ",\t"
+                  << wrench[2] << ",\t"
+                  << wrench[3] << ",\t"
+                  << wrench[4] << ",\t"
+                  << wrench[5] << std::endl;
+      }
+
       link_applied_wrench_.at( std::string(link_in_collision) ) = wrench;
   }
   else
