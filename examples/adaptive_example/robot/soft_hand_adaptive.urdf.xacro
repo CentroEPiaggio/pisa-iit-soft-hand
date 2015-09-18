@@ -5,29 +5,40 @@
 
 	<link name="box">
 		<inertial>
-			<mass value="50.0"/>
+			<mass value="1.0"/>
 			<inertia  ixx="1" ixy="0.00"  ixz="0.00" iyy="1" iyz="0.00" izz="1" />
 		</inertial>
 		<visual>
-			<origin xyz="0 0 0.50" rpy="0 0 0"/>
+			<origin xyz="0 0 0.01" rpy="0 0 0"/>
 			<geometry>
-				<box size="1.0 1.0 1.0"/>
+				<box size="0.01 0.01 0.01"/>
 			</geometry>
 		</visual>
 		<collision>
-			<origin xyz="0 0 0.50" rpy="0 0 0"/>
+			<origin xyz="0 0 0.01" rpy="0 0 0"/>
 			<geometry>
-				<box size="1.0 1.0 1.0"/>
+				<box size="0.01 0.01 0.01"/>
 			</geometry>
 		</collision>
 	</link>
 
-	<gazebo reference="box">
-		<static>true</static>
+	<gazebo>
+		<plugin filename="libgazebo_ros_hand_of_god.so" name="HOG">
+			<linkName>box</linkName>
+			<frameId>box</frameId>
+			<kl>2000</kl>
+		</plugin>
 	</gazebo>
 
+	<gazebo reference="box">
+		<static>false</static>
+	</gazebo>
+
+
 	<xacro:soft_hand parent="box" name="soft_hand" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)" left="false">
-		<origin xyz="0.0 0.0 1.02" rpy="0 0 0"/>
+		<origin xyz="0.0 0.0 0.005" rpy="0 0 0"/>
 	</xacro:soft_hand>
+
+	 
 
 </robot>
