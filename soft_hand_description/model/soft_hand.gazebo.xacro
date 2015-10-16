@@ -19,8 +19,8 @@
 		<gravity>true</gravity>
 		<mu1>500.0</mu1>
 		<mu2>500.0</mu2>
-		<kp>10000000.0</kp>
-		<kd>1.0</kd>
+		<kp>1000000.0</kp>
+		<kd>100.0</kd>
 		<!-- <fdir1>string</fdir1> -->
 		<!-- <dampingFactor>double</dampingFactor> -->
 		<!-- <maxVel>double</maxVel> -->
