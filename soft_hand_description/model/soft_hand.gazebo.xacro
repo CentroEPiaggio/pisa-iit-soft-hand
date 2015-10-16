@@ -14,6 +14,28 @@
 		-->
 	</xacro:property>
 
+	<!-- set friction properties -->
+	<xacro:property name="gazebo_friction_properties">
+		<gravity>true</gravity>
+		<mu1>500.0</mu1>
+		<mu2>500.0</mu2>
+		<kp>10000000.0</kp>
+		<kd>1.0</kd>
+		<!-- <fdir1>string</fdir1> -->
+		<!-- <dampingFactor>double</dampingFactor> -->
+		<!-- <maxVel>double</maxVel> -->
+		<!-- <minDepth>double</minDepth> -->
+		<!-- <maxContacts>int</maxContacts> -->
+	</xacro:property>
+	<!-- <xacro:insert_block name="gazebo_friction_properties"/> -->
+
+	<xacro:property name="gazebo_other_properties">
+		<!-- <material>value</material> -->
+		<!-- <selfCollide>bool</selfCollide> -->
+		<!-- <laserRetro>double</laserRetro> -->
+	</xacro:property>
+	<!-- <xacro:insert_block name="gazebo_other_properties"/> -->
+
 	<xacro:macro name="soft_hand_gazebo" params="name withAdaptiveTransmission useMimicTag">
 
 		<!-- PLUGINS -->
@@ -60,12 +82,7 @@
 					<bumperTopicName>/contacts/${name}_palm_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_knuckle_link">
@@ -85,12 +102,7 @@
 					<bumperTopicName>/contacts/${name}_thumb_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_proximal_link">
@@ -110,12 +122,7 @@
 					<bumperTopicName>/contacts/${name}_thumb_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_distal_link">
@@ -135,12 +142,7 @@
 					<bumperTopicName>/contacts/${name}_thumb_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_index_knuckle_link">
@@ -160,12 +162,7 @@
 					<bumperTopicName>/contacts/${name}_index_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_index_proximal_link">
@@ -185,12 +182,7 @@
 					<bumperTopicName>/contacts/${name}_index_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_index_middle_link">
@@ -210,12 +202,7 @@
 					<bumperTopicName>/contacts/${name}_index_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_index_distal_link">
@@ -235,12 +222,7 @@
 					<bumperTopicName>/contacts/${name}_index_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_knuckle_link">
@@ -260,12 +242,7 @@
 					<bumperTopicName>/contacts/${name}_middle_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_proximal_link">
@@ -285,12 +262,7 @@
 					<bumperTopicName>/contacts/${name}_middle_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_middle_link">
@@ -310,12 +282,7 @@
 					<bumperTopicName>/contacts/${name}_middle_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_distal_link">
@@ -335,12 +302,7 @@
 					<bumperTopicName>/contacts/${name}_middle_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_knuckle_link">
@@ -360,12 +322,7 @@
 					<bumperTopicName>/contacts/${name}_ring_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_proximal_link">
@@ -385,12 +342,7 @@
 					<bumperTopicName>/contacts/${name}_ring_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_middle_link">
@@ -410,12 +362,7 @@
 					<bumperTopicName>/contacts/${name}_ring_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_distal_link">
@@ -435,12 +382,7 @@
 					<bumperTopicName>/contacts/${name}_ring_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_little_knuckle_link">
@@ -460,12 +402,7 @@
 					<bumperTopicName>/contacts/${name}_little_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_little_proximal_link">
@@ -485,12 +422,7 @@
 					<bumperTopicName>/contacts/${name}_little_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_little_middle_link">
@@ -510,12 +442,7 @@
 					<bumperTopicName>/contacts/${name}_little_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!--selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<gazebo reference="${name}_little_distal_link">
@@ -535,12 +462,7 @@
 					<bumperTopicName>/contacts/${name}_little_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<!-- selfCollide>true</selfCollide-->
-			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
-			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<xacro:insert_block name="gazebo_friction_properties"/>
 		</gazebo>
 
 		<!-- JOINTS -->
