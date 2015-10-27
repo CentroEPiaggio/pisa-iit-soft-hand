@@ -1057,10 +1057,11 @@ void DefaultSoftHandHWSim::updateStatics()
     KDL::Add(total_finger_effort, effort_finger, total_finger_effort);
     lk++;
 
-    joint_effort_contact_[3 + n_fingers_] = total_finger_effort(0)*effort_scale;
-    joint_effort_contact_[4 + n_fingers_] = total_finger_effort(1)*effort_scale;
-    joint_effort_contact_[5 + n_fingers_] = total_finger_effort(3)*effort_scale;
-    joint_effort_contact_[6 + n_fingers_] = total_finger_effort(5)*effort_scale;
+    uint nr_joints_per_finger(4);
+    joint_effort_contact_[3 + f*nr_joints_per_finger] = total_finger_effort(0)*effort_scale;
+    joint_effort_contact_[4 + f*nr_joints_per_finger] = total_finger_effort(1)*effort_scale;
+    joint_effort_contact_[5 + f*nr_joints_per_finger] = total_finger_effort(3)*effort_scale;
+    joint_effort_contact_[6 + f*nr_joints_per_finger] = total_finger_effort(5)*effort_scale;
   }
 }
 

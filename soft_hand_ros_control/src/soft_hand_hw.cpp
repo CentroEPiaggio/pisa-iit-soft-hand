@@ -377,7 +377,7 @@ namespace soft_hand_hw
 
         ROS_DEBUG_STREAM( "Number of devices: " << aux_int );
 
-        if(aux_int > 1 || aux_int < 0)
+        if(aux_int > 2 || aux_int < 0)
         {
           ROS_WARN("The current port has more than one or none device connected... that is not a SoftHand");
         }
