@@ -56,16 +56,16 @@
 				<plugin name="${name}_palm_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_palm_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_palm_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_knuckle_link">
@@ -81,16 +81,16 @@
 				<plugin name="${name}_thumb_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_thumb_knuckle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_thumb_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_proximal_link">
@@ -106,16 +106,16 @@
 				<plugin name="${name}_thumb_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_thumb_proximal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_thumb_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_thumb_distal_link">
@@ -131,16 +131,16 @@
 				<plugin name="${name}_thumb_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_thumb_distal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_thumb_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_index_knuckle_link">
@@ -156,16 +156,16 @@
 				<plugin name="${name}_index_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_index_knuckle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_index_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_index_proximal_link">
@@ -181,16 +181,16 @@
 				<plugin name="${name}_index_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_index_proximal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_index_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_index_middle_link">
@@ -206,16 +206,16 @@
 				<plugin name="${name}_index_middle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_index_middle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_index_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_index_distal_link">
@@ -231,16 +231,16 @@
 				<plugin name="${name}_index_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_index_distal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_index_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_knuckle_link">
@@ -256,16 +256,16 @@
 				<plugin name="${name}_middle_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_middle_knuckle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_middle_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_proximal_link">
@@ -281,16 +281,16 @@
 				<plugin name="${name}_middle_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_middle_proximal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_middle_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_middle_link">
@@ -306,16 +306,16 @@
 				<plugin name="${name}_middle_middle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_middle_middle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_middle_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_middle_distal_link">
@@ -331,16 +331,16 @@
 				<plugin name="${name}_middle_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_middle_distal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_middle_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_knuckle_link">
@@ -356,16 +356,16 @@
 				<plugin name="${name}_ring_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_ring_knuckle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_ring_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_proximal_link">
@@ -381,16 +381,16 @@
 				<plugin name="${name}_ring_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_ring_proximal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_ring_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_middle_link">
@@ -406,16 +406,16 @@
 				<plugin name="${name}_ring_middle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_ring_middle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_ring_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_ring_distal_link">
@@ -431,16 +431,16 @@
 				<plugin name="${name}_ring_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_ring_distal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_ring_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_little_knuckle_link">
@@ -456,16 +456,16 @@
 				<plugin name="${name}_little_knuckle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_little_knuckle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_little_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_little_proximal_link">
@@ -481,16 +481,16 @@
 				<plugin name="${name}_little_proximal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_little_proximal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_little_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_little_middle_link">
@@ -506,16 +506,16 @@
 				<plugin name="${name}_little_middle_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_little_middle_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_little_middle_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!--selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<gazebo reference="${name}_little_distal_link">
@@ -531,16 +531,16 @@
 				<plugin name="${name}_little_distal_link_gazebo_ros_bumper_plugin" filename="libgazebo_ros_bumper.so">
 					<alwaysOn>true</alwaysOn>
 					<frameName>${name}_little_distal_link</frameName>
-					<updateRate>100.0</updateRate>
+					<updateRate>1000.0</updateRate>
 					<bumperTopicName>/contacts/${name}_little_distal_link</bumperTopicName>
 				</plugin>
 			</sensor>
 			<!-- selfCollide>true</selfCollide-->
 			<gravity>true</gravity>
-			<mu1>500.0</mu1>
-			<mu2>500.0</mu2>
+			<mu1>1.0</mu1>
+			<mu2>1.0</mu2>
 			<kp>10000000.0</kp>
-			<kd>1.0</kd>
+			<kd>100.0</kd>
 		</gazebo>
 
 		<!-- JOINTS -->

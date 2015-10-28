@@ -8,6 +8,7 @@
 */
 
 #include <gazebo_ros_soft_hand/default_soft_hand_hw_sim.h>
+#include <ctime>
 
 namespace
 {
@@ -854,8 +855,19 @@ void DefaultSoftHandHWSim::getContacts(const gazebo_msgs::ContactsState &msg)
 
     if(!log_contacts.is_open())
     {
-        std::string filename = "/home/arocchi/contacts.csv";
-        std::cout << "Opening " << filename << " to log contacts" << std::endl;
+        //std::string filename = "/home/arocchi/contacts.csv";
+        boost::filesystem::path filename( boost::filesystem::current_path() );
+        {
+          time_t rawtime;
+          struct tm* timeinfo;
+          char buffer [80];
+          time (&rawtime);
+          timeinfo = localtime (&rawtime);
+          strftime (buffer,80,"%Y%m%d_%H%M%S",timeinfo);
+          filename /= std::string("contacts_") + buffer + ".csv";
+        }
+
+        std::cout << "Opening " << filename.c_str() << " to log contacts" << std::endl;
         log_contacts.open(filename.c_str());
 
         log_contacts
@@ -935,12 +947,13 @@ void DefaultSoftHandHWSim::getContacts(const gazebo_msgs::ContactsState &msg)
                   << wrench[5] << std::endl;
       }
 
-      link_applied_wrench_.at( std::string(link_in_collision) ) = wrench;
+      link_applied_wrench_.at( std::string(link_in_collision) ) = 
+      0.15*link_applied_wrench_.at( std::string(link_in_collision) ) + 0.85*wrench;
   }
   else
   {
       wrench = KDL::Wrench::Zero();
-      link_applied_wrench_.at( std::string(link_in_collision) ) = wrench;
+      link_applied_wrench_.at( std::string(link_in_collision) ) = 0.15*link_applied_wrench_.at( std::string(link_in_collision) );
   }
 }
 
@@ -952,8 +965,19 @@ void DefaultSoftHandHWSim::logLinkAppliedWrench()
     {
         t = 0.0;
 
-        std::string filename = "/home/arocchi/wrenches.csv";
-        std::cout << "Opening " << filename << " to log wrenches" << std::endl;
+        //std::string filename = "/home/arocchi/wrenches.csv";
+        boost::filesystem::path filename( boost::filesystem::current_path() );
+        {
+          time_t rawtime;
+          struct tm *timeinfo;
+          char buffer [80];
+          time (&rawtime);
+          timeinfo = localtime (&rawtime);
+          strftime (buffer,80,"%Y%m%d_%H%M%S",timeinfo);
+          filename /= std::string("wrenches_") + buffer + ".csv";
+        }
+
+        std::cout << "Opening " << filename.c_str() << " to log wrenches" << std::endl;
         log_wrenches.open(filename.c_str());
 
         log_wrenches << "# Here is a list of link names, every row has wrenches and t" << std::endl
