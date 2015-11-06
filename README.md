@@ -1,5 +1,7 @@
 # pisa-iit-soft-hand (ROS/Gazebo packages)
 
+[![Join the chat at https://gitter.im/CentroEPiaggio/pisa-iit-soft-hand](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/CentroEPiaggio/pisa-iit-soft-hand?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This repository contains the model of the Pisa/IIT hand as described in:
 
 * M. G. Catalano, Grioli, G., Farnioli, E., Serio, A., Piazza, C., and Bicchi, A., “Adaptive Synergies for the Design and Control of the Pisa/IIT SoftHand”, International Journal of Robotics Research, vol. 33, no. 5, pp. 768–782, 2014
