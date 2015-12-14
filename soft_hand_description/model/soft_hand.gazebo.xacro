@@ -34,6 +34,10 @@
 		<selfCollide>true</selfCollide>
 		<xacro:insert_block name="gazebo_friction_properties"/>
 	</xacro:property>
+	<xacro:property name="gazebo_nonSelfCollide_link_elements">
+		<selfCollide>false</selfCollide>
+		<xacro:insert_block name="gazebo_friction_properties"/>
+	</xacro:property>
 
 	<xacro:property name="gazebo_other_properties">
 		<!-- <material>value</material> -->
@@ -98,7 +102,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x4925"/>
+				<xacro:collideBitmask hex_collision="0x49250"/>
 			</collision>
 		</gazebo>
 
@@ -119,9 +123,10 @@
 					<bumperTopicName>/contacts/${name}_thumb_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x2492"/>
+				<!-- <xacro:collideBitmask hex_collision="0x24920"/> -->
+				<xacro:collideBitmask hex_collision="0x1"/>
 			</collision>
 		</gazebo>
 
@@ -144,7 +149,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x0009"/>
+				<xacro:collideBitmask hex_collision="0x00090"/>
 			</collision>
 		</gazebo>
 
@@ -167,7 +172,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x0006"/>
+				<xacro:collideBitmask hex_collision="0x00060"/>
 			</collision>
 		</gazebo>
 
@@ -188,9 +193,10 @@
 					<bumperTopicName>/contacts/${name}_index_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x24CA"/>
+				<!-- <xacro:collideBitmask hex_collision="0x24CA0"/> -->
+				<xacro:collideBitmask hex_collision="0x1"/>
 			</collision>
 		</gazebo>
 
@@ -211,9 +217,10 @@
 					<bumperTopicName>/contacts/${name}_index_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x0015"/>
+				<!-- <xacro:collideBitmask hex_collision="0x00150"/> -->
+				<xacro:collideBitmask hex_collision="0x2"/>
 			</collision>
 		</gazebo>
 
@@ -236,7 +243,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x002A"/>
+				<xacro:collideBitmask hex_collision="0x002A0"/>
 			</collision>
 		</gazebo>
 
@@ -259,7 +266,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x0055"/>
+				<xacro:collideBitmask hex_collision="0x00550"/>
 			</collision>
 		</gazebo>
 
@@ -280,9 +287,10 @@
 					<bumperTopicName>/contacts/${name}_middle_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x265A"/>
+				<!-- <xacro:collideBitmask hex_collision="0x265A0"/> -->
+				<xacro:collideBitmask hex_collision="0x1"/>
 			</collision>
 		</gazebo>
 
@@ -303,9 +311,10 @@
 					<bumperTopicName>/contacts/${name}_middle_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x00A5"/>
+				<!-- <xacro:collideBitmask hex_collision="0x00A50"/> -->
+				<xacro:collideBitmask hex_collision="0x2"/>
 			</collision>
 		</gazebo>
 
@@ -328,7 +337,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x015A"/>
+				<xacro:collideBitmask hex_collision="0x015A0"/>
 			</collision>
 		</gazebo>
 
@@ -351,7 +360,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x02A5"/>
+				<xacro:collideBitmask hex_collision="0x02A50"/>
 			</collision>
 		</gazebo>
 
@@ -372,9 +381,10 @@
 					<bumperTopicName>/contacts/${name}_ring_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x32DA"/>
+				<!-- <xacro:collideBitmask hex_collision="0x32DA0"/> -->
+				<xacro:collideBitmask hex_collision="0x1"/>
 			</collision>
 		</gazebo>
 
@@ -395,9 +405,10 @@
 					<bumperTopicName>/contacts/${name}_ring_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x0525"/>
+				<!-- <xacro:collideBitmask hex_collision="0x05250"/> -->
+				<xacro:collideBitmask hex_collision="0x2"/>
 			</collision>
 		</gazebo>
 
@@ -420,7 +431,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x0ADA"/>
+				<xacro:collideBitmask hex_collision="0x0ADA0"/>
 			</collision>
 		</gazebo>
 
@@ -443,7 +454,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x1525"/>
+				<xacro:collideBitmask hex_collision="0x15250"/>
 			</collision>
 		</gazebo>
 
@@ -464,9 +475,10 @@
 					<bumperTopicName>/contacts/${name}_little_knuckle_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x96DA"/>
+				<!-- <xacro:collideBitmask hex_collision="0x96DA0"/> -->
+				<xacro:collideBitmask hex_collision="0x1"/>
 			</collision>
 		</gazebo>
 
@@ -487,9 +499,10 @@
 					<bumperTopicName>/contacts/${name}_little_proximal_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_nonSelfCollide_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x2925"/>
+				<!-- <xacro:collideBitmask hex_collision="0x29250"/> -->
+				<xacro:collideBitmask hex_collision="0x2"/>
 			</collision>
 		</gazebo>
 
@@ -512,7 +525,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0x56DA"/>
+				<xacro:collideBitmask hex_collision="0x56DA0"/>
 			</collision>
 		</gazebo>
 
@@ -535,7 +548,7 @@
 			</sensor>
 			<xacro:insert_block name="gazebo_link_elements"/>
 			<collision>
-				<xacro:collideBitmask hex_collision="0xA925"/>
+				<xacro:collideBitmask hex_collision="0xA9250"/>
 			</collision>
 		</gazebo>
 

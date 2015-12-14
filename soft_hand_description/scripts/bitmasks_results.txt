@@ -1,0 +1,48 @@
+Collision bitmasks for having the palm not colliding with knuckles, and fingerlink colliding with neither previous nor following one
+palm            0x4925
+thumb_knuckle   0x2492
+thumb_proximal  0x0009
+thumb_distal    0x0006
+index_knuckle   0x24CA
+index_proximal  0x0015
+index_middle    0x002A
+index_distal    0x0055
+middle_knuckle  0x265A
+middle_proximal 0x00A5
+middle_middle   0x015A
+middle_distal   0x02A5
+ring_knuckle    0x32DA
+ring_proximal   0x0525
+ring_middle     0x0ADA
+ring_distal     0x1525
+little_knuckle  0x96DA
+little_proximal 0x2925
+little_middle   0x56DA
+little_distal   0xA925
+
+Problem: proximal phalanxes of index..little collide with the palm when closing the hand completely
+Simple solution:
+[1] change masks such that the last bit of knuckles (also thumb) is 1 and all other zeros (0x1)
+[2] change masks such that the last but one bit of proximal (only index..little) phalanxes is 1 and all other zeros (0x2)
+[3] change all other masks to have four trailing zero bits (0x****0)
+[4] change selfCollide properties of links from [1] to false (this is NOT necessary, but in this way some useless collision checks can be avoided)
+palm            0x49250
+thumb_knuckle   0x1
+thumb_proximal  0x00090
+thumb_distal    0x00060
+index_knuckle   0x1
+index_proximal  0x2
+index_middle    0x002A0
+index_distal    0x00550
+middle_knuckle  0x1
+middle_proximal 0x2
+middle_middle   0x015A0
+middle_distal   0x02A50
+ring_knuckle    0x1
+ring_proximal   0x2
+ring_middle     0x0ADA0
+ring_distal     0x15250
+little_knuckle  0x1
+little_proximal 0x2
+little_middle   0x56DA0
+little_distal   0xA9250
