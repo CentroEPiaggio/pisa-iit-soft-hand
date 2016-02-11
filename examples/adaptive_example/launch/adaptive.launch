@@ -1,8 +1,8 @@
 <launch>
     <!-- LAUNCH INTERFACE -->
     <arg name="gui" default="false"/>
-    <arg name="use_rviz" default="true"/>
-    <arg name="use_joint_state_publisher" default="true"/>
+    <arg name="use_rviz" default="false"/>
+    <arg name="use_joint_state_publisher" default="false"/>
     <arg name="use_grasp_estimator" default="false"/>
 
     <!-- configure whether the real hardware is enabled or not -->

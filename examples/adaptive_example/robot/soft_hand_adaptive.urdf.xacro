@@ -3,21 +3,23 @@
 
 	<xacro:include filename="$(find soft_hand_description)/model/soft_hand.urdf.xacro"/>
 
+	<xacro:property name="box_m" value="0.1" />
+	<xacro:property name="box_s" value="0.01" />
 	<link name="box">
 		<inertial>
-			<mass value="1.0"/>
-			<inertia  ixx="1" ixy="0.00"  ixz="0.00" iyy="1" iyz="0.00" izz="1" />
+			<mass value="${box_m}"/>
+			<inertia  ixx="${box_m*box_s*box_s/6}" ixy="0.00"  ixz="0.00" iyy="${box_m*box_s*box_s/6}" iyz="0.00" izz="${box_m*box_s*box_s/6}" />
 		</inertial>
 		<visual>
-			<origin xyz="0 0 0.01" rpy="0 0 0"/>
+			<origin xyz="0 0 ${box_s}" rpy="0 0 0"/>
 			<geometry>
-				<box size="0.01 0.01 0.01"/>
+				<box size="${box_s} ${box_s} ${box_s}"/>
 			</geometry>
 		</visual>
 		<collision>
-			<origin xyz="0 0 0.01" rpy="0 0 0"/>
+			<origin xyz="0 0 ${box_s}" rpy="0 0 0"/>
 			<geometry>
-				<box size="0.01 0.01 0.01"/>
+				<box size="${box_s} ${box_s} ${box_s}"/>
 			</geometry>
 		</collision>
 	</link>
@@ -27,6 +29,7 @@
 			<linkName>box</linkName>
 			<frameId>box</frameId>
 			<kl>2000</kl>
+			<ka>500</ka>
 		</plugin>
 	</gazebo>
 

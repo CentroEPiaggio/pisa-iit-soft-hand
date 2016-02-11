@@ -1,5 +1,4 @@
 <launch>
-
-        <node name="spawn_urdf_object" pkg="gazebo_ros" type="spawn_model" args="-file $(find adaptive_example)/objects/object.urdf.xacro -urdf -model object -x 0.020 -y 0.015 -z 0.005 -R 1.57 -P 0 -Y 0" respawn="false" output="screen"/>
-
+		<param name="pasta_box" command="$(find xacro)/xacro.py $(find adaptive_example)/objects/object.urdf.xacro"/>
+        <node name="spawn_urdf_object" pkg="gazebo_ros" type="spawn_model" args="-param pasta_box -urdf -model object -x -0.036 -y -0.0095 -z 0.10 -R 1.57 -P 0 -Y 0" respawn="false" output="screen"/>
 </launch>
