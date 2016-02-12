@@ -1,0 +1,1 @@
+Timing contain the time when the grasp ends vs when the grasp finishes.

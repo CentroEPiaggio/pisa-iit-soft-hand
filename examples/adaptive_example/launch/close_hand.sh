@@ -1,3 +1,4 @@
+#!/bin/bash
 rostopic pub --once /soft_hand/joint_trajectory_controller/command trajectory_msgs/JointTrajectory "header:
   seq: 1
   stamp:
@@ -7,7 +8,7 @@ rostopic pub --once /soft_hand/joint_trajectory_controller/command trajectory_ms
 joint_names:
 - 'soft_hand_synergy_joint'
 points:
-- positions: [0.9]
+- positions: [$1]
   velocities: [0]
   accelerations: [0]
   effort: [0]
