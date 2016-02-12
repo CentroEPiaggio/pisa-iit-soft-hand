@@ -1,1 +1,1 @@
-Timing contain the time when the grasp ends vs when the grasp finishes.
+Timing contain the time when the grasp ends, when the lifting begins vs when the object is dropped.
