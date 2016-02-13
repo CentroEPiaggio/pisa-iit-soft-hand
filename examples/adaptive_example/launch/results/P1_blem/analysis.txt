@@ -1,0 +1,11 @@
+while on the floor (stable grasp, 24-26):
+# contact variation: 0.198355299388
+Contact force variation: 0.292126048863
+Contact point variation: 0.00079228159827
+Contact normal variation: 0.0114287163966
+
+while grasped (stable grasp, 24-35)
+# contact variation: 1.22984864761
+Contact force variation: 0.384855371719
+Contact point variation: 0.025715289294
+Contact normal variation: 0.152049953017
