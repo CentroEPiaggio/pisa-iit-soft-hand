@@ -1,1 +1,0 @@
-This example requires the [pacman object database](https://github.com/pacman-project/pacman-object-database), freely available, just clone it in your catkin workspace, and you will have a package called `asus_scanner_models` to access the meshes.

@@ -56,6 +56,7 @@ GazeboRosSoftHandPlugin::~GazeboRosSoftHandPlugin()
 {
   // Disconnect from gazebo events
   gazebo::event::Events::DisconnectWorldUpdateBegin(update_connection_);
+  log_time.close();
 }
 
 // Overloaded Gazebo entry point
@@ -199,6 +200,15 @@ void GazeboRosSoftHandPlugin::Update()
   gazebo::common::Time gz_time_now = parent_model_->GetWorld()->GetSimTime();
   ros::Time sim_time_ros(gz_time_now.sec, gz_time_now.nsec);
   ros::Duration sim_period = sim_time_ros - last_update_sim_time_ros_;
+
+  // Log the time
+  if(!log_time.is_open())
+  {
+      std::string filename = "/home/walkman/times.csv";
+      log_time.open(filename.c_str());
+  }
+
+  log_time << parent_model_->GetWorld()->GetRealTime().Double() << " " << gz_time_now.Double() << std::endl;
 
   // Check if we should update the controllers
   if(sim_period >= control_period_) {

@@ -1,4 +1,0 @@
-mu_grasp: [0.03]
-var_grasp: [0.01]
-mu_no_grasp: [0.0]
-var_no_grasp: [0.001]

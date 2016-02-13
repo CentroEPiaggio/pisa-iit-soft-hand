@@ -854,7 +854,7 @@ void DefaultSoftHandHWSim::getContacts(const gazebo_msgs::ContactsState &msg)
 
     if(!log_contacts.is_open())
     {
-        std::string filename = "/home/motion/contacts.csv";
+        std::string filename = "/home/walkman/contacts.csv";
         std::cout << "Opening " << filename << " to log contacts" << std::endl;
         log_contacts.open(filename.c_str());
 
@@ -952,7 +952,7 @@ void DefaultSoftHandHWSim::logLinkAppliedWrench()
     {
         t = 0.0;
 
-        std::string filename = "/home/motion/wrenches.csv";
+        std::string filename = "/home/walkman/wrenches.csv";
         std::cout << "Opening " << filename << " to log wrenches" << std::endl;
         log_wrenches.open(filename.c_str());
 

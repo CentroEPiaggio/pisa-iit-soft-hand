@@ -276,6 +276,7 @@ protected:
   std::ofstream log_wrenches;
   std::ofstream log_contacts;
   double t;
+
   void logLinkAppliedWrench();
   void updateKinematics();
   void updateStatics();
