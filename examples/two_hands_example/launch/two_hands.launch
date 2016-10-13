@@ -104,8 +104,10 @@
         <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true" output="screen"  args="joint_state_controller joint_trajectory_controller"/>
 
         <!-- grasp estimator -->
-        <rosparam command="load" file="$(find grasp_state_publisher)/config/softgrasp.yaml" />
-        <node name="grasp_state_publisher" pkg="grasp_state_publisher" type="grasp_state_publisher" respawn="true" output="screen" />
+        <group if="$(arg use_grasp_estimator)">
+            <rosparam command="load" file="$(find grasp_state_publisher)/config/softgrasp.yaml" />
+            <node name="grasp_state_publisher" pkg="grasp_state_publisher" type="grasp_state_publisher" respawn="true" output="screen" />
+        </group>
     </group>
 
 </launch>
