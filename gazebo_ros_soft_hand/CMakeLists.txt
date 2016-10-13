@@ -86,3 +86,17 @@ install(DIRECTORY include/${PROJECT_NAME}/
 install(FILES soft_hand_hw_sim_plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   )
+
+#############
+## Testing ##
+#############
+
+if(CATKIN_ENABLE_TESTING)
+  catkin_add_gtest(adaptive_synergy_transmission_test test/adaptive_synergy_transmission_test.cpp)
+
+  catkin_add_gtest(adaptive_synergy_transmission_loader_test test/adaptive_synergy_transmission_loader_test.cpp)
+  target_link_libraries(adaptive_synergy_transmission_loader_test
+    ${catkin_LIBRARIES}
+    adaptive_transmission_loader_plugin
+  )
+endif()
