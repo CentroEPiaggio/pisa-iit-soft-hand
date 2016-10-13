@@ -265,7 +265,7 @@ bool GazeboRosSoftHandPlugin::parseTransmissionsFromURDF(const std::string& urdf
   std::vector<transmission_interface::TransmissionInfo>::iterator it = transmissions_.begin();
   for(; it != transmissions_.end(); ) 
   {
-    if (robot_namespace_.compare(it->robot_namespace_) != 0)
+    if (it->name_.compare(0,robot_namespace_.length(),robot_namespace_) != 0 )
     {
       ROS_WARN_STREAM_NAMED("gazebo_ros_soft_hand", "gazebo_ros_soft_hand plugin deleted transmission "
         << it->name_
