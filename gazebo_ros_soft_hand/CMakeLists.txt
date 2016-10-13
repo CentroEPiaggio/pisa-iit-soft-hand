@@ -45,14 +45,30 @@ catkin_package(
 )
 
 ## Libraries
+add_library(adaptive_transmission_loader_plugin
+  src/adaptive_synergy_transmission_loader.cpp
+)
+add_dependencies(adaptive_transmission_loader_plugin transmission_interface_loader)
+target_link_libraries(adaptive_transmission_loader_plugin ${catkin_LIBRARIES})
+
 add_library(${PROJECT_NAME} src/gazebo_ros_soft_hand_plugin.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 add_library(default_soft_hand_hw_sim src/default_soft_hand_hw_sim.cpp)
-target_link_libraries(default_soft_hand_hw_sim ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_dependencies(default_soft_hand_hw_sim
+    adaptive_transmission_loader_plugin
+)
+target_link_libraries(default_soft_hand_hw_sim ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES}
+    adaptive_transmission_loader_plugin
+)
 
 add_library(kinematic_ctrl_soft_hand_hw_sim src/kinematic_ctrl_soft_hand_hw_sim.cpp)
-target_link_libraries(kinematic_ctrl_soft_hand_hw_sim ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_dependencies(kinematic_ctrl_soft_hand_hw_sim
+    adaptive_transmission_loader_plugin
+)
+target_link_libraries(kinematic_ctrl_soft_hand_hw_sim ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES}
+    adaptive_transmission_loader_plugin
+)
 
 ## Install
 install(TARGETS ${PROJECT_NAME} default_soft_hand_hw_sim

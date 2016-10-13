@@ -38,7 +38,7 @@
 /* Author: Dave Coleman, Johnathan Bohren
    Desc:   Hardware Interface for any simulated robot in Gazebo
 
-   Author: Carlos Rosales
+   Author: Carlos Rosales, Hamal Marino
    Desc: Not any simulated robot, this is the soft hand hardware interface for simulation
 */
 
@@ -54,15 +54,12 @@
 #include <joint_limits_interface/joint_limits_rosparam.h>
 #include <joint_limits_interface/joint_limits_urdf.h>
 
-// you need the forked version of ros_control to have this compact loading capabilites
-// and of course, the adaptive synergy transmission, and modifications on the
-// transmission propagation method
+// you need the forked version of ros_control to use this version of the SoftHand in simulation
 // git clone https://github.com/CentroEPiaggio/ros_control.git
 #include <transmission_interface/transmission_interface.h>
-#include <transmission_interface/adaptive_synergy_transmission.h>
 #include <transmission_interface/transmission_loader.h>
-#include <transmission_interface/read_file.h>
-#include <transmission_interface/loader_utils.h>
+#include <adaptive_transmission/adaptive_synergy_transmission.h>
+#include <adaptive_transmission/loader_utils.h>
 
 // Gazebo
 #include <gazebo/common/common.hh>
