@@ -42,8 +42,10 @@
 #include <adaptive_transmission/adaptive_synergy_transmission_loader.h>
 #include <boost/lexical_cast.hpp>
 
-namespace transmission_interface
+namespace adaptive_transmission_interface
 {
+
+using namespace transmission_interface;
 
 AdaptiveSynergyTransmissionLoader::TransmissionPtr
 AdaptiveSynergyTransmissionLoader::load(const TransmissionInfo& transmission_info)
@@ -273,5 +275,5 @@ TransmissionLoader::ParseStatus AdaptiveSynergyTransmissionLoader::getJointElast
 
 } // namespace
 
-PLUGINLIB_EXPORT_CLASS(transmission_interface::AdaptiveSynergyTransmissionLoader,
+PLUGINLIB_EXPORT_CLASS(adaptive_transmission_interface::AdaptiveSynergyTransmissionLoader,
                        transmission_interface::TransmissionLoader)

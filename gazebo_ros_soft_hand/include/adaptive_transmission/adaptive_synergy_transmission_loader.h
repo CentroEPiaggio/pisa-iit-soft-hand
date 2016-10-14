@@ -39,8 +39,10 @@
 // ros_control
 #include <transmission_interface/transmission_loader.h>
 
-namespace transmission_interface
+namespace adaptive_transmission_interface
 {
+
+using namespace transmission_interface;
 
 /**
  * \brief Class for loading a Adaptive Synergy transmission instance from configuration data.

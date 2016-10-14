@@ -77,9 +77,9 @@ bool DefaultSoftHandHWSim::initSim(
   
   assert(0 != transmission);
 
-  transmission_interface::AdaptiveSynergyTransmission* adaptive_trans = dynamic_cast<transmission_interface::AdaptiveSynergyTransmission*>(transmission.get());
+  adaptive_transmission_interface::AdaptiveSynergyTransmission* adaptive_trans = dynamic_cast<adaptive_transmission_interface::AdaptiveSynergyTransmission*>(transmission.get());
 
-  adaptive_trans_ = new transmission_interface::AdaptiveSynergyTransmission(adaptive_trans->getActuatorReduction(),
+  adaptive_trans_ = new adaptive_transmission_interface::AdaptiveSynergyTransmission(adaptive_trans->getActuatorReduction(),
                                                                             adaptive_trans->getJointReduction(),
                                                                             adaptive_trans->getJointElastic(),
                                                                             adaptive_trans->getJointOffset());

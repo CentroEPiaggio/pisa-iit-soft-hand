@@ -40,8 +40,10 @@
 #include <transmission_interface/transmission.h>
 #include <transmission_interface/transmission_interface_exception.h>
 
-namespace transmission_interface
+namespace adaptive_transmission_interface
 {
+
+using namespace transmission_interface;
 
 /**
 * \brief Implementation of an adaptive synergy transmission.

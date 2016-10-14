@@ -109,7 +109,7 @@ bool KinematicCtrlSoftHandHWSim::initSim(
   assert(0 != transmission);
 
   // Validate transmission
-  adaptive_trans_ = dynamic_cast<transmission_interface::AdaptiveSynergyTransmission*>(transmission.get());
+  adaptive_trans_ = dynamic_cast<adaptive_transmission_interface::AdaptiveSynergyTransmission*>(transmission.get());
 
   assert(0 != adaptive_trans_);
 

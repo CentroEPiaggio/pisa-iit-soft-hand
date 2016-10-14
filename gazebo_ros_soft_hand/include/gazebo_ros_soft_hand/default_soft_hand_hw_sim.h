@@ -190,7 +190,7 @@ protected:
 
   // adaptive transmission only, the simple transmission of the synergy joint
   // is not used so far, but it could be a way to model motor dynamics later
-  transmission_interface::AdaptiveSynergyTransmission* adaptive_trans_;
+  adaptive_transmission_interface::AdaptiveSynergyTransmission* adaptive_trans_;
 
   // transmission interfaces
   transmission_interface::JointToActuatorEffortInterface jnt_to_act_eff_;
