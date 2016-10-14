@@ -1,0 +1,12 @@
+<library path="lib/libadaptive_transmission_loader_plugin">
+
+  <!-- Transmission types -->
+  <class name="transmission_interface/AdaptiveSynergyTransmission"
+         type="transmission_interface::AdaptiveSynergyTransmissionLoader"
+         base_class_type="transmission_interface::TransmissionLoader">
+    <description>
+      Load from a URDF description the configuration of an adaptive synergy transmission.
+    </description>
+  </class>
+
+</library>

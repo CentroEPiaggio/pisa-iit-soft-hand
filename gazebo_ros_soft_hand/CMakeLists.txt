@@ -87,6 +87,10 @@ install(FILES soft_hand_hw_sim_plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   )
 
+install(FILES adaptive_transmission_plugin.xml
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  )
+
 #############
 ## Testing ##
 #############

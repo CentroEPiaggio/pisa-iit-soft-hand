@@ -8,7 +8,6 @@
 */
 
 #include <gazebo_ros_soft_hand/default_soft_hand_hw_sim.h>
-#include <adaptive_transmission/adaptive_synergy_transmission_loader.h>
 
 namespace
 {
@@ -66,9 +65,8 @@ bool DefaultSoftHandHWSim::initSim(
   ROS_INFO("1. Load the adaptive transmission.");
 
   // this is specific, and uses a local library to load the adaptive transmission - instead of the more generic:
-  // // TransmissionPluginLoader loader;
-  // // boost::shared_ptr<transmission_interface::TransmissionLoader> transmission_loader = loader.create(adaptive_trans_info.type_);
-  boost::shared_ptr<transmission_interface::TransmissionLoader> transmission_loader = boost::shared_ptr<transmission_interface::TransmissionLoader>(new transmission_interface::AdaptiveSynergyTransmissionLoader());
+  TransmissionPluginLoader loader;
+  boost::shared_ptr<transmission_interface::TransmissionLoader> transmission_loader = loader.create(adaptive_trans_info.type_);
   
   assert(0 != transmission_loader);
 
