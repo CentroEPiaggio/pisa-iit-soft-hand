@@ -166,7 +166,7 @@
 
       <transmission name="${name}_joint_trans">
         <robotNamespace>${name}</robotNamespace>
-        <type>transmission_interface/AdaptiveSynergyTransmission</type>
+        <type>adaptive_transmission_interface/AdaptiveSynergyTransmission</type>
           <joint name="${name}_thumb_abd_joint">
             <role>joint1</role>
             <offset>-0.0</offset>

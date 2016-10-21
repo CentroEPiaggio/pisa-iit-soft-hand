@@ -1,5 +1,5 @@
 /* 
-   Author: Carlos Rosales
+   Author: Carlos Rosales, Hamal Marino
    Desc: Not any simulated robot, this is the soft hand hardware interface for simulation.
    Based on the Hardware Interface for any simulated robot in Gazebo by
    Dave Coleman, Johnathan Bohren
@@ -64,9 +64,10 @@ bool DefaultSoftHandHWSim::initSim(
   /////////////////////////////////
   ROS_INFO("1. Load the adaptive transmission.");
 
+  // this is specific, and uses a local library to load the adaptive transmission - instead of the more generic:
   TransmissionPluginLoader loader;
   boost::shared_ptr<transmission_interface::TransmissionLoader> transmission_loader = loader.create(adaptive_trans_info.type_);
-
+  
   assert(0 != transmission_loader);
 
   TransmissionPtr transmission;
@@ -76,9 +77,9 @@ bool DefaultSoftHandHWSim::initSim(
   
   assert(0 != transmission);
 
-  transmission_interface::AdaptiveSynergyTransmission* adaptive_trans = dynamic_cast<transmission_interface::AdaptiveSynergyTransmission*>(transmission.get());
+  adaptive_transmission_interface::AdaptiveSynergyTransmission* adaptive_trans = dynamic_cast<adaptive_transmission_interface::AdaptiveSynergyTransmission*>(transmission.get());
 
-  adaptive_trans_ = new transmission_interface::AdaptiveSynergyTransmission(adaptive_trans->getActuatorReduction(),
+  adaptive_trans_ = new adaptive_transmission_interface::AdaptiveSynergyTransmission(adaptive_trans->getActuatorReduction(),
                                                                             adaptive_trans->getJointReduction(),
                                                                             adaptive_trans->getJointElastic(),
                                                                             adaptive_trans->getJointOffset());

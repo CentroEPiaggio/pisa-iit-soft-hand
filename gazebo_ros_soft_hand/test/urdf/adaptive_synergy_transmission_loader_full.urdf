@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <transmission name="adaptive_synergy_trans">
+    <type>transmission_interface/AdaptiveSynergyTransmission</type>
+    <joint name="joint1">
+      <role>joint1</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint2">
+      <role>joint2</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint3">
+      <role>joint4</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint4">
+      <role>joint4</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint5">
+      <role>joint5</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint6">
+      <role>joint6</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint7">
+      <role>joint7</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint8">
+      <role>joint8</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint9">
+      <role>joint9</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint10">
+      <role>joint10</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint11">
+      <role>joint11</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint12">
+      <role>joint12</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint13">
+      <role>joint13</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint14">
+      <role>joint14</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint15">
+      <role>joint15</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint16">
+      <role>joint16</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint17">
+      <role>joint17</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint18">
+      <role>joint18</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <joint name="joint19">
+      <role>joint19</role>
+      <offset>-0.5</offset> <!--optional-->
+      <mechanicalReduction>2</mechanicalReduction> <!--optional-->
+      <mechanicalElasticity>3</mechanicalElasticity> <!--optional-->
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+
+    <actuator name="foo_actuator">
+      <role>actuator1</role>
+      <mechanicalReduction>30</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>

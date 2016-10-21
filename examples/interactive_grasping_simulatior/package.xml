@@ -13,7 +13,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>soft_hand</run_depend>
+  <run_depend>soft_hand_description</run_depend>
+  <run_depend>soft_hand_ros_control</run_depend>
 
   <export>
   </export>
