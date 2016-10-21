@@ -13,13 +13,6 @@ Unless stated otherwise, all files within the repository are released under the 
 
 ToDo: Create a travis.yml file for this.
 
-You need the forked version of ros_control where the adaptive synergy transmission is implemented:
-``` bash
-git clone https://github.com/CentroEPiaggio/ros_control.git
-cd ros_control
-git checkout multi-robot-test
-```
-
 ## Examples
 There are several [examples](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/tree/master/examples) that show how the hand can be used in different configurations.
 
