@@ -31,3 +31,7 @@
 build
 Build
 BUILD
+
+# kdevelop projects
+*.kdev4
+.kdev_include_paths
