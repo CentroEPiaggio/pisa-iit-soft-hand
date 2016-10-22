@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 	<!-- include other model components -->
 	<xacro:include filename="$(find soft_hand_description)/model/materials.urdf.xacro"/>
@@ -11,9 +11,6 @@
 	<xacro:include filename="$(find soft_hand_description)/model/accesories/kuka_coupler.urdf.xacro"/>
 	<xacro:include filename="$(find soft_hand_description)/model/accesories/clamp.urdf.xacro"/>
 	<xacro:include filename="$(find soft_hand_description)/model/accesories/softhand_base.urdf.xacro"/>
-
-
-	<xacro:property name="pi" value="3.1415926535897931" />
 
 	<!-- joint properties -->
 	<xacro:property name="abd_lb" value="-30" />
@@ -85,7 +82,7 @@
 		
 		<link name="${name}_knuckle_link">
 			<inertial>
-				<insert_block name="knuckle_inertia"/>
+				<xacro:insert_block name="knuckle_inertia"/>
 			</inertial>
 			<visual>
 				<geometry>
@@ -115,7 +112,7 @@
 
 		<link name="${name}_fake_link1">
 			<inertial>
-				<insert_block name="negligible_inertia"/>
+				<xacro:insert_block name="negligible_inertia"/>
 			</inertial>
 		</link>
 
@@ -133,7 +130,7 @@
 
 		<link name="${name}_proximal_link">
 			<inertial>
-				<insert_block name="phalanx_inertia"/>
+				<xacro:insert_block name="phalanx_inertia"/>
 			</inertial>
 			<visual>
 				<geometry>
@@ -163,7 +160,7 @@
 
 		<link name="${name}_fake_link2">
 			<inertial>
-				<insert_block name="negligible_inertia"/>
+				<xacro:insert_block name="negligible_inertia"/>
 			</inertial>
 		</link>
 
@@ -180,7 +177,7 @@
 		</joint>
 		<link name="${name}_middle_link">
 			<inertial>
-				<insert_block name="phalanx_inertia"/>
+				<xacro:insert_block name="phalanx_inertia"/>
 			</inertial>
 			<visual>
 				<geometry>
@@ -210,7 +207,7 @@
 
 		<link name="${name}_fake_link3">
 			<inertial>
-				<insert_block name="negligible_inertia"/>
+				<xacro:insert_block name="negligible_inertia"/>
 			</inertial>
 		</link>
 
@@ -227,7 +224,7 @@
 		</joint>
 		<link name="${name}_distal_link">
 			<inertial>
-				<insert_block name="fingertip_inertia"/>
+				<xacro:insert_block name="fingertip_inertia"/>
 			</inertial>
 			<visual>
 				<geometry>
@@ -264,7 +261,7 @@
 			
 			<link name="${name}_knuckle_link">
 				<inertial>
-					<insert_block name="thumb_knuckle_inertia"/>
+					<xacro:insert_block name="thumb_knuckle_inertia"/>
 				</inertial>
 				<visual>
 					<geometry>
@@ -308,7 +305,7 @@
 			
 			<link name="${name}_knuckle_link">
 				<inertial>
-					<insert_block name="thumb_knuckle_inertia"/>
+					<xacro:insert_block name="thumb_knuckle_inertia"/>
 				</inertial>
 				<visual>
 					<geometry>
@@ -340,7 +337,7 @@
 
 		<link name="${name}_fake_link1">
 			<inertial>
-				<insert_block name="negligible_inertia"/>
+				<xacro:insert_block name="negligible_inertia"/>
 			</inertial>
 		</link>
 
@@ -358,7 +355,7 @@
 
 		<link name="${name}_proximal_link">
 			<inertial>
-				<insert_block name="phalanx_inertia"/>
+				<xacro:insert_block name="phalanx_inertia"/>
 			</inertial>
 			<visual>
 				<geometry>
@@ -388,7 +385,7 @@
 
 		<link name="${name}_fake_link3">
 			<inertial>
-				<insert_block name="negligible_inertia"/>
+				<xacro:insert_block name="negligible_inertia"/>
 			</inertial>
 		</link>
 
@@ -405,7 +402,7 @@
 		</joint>
 		<link name="${name}_distal_link">
 			<inertial>
-				<insert_block name="fingertip_inertia"/>
+				<xacro:insert_block name="fingertip_inertia"/>
 			</inertial>
 			<visual>
 				<geometry>
@@ -428,7 +425,7 @@
 
 		<!-- KUKA_COUPLER -->
 		<xacro:kuka_coupler parent="${parent}" name="${name}_kuka_coupler">
-			<insert_block name="origin"/>
+			<xacro:insert_block name="origin"/>
 		</xacro:kuka_coupler>
 
 		<!-- CLAMP -->
@@ -455,7 +452,7 @@
 
 		<link name="${name}_palm_link">
 			<inertial>
-				<insert_block name="palm_inertia"/>
+				<xacro:insert_block name="palm_inertia"/>
 			</inertial>
 			<xacro:if value="${left}">
 				<visual>
@@ -495,7 +492,7 @@
 		</joint>
 		<link name="${name}_invisible_wire_link">
 			<inertial>
-				<insert_block name="negligible_inertia"/>
+				<xacro:insert_block name="negligible_inertia"/>
 			</inertial>
 		</link>
 

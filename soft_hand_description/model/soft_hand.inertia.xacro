@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <!-- NOTE: inertia values are approximated using meshlab and only using the significant elements -->
     <!-- from http://answers.ros.org/question/11350/is-there-any-way-to-calculate-inertial-property-of-a-robot-to-simulate-it-in-gazebo/s

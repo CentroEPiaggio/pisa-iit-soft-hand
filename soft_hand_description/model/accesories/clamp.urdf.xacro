@@ -3,7 +3,7 @@
 
 <xacro:macro name="clamp" params="parent name *origin">
   <joint name="${parent}_${name}_joint" type="fixed">
-    <insert_block name="origin"/>
+    <xacro:insert_block name="origin"/>
     <parent link="${parent}"/>
     <child link="${name}"/>
   </joint>

@@ -242,7 +242,7 @@ bool KinematicCtrlSoftHandHWSim::initSim(
       // joint->SetMaxForce() must be called if joint->SetAngle() or joint->SetVelocity() are
       // going to be called. joint->SetMaxForce() must *not* be called if joint->SetForce() is
       // going to be called.
-      joint->SetMaxForce(0, synergy_effort_limit_);
+      joint->SetParam("max_force", 0, synergy_effort_limit_);
     }
   }
 
@@ -367,7 +367,7 @@ bool KinematicCtrlSoftHandHWSim::initSim(
         // joint->SetMaxForce() must be called if joint->SetAngle() or joint->SetVelocity() are
         // going to be called. joint->SetMaxForce() must *not* be called if joint->SetForce() is
         // going to be called.
-        joint->SetMaxForce(0, joint_effort_limits_[j]);
+        joint->SetParam("max_force", 0, joint_effort_limits_[j]);
       }
     }
   }
