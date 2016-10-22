@@ -7,9 +7,9 @@
 	<!-- LAUNCH IMPLEMENTATION -->
 
 	<!-- lload both hand and object description in separate parameters -->
-	<param name="robot_description" command="$(find xacro)/xacro.py $(find interactive_grasping_simulator)/urdf/hand.urdf.xacro isLeft:=$(arg isLeft)"/>
+	<param name="robot_description" command="$(find xacro)/xacro --inorder $(find interactive_grasping_simulator)/urdf/hand.urdf.xacro isLeft:=$(arg isLeft)"/>
 
-	<param name="object_description" command="$(find xacro)/xacro.py $(find interactive_grasping_simulator)/urdf/object.urdf.xacro name:=$(arg name) mass:=$(arg mass)"/>
+	<param name="object_description" command="$(find xacro)/xacro --inorder $(find interactive_grasping_simulator)/urdf/object.urdf.xacro name:=$(arg name) mass:=$(arg mass)"/>
 
 	<!-- Spawn models into Gazebo  -->
 	<node name="spawn_hand" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model soft_hand" respawn="false" output="screen"/>
