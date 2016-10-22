@@ -29,7 +29,6 @@ include_directories(include
 
 ## the qbAPI library
 add_library(qbmove SHARED
-    ${HAND_TOOLS}/src/qbmovelibrary.cpp
     ${HAND_TOOLS}/src/qbmove_communications.cpp
 )
 

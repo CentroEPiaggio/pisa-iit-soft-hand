@@ -36,14 +36,6 @@ And clear the wrench in case you want to continue working normally
 
 These packages assume you use qbTools to move the hand, since it is the electronics the hand is sold with.
 
-So, ensure you have the correct configuration for the the hand to be used either through USB or with the handle (joystick) using [handmoveadmin](hand-tools/) tools.
+To set-up the hand, refer to the instructions by [qbrobotics](https://github.com/qbrobotics/qbadmin).
 
-Compile following instructions by [qbrobotics](https://github.com/qbrobotics/handadmin) and use:
-
-`./handmoveadmin -p` <- To check the Input mode
-
-`./handmoveadmin -m` <- To change the input mode
-
-[0] is for USB communication.
-
-[1] is for the handle.
+The interface is now shared between the `SoftHand` and `qbMove` devices.
