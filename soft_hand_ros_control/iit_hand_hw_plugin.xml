@@ -1,0 +1,5 @@
+<library path="lib/iit_hand_hw">
+  <class name="iit_hand_hw/IITSH_HW"
+         type="iit_hand_hw::IITSH_HW"
+         base_class_type="hardware_interface::RobotHW" />
+</library>
