@@ -1,8 +1,8 @@
 /** @file iit_hand_hw.h
  *  @brief A C++ class which implements a ros_control driver for the Pisa/IIT
  * softhand.
- *  @author Murilo Martins (murilo.martins@ocado.com)
  *  @author Centro di Ricerca "E. Piaggio"
+ *  @author Murilo Martins (murilo.martins@ocado.com)
  *
  * Copyright (c) 2014, Centro di Ricerca "E. Piaggio"
  * Copyright (c) 2016, Ocado Technology
