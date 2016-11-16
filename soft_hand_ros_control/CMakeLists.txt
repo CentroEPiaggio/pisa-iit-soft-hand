@@ -45,11 +45,16 @@ add_library(qbmove SHARED
     
 add_library(iit_hand_hw src/iit_hand_hw.cpp)
 
+add_library(fake_hand_hw src/fake_hand_hw.cpp)
+
 add_executable(iit_hand_hw_node src/iit_hand_hw_node.cpp)
 
 add_dependencies(iit_hand_hw ${catkin_EXPORTED_TARGETS}
                              qbmove
 )
+
+add_dependencies(fake_hand_hw ${catkin_EXPORTED_TARGETS})
+
 add_dependencies(iit_hand_hw_node ${catkin_EXPORTED_TARGETS}
                                   iit_hand_hw
 )
@@ -59,12 +64,16 @@ target_link_libraries(iit_hand_hw
     ${catkin_LIBRARIES}
 )
 
+target_link_libraries(fake_hand_hw
+    ${catkin_LIBRARIES}
+)
+
 target_link_libraries(iit_hand_hw_node
     iit_hand_hw
     ${catkin_LIBRARIES}
 )
 
-install(TARGETS iit_hand_hw
+install(TARGETS iit_hand_hw fake_hand_hw
    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
 
