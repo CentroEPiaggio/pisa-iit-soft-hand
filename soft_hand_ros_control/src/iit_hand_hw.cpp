@@ -50,10 +50,11 @@ namespace iit_hand_hw {
         // construct a new device (interface and state storage)
         device_ = std::make_shared<IITSH_HW::IITSH_device>();
 
-        nh_.param("device_id", device_id_, BROADCAST_ID);
+        //nh_.param("device_id", device_id_, BROADCAST_ID);
+        nh_.param("device_id", device_id_, 1);
 
         // TODO: use transmission configuration to get names directly from the URDF model
-        if (ros::param::get("joints", this->device_->joint_names)) {
+        if (ros::param::get("iit_hand/joints", this->device_->joint_names)) {
             if (this->device_->joint_names.size() != N_SYN) {
                 ROS_ERROR("This robot has 1 joint, you must specify 1 name only until more synergies are not included");
             }
@@ -110,7 +111,7 @@ namespace iit_hand_hw {
                                 &this->device_->joint_effort_limits[i]);
         }
 
-        ROS_INFO("Registering state and position interfaces");
+        ROS_INFO("Register state and position interfaces");
 
         // register ros-controls interfaces
         this->registerInterface(&state_interface_);
@@ -118,6 +119,11 @@ namespace iit_hand_hw {
 
         // Finally, do the qb tools thing
         // get the port by id
+        /// @todo Abort after a few attempts and print a troubleshoot suggestion:
+        /// 1- is the hand connect to the computer?
+        /// 2- does the user have the appropriate permissions to access serial ports?
+        /// 3- is the device ID set correctly?
+        /// 4- turn on Debug level for further information.
         while (true) {
             if (port_selection(device_id_, port_)) {
                 // open the port
@@ -128,7 +134,8 @@ namespace iit_hand_hw {
                 return true;
             }
             else {
-                ROS_WARN("Hand not found on any available ports, trying again...");
+                ROS_WARN_STREAM("Hand " << device_id_
+                                << " not found on any available ports, trying again...");
                 // randomize the waiting to avoid conflict in files (probabilistically speaking)
                 sleep( 4*((double) rand() / (RAND_MAX)) );
             }
@@ -229,7 +236,8 @@ namespace iit_hand_hw {
 
         num_ports = RS485listPorts(ports);
 
-        ROS_DEBUG_STREAM("Search id in " << num_ports << " serial ports available...");
+        ROS_DEBUG_STREAM("Search ID " << device_id_ << " in "
+                         << num_ports << " serial ports available...");
 
         if (num_ports) {
             for (int i = 0; i < num_ports; i++) {
