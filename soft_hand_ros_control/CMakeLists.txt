@@ -25,7 +25,7 @@ SET(HAND_TOOLS ../hand-tools/qbAPI)
 
 catkin_package(
     INCLUDE_DIRS include
-    LIBRARIES iit_hand_hw
+    LIBRARIES iit_hand_hw fake_hand_hw
     CATKIN_DEPENDS roscpp control_toolbox controller_interface controller_manager
                    hardware_interface realtime_tools tf urdf
                    joint_limits_interface pluginlib combined_robot_hw
