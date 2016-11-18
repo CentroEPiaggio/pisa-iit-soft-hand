@@ -108,11 +108,13 @@ namespace fake_hand_hw {
                                 &this->device_->joint_effort_limits[i]);
         }
 
-        ROS_INFO("Registering state and position interfaces");
+        ROS_INFO("Register state and position interfaces");
 
         // register ros-controls interfaces
         registerInterface(&state_interface_);
         registerInterface(&position_interface_);
+
+        return true;
     }
 
     void FAKESH_HW::stop() {
@@ -121,6 +123,8 @@ namespace fake_hand_hw {
 
     void FAKESH_HW::read(const ros::Time &time, const ros::Duration &period) {
         static short int currents[2];
+
+        ROS_DEBUG("Reading fake hand joint values");
 
         // fill the state variables
         for (unsigned int i = 0; i < N_SYN; i++) {
@@ -134,6 +138,8 @@ namespace fake_hand_hw {
     }
 
     void FAKESH_HW::write(const ros::Time &time, const ros::Duration &period) {
+        ROS_DEBUG("Writing fake hand joint values");
+
         // enforce limits
         pj_sat_interface_.enforceLimits(period);
         pj_limits_interface_.enforceLimits(period);
