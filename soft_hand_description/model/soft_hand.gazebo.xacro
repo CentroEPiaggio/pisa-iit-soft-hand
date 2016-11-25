@@ -4,30 +4,40 @@
 	<!-- configure how all joints will behave in gazebo (particular behavior can be set at each joint as well) -->
 	<xacro:property name="gazebo_joint_elements">
 		<provideFeedback>True</provideFeedback>
-		<!--
-		<kp> </kp>
-		<kd> 1.0 </kd>
-		<stopCfm> </stopCfm>
-		<stopErp> </stopErp>
-		<cfmDamping> </cfmDamping>
-		<fudgeFactor> </fudgeFactor>
-		-->
+		<!-- <stopCfm> </stopCfm> -->
+		<!-- <stopErp> </stopErp> -->
+		<implicitSpringDamper>1</implicitSpringDamper>
+		<!-- <fudgeFactor> </fudgeFactor> -->
 	</xacro:property>
 
 	<!-- set friction properties -->
+	<!-- rubber has kp=1000000.0, kd=100.0, as in atlas_v5.gazebo in DRCsim >> the hand has a rubber-like glove! -->
+	<!-- atlas soles have mu1=mu2=1.5 in atlas_v5.gazebo in DRCsim -->
 	<xacro:property name="gazebo_friction_properties">
-		<gravity>true</gravity>
-		<mu1>500.0</mu1>
-		<mu2>500.0</mu2>
+		<!-- <gravity>true</gravity> -->
+		<mu1>1.1</mu1>
+		<mu2>1.1</mu2>
 		<kp>1000000.0</kp>
 		<kd>100.0</kd>
 		<!-- <fdir1>string</fdir1> -->
 		<!-- <dampingFactor>double</dampingFactor> -->
-		<!-- <maxVel>double</maxVel> -->
-		<!-- <minDepth>double</minDepth> -->
-		<!-- <maxContacts>int</maxContacts> -->
+		<maxVel>0.1</maxVel>
+		<minDepth>0.001</minDepth>
+		<maxContacts>3</maxContacts>
+		<!-- <material>Gazebo/Orange</material> -->
 	</xacro:property>
 	<!-- <xacro:insert_block name="gazebo_friction_properties"/> -->
+
+	<xacro:property name="gazebo_friction_properties_palm">
+		<mu1>1.1</mu1>
+		<mu2>1.1</mu2>
+		<kp>1000000.0</kp>
+		<kd>10.0</kd>
+		<maxVel>0.1</maxVel>
+		<minDepth>0.001</minDepth>
+		<maxContacts>6</maxContacts>
+		<!-- <material>Gazebo/Orange</material> -->
+	</xacro:property>
 
 	<!-- configure how all links will behave in gazebo (particular behavior can be set at each link as well) -->
 	<xacro:property name="gazebo_link_elements">
@@ -37,6 +47,10 @@
 	<xacro:property name="gazebo_nonSelfCollide_link_elements">
 		<selfCollide>false</selfCollide>
 		<xacro:insert_block name="gazebo_friction_properties"/>
+	</xacro:property>
+	<xacro:property name="gazebo_palm_element">
+		<selfCollide>true</selfCollide>
+		<xacro:insert_block name="gazebo_friction_properties_palm"/>
 	</xacro:property>
 
 	<xacro:property name="gazebo_other_properties">
@@ -100,7 +114,7 @@
 					<bumperTopicName>/contacts/${name}_palm_link</bumperTopicName>
 				</plugin>
 			</sensor>
-			<xacro:insert_block name="gazebo_link_elements"/>
+			<xacro:insert_block name="gazebo_palm_element"/>
 			<collision>
 				<xacro:collideBitmask hex_collision="0x49250"/>
 			</collision>
