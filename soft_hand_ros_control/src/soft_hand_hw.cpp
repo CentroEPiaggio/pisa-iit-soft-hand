@@ -252,7 +252,7 @@ namespace soft_hand_hw
       // fill the state variables
       for (int j = 0; j < N_SYN; j++)
       {
-          this->device_->joint_position_prev[j] = this->device_->joint_position[j]/17000;
+          this->device_->joint_position_prev[j] = this->device_->joint_position[j];
           this->device_->joint_position[j] = inputs[0]/17000.0;
           this->device_->joint_effort[j] = currents[0]*1.0;
           this->device_->joint_velocity[j] = filters::exponentialSmoothing((this->device_->joint_position[j]-this->device_->joint_position_prev[j])/period.toSec(), this->device_->joint_velocity[j], 0.2);
