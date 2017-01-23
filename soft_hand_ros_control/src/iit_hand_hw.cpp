@@ -31,31 +31,31 @@
 
 #include <pluginlib/class_list_macros.h>
 
-PLUGINLIB_EXPORT_CLASS(iit_hand_hw::IITSH_HW, hardware_interface::RobotHW)
+PLUGINLIB_EXPORT_CLASS(iit_hand_hw::PisaHandHW, hardware_interface::RobotHW)
 
 namespace iit_hand_hw {
-    IITSH_HW::IITSH_HW() {}
+    PisaHandHW::PisaHandHW() {}
 
-    IITSH_HW::~IITSH_HW() {
+    PisaHandHW::~PisaHandHW() {
         stop();
     }
 
-    bool IITSH_HW::init(ros::NodeHandle &n, ros::NodeHandle &robot_hw_nh) {
+    bool PisaHandHW::init(ros::NodeHandle &n, ros::NodeHandle &robot_hw_nh) {
         nh_ = robot_hw_nh;
 
         return start();
     }
 
-    bool IITSH_HW::start() {
+    bool PisaHandHW::start() {
         // construct a new device (interface and state storage)
-        device_ = std::make_shared<IITSH_HW::IITSH_device>();
+        device_ = std::make_shared<PisaHandHW::PisaHand_device>();
 
         //nh_.param("device_id", device_id_, BROADCAST_ID);
         nh_.param("device_id", device_id_, 1);
 
         // TODO: use transmission configuration to get names directly from the URDF model
         if (ros::param::get("iit_hand/joints", this->device_->joint_names)) {
-            if (this->device_->joint_names.size() != N_SYN) {
+            if (this->device_->joint_names.size() != n_syn) {
                 ROS_ERROR("This robot has 1 joint, you must specify 1 name only until more synergies are not included");
             }
         }
@@ -76,7 +76,7 @@ namespace iit_hand_hw {
         boost::shared_ptr<const urdf::Joint> joint;
 
         // create joint handles given the list
-        for (unsigned int i = 0; i < N_SYN; ++i) {
+        for (unsigned int i = 0; i < n_syn; ++i) {
             ROS_INFO_STREAM("Handling joint: " << this->device_->joint_names[i]);
 
             // get current joint configuration
@@ -142,14 +142,14 @@ namespace iit_hand_hw {
         }
     }
 
-    void IITSH_HW::stop() {
+    void PisaHandHW::stop() {
         usleep(2000000);
         // Deactivate motors
         commActivate(&comm_settings_t_, device_id_, 0);
         closeRS485(&comm_settings_t_);
     }
 
-    void IITSH_HW::read(const ros::Time &time, const ros::Duration &period) {
+    void PisaHandHW::read(const ros::Time &time, const ros::Duration &period) {
         // update the hand synergy joints
         // read from hand
         static short int inputs[2];
@@ -159,7 +159,7 @@ namespace iit_hand_hw {
         commGetCurrents(&comm_settings_t_, device_id_, currents);
 
         // fill the state variables
-        for (unsigned int i = 0; i < N_SYN; i++) {
+        for (unsigned int i = 0; i < n_syn; i++) {
             this->device_->joint_position_prev[i] = device_->joint_position[i]/17000.0;
             this->device_->joint_position[i] = double(inputs[0]) / 17000.0;
             this->device_->joint_effort[i] = double(currents[0]) * 1.0;
@@ -169,7 +169,7 @@ namespace iit_hand_hw {
         }
     }
 
-    void IITSH_HW::write(const ros::Time &time, const ros::Duration &period) {
+    void PisaHandHW::write(const ros::Time &time, const ros::Duration &period) {
         // enforce limits
         pj_sat_interface_.enforceLimits(period);
         pj_limits_interface_.enforceLimits(period);
@@ -179,7 +179,7 @@ namespace iit_hand_hw {
         set_input(pos);
     }
 
-    void IITSH_HW::registerJointLimits(const std::string &joint_name,
+    void PisaHandHW::registerJointLimits(const std::string &joint_name,
                                        const hardware_interface::JointHandle &joint_handle,
                                        const urdf::Model * const urdf_model,
                                        double * const lower_limit,
@@ -230,7 +230,7 @@ namespace iit_hand_hw {
         }
     }
 
-    int IITSH_HW::port_selection(const int id, char *my_port) {
+    int PisaHandHW::port_selection(const int id, char *my_port) {
         int num_ports = 0;
         char ports[10][255];
 
@@ -286,7 +286,7 @@ namespace iit_hand_hw {
         }
     }
 
-    int IITSH_HW::open_port(char * port) {
+    int PisaHandHW::open_port(char * port) {
         ROS_DEBUG_STREAM("Opening serial port: " << port << " for hand_id: " << device_id_);
         fflush(stdout);
 
@@ -301,7 +301,7 @@ namespace iit_hand_hw {
         return 1;
     }
 
-    void IITSH_HW::set_input(short pos) {
+    void PisaHandHW::set_input(short pos) {
         static short int inputs[2];
 
         inputs[0] = pos;

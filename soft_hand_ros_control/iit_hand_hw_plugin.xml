@@ -1,12 +1,12 @@
 <class_libraries>
     <library path="lib/libiit_hand_hw">
-      <class name="iit_hand_hw/IITSH_HW"
-             type="iit_hand_hw::IITSH_HW"
+      <class name="iit_hand_hw/PisaHandHW"
+             type="iit_hand_hw::PisaHandHW"
              base_class_type="hardware_interface::RobotHW" />
     </library>
     <library path="lib/libfake_hand_hw">
-      <class name="fake_hand_hw/FAKESH_HW"
-             type="fake_hand_hw::FAKESH_HW"
+      <class name="fake_hand_hw/FakeHandHW"
+             type="fake_hand_hw::FakeHandHW"
              base_class_type="hardware_interface::RobotHW" />
     </library>
 </class_libraries>

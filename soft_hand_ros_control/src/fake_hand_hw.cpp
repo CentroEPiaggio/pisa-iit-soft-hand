@@ -29,30 +29,30 @@
 
 #include <pluginlib/class_list_macros.h>
 
-PLUGINLIB_EXPORT_CLASS(fake_hand_hw::FAKESH_HW, hardware_interface::RobotHW)
+PLUGINLIB_EXPORT_CLASS(fake_hand_hw::FakeHandHW, hardware_interface::RobotHW)
 
 namespace fake_hand_hw {
-    FAKESH_HW::FAKESH_HW() {}
+    FakeHandHW::FakeHandHW() {}
 
-    FAKESH_HW::~FAKESH_HW() {
+    FakeHandHW::~FakeHandHW() {
         stop();
     }
 
-    bool FAKESH_HW::init(ros::NodeHandle &n, ros::NodeHandle &robot_hw_nh) {
+    bool FakeHandHW::init(ros::NodeHandle &n, ros::NodeHandle &robot_hw_nh) {
         nh_ = robot_hw_nh;
 
         return start();
     }
 
-    bool FAKESH_HW::start() {
+    bool FakeHandHW::start() {
         // construct a new device (interface and state storage)
-        device_ = std::make_shared<FAKESH_HW::FAKESH_device>();
+        device_ = std::make_shared<FakeHandHW::FakeHand_device>();
 
         nh_.param("device_id", device_id_, 0);
 
         // TODO: use transmission configuration to get names directly from the URDF model
         if (ros::param::get("/iit_hand/joints", this->device_->joint_names)) {
-            if (this->device_->joint_names.size() != N_SYN) {
+            if (this->device_->joint_names.size() != n_syn) {
                 ROS_ERROR("This robot has 1 joint, you must specify 1 name only until more synergies are not included");
             }
         }
@@ -73,7 +73,7 @@ namespace fake_hand_hw {
         boost::shared_ptr<const urdf::Joint> joint;
 
         // create joint handles given the list
-        for (unsigned int i = 0; i < N_SYN; ++i) {
+        for (unsigned int i = 0; i < n_syn; ++i) {
             ROS_INFO_STREAM("Handling joint: " << this->device_->joint_names[i]);
 
             // get current joint configuration
@@ -117,17 +117,17 @@ namespace fake_hand_hw {
         return true;
     }
 
-    void FAKESH_HW::stop() {
+    void FakeHandHW::stop() {
         usleep(2000000);
     }
 
-    void FAKESH_HW::read(const ros::Time &time, const ros::Duration &period) {
+    void FakeHandHW::read(const ros::Time &time, const ros::Duration &period) {
         static short int currents[2];
 
         ROS_DEBUG("Reading fake hand joint values");
 
         // fill the state variables
-        for (unsigned int i = 0; i < N_SYN; i++) {
+        for (unsigned int i = 0; i < n_syn; i++) {
             this->device_->joint_position_prev[i] = device_->joint_position[i]/17000.0;
             this->device_->joint_position[i] = double(inputs_[0]) / 17000.0;
             this->device_->joint_effort[i] = double(currents[0]) * 1.0;
@@ -137,7 +137,7 @@ namespace fake_hand_hw {
         }
     }
 
-    void FAKESH_HW::write(const ros::Time &time, const ros::Duration &period) {
+    void FakeHandHW::write(const ros::Time &time, const ros::Duration &period) {
         ROS_DEBUG("Writing fake hand joint values");
 
         // enforce limits
@@ -149,7 +149,7 @@ namespace fake_hand_hw {
         set_input(pos);
     }
 
-    void FAKESH_HW::registerJointLimits(const std::string &joint_name,
+    void FakeHandHW::registerJointLimits(const std::string &joint_name,
                                         const hardware_interface::JointHandle &joint_handle,
                                         const urdf::Model * const urdf_model,
                                         double * const lower_limit,
@@ -200,7 +200,7 @@ namespace fake_hand_hw {
         }
     }
 
-    void FAKESH_HW::set_input(short pos) {
+    void FakeHandHW::set_input(short pos) {
         inputs_[0] = pos;
         inputs_[1] = 0;
     }

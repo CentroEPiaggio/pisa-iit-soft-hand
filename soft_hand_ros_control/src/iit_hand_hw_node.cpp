@@ -31,7 +31,7 @@
 #include <signal.h>
 #include <stdexcept>
 
-constexpr int CTRL_FREQ = 1000; // Hz
+constexpr int ctrl_freq = 1000; // Hz
 
 bool g_quit = false;
 
@@ -55,9 +55,9 @@ int main( int argc, char** argv )
 
   // construct the Pisa/IIT softhand
   ros::NodeHandle iit_nh;
-  iit_hand_hw::IITSH_HW iit_softhand;
+  iit_hand_hw::PisaHandHW iit_softhand;
 
-  ros::Rate loop_rate(CTRL_FREQ);
+  ros::Rate loop_rate(ctrl_freq);
 
   // initialisation/configuration routine
   iit_softhand.init(iit_nh, iit_nh);

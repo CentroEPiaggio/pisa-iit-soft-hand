@@ -39,19 +39,19 @@
 #include <urdf/model.h>
 
 // just thinking of any time in the future the soft hand might have more than one synergy
-constexpr unsigned int N_SYN = 1;
+constexpr unsigned int n_syn = 1;
 
 namespace fake_hand_hw {
-class FAKESH_HW: public hardware_interface::RobotHW {
+class FakeHandHW: public hardware_interface::RobotHW {
 public:
     /**
      * @brief Constructor.
      */
-    FAKESH_HW();
+    FakeHandHW();
     /**
      * @brief Destructor.
      */
-    virtual ~FAKESH_HW();
+    virtual ~FakeHandHW();
     /**
      * @brief Method implementing all the initialisation required by the class.
      * @param unused node handle
@@ -72,7 +72,7 @@ public:
 
     void set_input(short int pos);
 
-    struct FAKESH_device {
+    struct FakeHand_device {
         std::vector<std::string> joint_names;
 
         std::vector<double>
@@ -88,19 +88,19 @@ public:
         joint_position_command;
 
         void init() {
-            joint_position.resize(N_SYN);
-            joint_position_prev.resize(N_SYN);
-            joint_velocity.resize(N_SYN);
-            joint_effort.resize(N_SYN);
-            joint_position_command.resize(N_SYN);
+            joint_position.resize(n_syn);
+            joint_position_prev.resize(n_syn);
+            joint_velocity.resize(n_syn);
+            joint_effort.resize(n_syn);
+            joint_position_command.resize(n_syn);
 
-            joint_lower_limits.resize(N_SYN);
-            joint_upper_limits.resize(N_SYN);
-            joint_effort_limits.resize(N_SYN);
+            joint_lower_limits.resize(n_syn);
+            joint_upper_limits.resize(n_syn);
+            joint_effort_limits.resize(n_syn);
         }
 
         void reset() {
-            for (unsigned int i = 0; i < N_SYN; ++i) {
+            for (unsigned int i = 0; i < n_syn; ++i) {
                 joint_position[i] = 0.0;
                 joint_position_prev[i] = 0.0;
                 joint_velocity[i] = 0.0;
@@ -110,7 +110,7 @@ public:
         }
     };
 private:
-    std::shared_ptr<FAKESH_HW::FAKESH_device> device_;
+    std::shared_ptr<FakeHandHW::FakeHand_device> device_;
 
     ros::NodeHandle nh_;
 
