@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <name>soft_hand_qb_ros_control</name>
+  <version>0.0.0</version>
+  <description>The soft_hand_qb_ros_control package</description>
+
+  <maintainer email="mathewjosepollayil@gmail.com">Mathew Jose and George Jose Pollayil</maintainer>
+  <license>GPLv2</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>controller_interface</build_depend>
+  <build_depend>hardware_interface</build_depend>
+  <build_depend>control_toolbox</build_depend>
+  <build_depend>realtime_tools</build_depend>
+  <build_depend>qb_interface</build_depend>
+
+  <run_depend>controller_interface</run_depend>
+  <run_depend>hardware_interface</run_depend>
+  <run_depend>control_toolbox</run_depend>
+  <run_depend>realtime_tools</run_depend>
+  <run_depend>qb_interface</run_depend>
+
+  <export>
+  </export>
+</package>

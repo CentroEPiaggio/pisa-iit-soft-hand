@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- LAUNCH ARGS -->
+	<!-- No args as of now! -->
+	
+	<!-- LAUNCH IMPLEMENTATION -->
+
+    <!-- SoftHand HW Interface -->
+	<node name="soft_hand_QB_HW" pkg="soft_hand_qb_ros_control" type="soft_hand_qb_hw" respawn="false" output="screen"/>
+
+</launch>
