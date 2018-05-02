@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:macro name="softhand_base_soma_ocado" params="parent name left *origin">
+  <joint name="${parent}_${name}_joint" type="fixed">
+    <xacro:insert_block name="origin"/>
+    <parent link="${parent}"/>
+    <child link="${name}"/>
+  </joint>
+  <link name="${name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.06 0.06 0.00062"/>
+        <!-- <xacro:if value="${left}">
+          <mesh filename="package://soft_hand_description/meshes/accesories/softhand_base_left.stl"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+          <mesh filename="package://soft_hand_description/meshes/accesories/softhand_base_right.stl"/>
+        </xacro:unless> -->
+      </geometry>
+      <material name="SoftHand/Blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.031" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.06 0.06 0.00062"/>
+      </geometry>
+    </collision>
+  </link>
+</xacro:macro>
+
+</robot>

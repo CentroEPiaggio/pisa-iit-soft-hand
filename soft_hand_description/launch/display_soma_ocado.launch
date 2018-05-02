@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<launch>
+    <!-- LAUNCH INTERFACE -->
+    <arg name="gui" default="false" />
+    <arg name="robot_name" default="soft_hand_robot_ocado"/>
+    <!-- <arg name="robot_name" default="soft_hand_robot"/> -->
+    <arg name="use_joint_state_publisher" default="true"/>
+
+    <!-- configure whether the real hardware is enabled or not -->
+    <arg name="right_hand_enabled" default="true"/>
+
+    <!-- choose whether or not to start the full robot simulation -->
+    <arg name="use_robot_sim" default="false"/>
+
+    <!-- LAUNCH IMPLEMENTATION -->
+
+    <!-- #### -->
+
+    <!-- load the full robot in robot_description, useful for visualization, collision detection and planning simultaneously -->
+    <!-- the selection is only due to the hand visualization which is different in real and simulation -->
+    <group if="$(arg use_robot_sim)">
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find soft_hand_description)/robot/$(arg robot_name).urdf.xacro use_mimic_tag:=false"/>
+    </group>
+    <group unless="$(arg use_robot_sim)">
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find soft_hand_description)/robot/$(arg robot_name).urdf.xacro use_mimic_tag:=true"/>
+    </group>
+
+    <group if="$(arg use_joint_state_publisher)">
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+            <param name="use_gui" value="$(arg gui)"/>
+            <!-- listens to each part -->
+            <rosparam param="source_list">[/right_hand/joint_states]</rosparam>
+        </node>
+    </group>
+
+    <param name="publish_frequency" value="100"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"  />
+
+    <!-- load hardware interface and controller configurations -->
+    <rosparam command="load" file="$(find vito_description)/config/vito_controllers.yaml"/>
+    <rosparam command="load" file="$(find vito_description)/config/hardware_interfaces.yaml"/>
+
+    <group ns="right_hand">
+        <group if="$(arg right_hand_enabled)">
+            <!--add a copy of the robot description within the name space -->
+            <param name="robot_description" command="$(find xacro)/xacro --inorder $(find soft_hand_description)/robot/$(arg robot_name).urdf.xacro use_mimic_tag:=true"/>
+
+            <rosparam command="load" file="$(find vito_description)/config/right_hand_names.yaml" />
+
+            <include file="$(find soft_hand_ros_control)/launch/soft_hand_hw.launch">
+                <arg name="use_deafult_joint_names" value="false"/>
+                <arg name="hand_id" value="5"/>
+            </include>
+        </group>
+
+        <!-- load the controllers in current namespace -->
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="joint_state_controller joint_trajectory_controller"/>
+    </group>
+
+</launch>

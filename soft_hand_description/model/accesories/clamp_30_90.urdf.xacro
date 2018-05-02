@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:macro name="clamp_30_90" params="parent name *origin">
+  <joint name="${parent}_${name}_joint" type="fixed">
+    <xacro:insert_block name="origin"/>
+    <parent link="${parent}"/>
+    <child link="${name}"/>
+  </joint>
+  <link name="${name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://soft_hand_description/meshes/accesories/clamp.stl"/>
+      </geometry>
+      <material name="SoftHand/Blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.066 0.0725 0.0256"/>
+      </geometry>
+    </collision>
+  </link>
+</xacro:macro>
+
+</robot>

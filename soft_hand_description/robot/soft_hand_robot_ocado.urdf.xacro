@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="soft_hand_robot_ocado">
+       
+  <!-- MODELS -->
+  <xacro:include filename="$(find soft_hand_description)/model/soft_hand_soma_ocado.urdf.xacro"/>
+    
+  <link name="world" />
+
+  <!-- RIGHT SOFTHAND -->
+  <xacro:soft_hand_soma_ocado parent="world" name="right_hand" left="false" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)">
+    <origin xyz="0 0 0" rpy="0 -1.5708 3.1415"/>
+  </xacro:soft_hand_soma_ocado>
+
+</robot>
