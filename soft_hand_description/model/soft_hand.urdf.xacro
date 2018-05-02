@@ -10,7 +10,10 @@
 	<!-- accesories -->
 	<xacro:include filename="$(find soft_hand_description)/model/accesories/kuka_coupler.urdf.xacro"/>
 	<xacro:include filename="$(find soft_hand_description)/model/accesories/clamp.urdf.xacro"/>
+	<xacro:include filename="$(find soft_hand_description)/model/accesories/clamp_30_90.urdf.xacro"/>
 	<xacro:include filename="$(find soft_hand_description)/model/accesories/softhand_base.urdf.xacro"/>
+	<xacro:include filename="$(find soft_hand_description)/model/accesories/merged_angle_flange_30.urdf.xacro"/>
+	<xacro:include filename="$(find soft_hand_description)/model/accesories/merged_angle_flange_90.urdf.xacro"/>
 
 	<!-- joint properties -->
 	<xacro:property name="abd_lb" value="-30" />
@@ -428,14 +431,29 @@
 			<xacro:insert_block name="origin"/>
 		</xacro:kuka_coupler>
 
-		<!-- CLAMP -->
+		<!-- KUKA CLAMP -->
 		<xacro:clamp parent="${name}_kuka_coupler" name="${name}_clamp">
 			<origin xyz="0 0 0.01" rpy="0 0 0"/>
 		</xacro:clamp>
 
+		<!-- 30 DEG FLANGE -->
+		<xacro:flange_30 parent="${name}_clamp" name="${name}_flange_30">
+			<origin xyz="0 0 0.008" rpy="1.5708 0 1.5708"/>
+		</xacro:flange_30>
+
+		<!-- CLAMP 30 - 90 -->
+		<xacro:clamp_30_90 parent="${name}_flange_30" name="${name}_clamp_30_90">
+			<origin xyz="0 0.037 0.012" rpy="0 1.0472 1.5708"/>
+		</xacro:clamp_30_90>
+
+		<!-- 90 DEG FLANGE -->
+		<xacro:flange_90 parent="${name}_clamp_30_90" name="${name}_flange_90">
+			<origin xyz="0.06 0.00 0.008" rpy="1.5708 0 -1.5708"/>
+		</xacro:flange_90>
+
 		<!-- SOFT HAND BASE -->
-		<xacro:softhand_base parent="${name}_clamp" name="${name}_softhand_base" left="${left}">
-			<origin xyz="0 0 0.004" rpy="0 0 0"/>
+		<xacro:softhand_base parent="${name}_flange_90" name="${name}_softhand_base" left="${left}">
+			<origin xyz="0 0.03 0.094" rpy="0 3.1415 -1.5708"/>
 		</xacro:softhand_base>
 
 		<!-- PALM -->
