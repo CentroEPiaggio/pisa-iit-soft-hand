@@ -28,6 +28,7 @@
 
 // just thinking of any time in the future the soft hand might have more than one synergy
 #define N_SYN 1
+#define MAX_HAND_MEAS 19000.0
 
 bool g_quit = false;
 
@@ -104,6 +105,7 @@ namespace soft_hand_hw
           joint_effort[j] = 0.0;
           joint_position_command[j] = 0.0;
         }
+        ROS_INFO_STREAM("ENTERED RESET!!!!!!");
       }
 
 
@@ -224,9 +226,10 @@ namespace soft_hand_hw
       if( port_selection(device_id_, port_) )
       {
         // open the port
-        assert(open_port(port_));
+        if(!open_port(port_)) ROS_WARN("Something went wrong, could not open port!");
         // and activate the hand
         commActivate(&comm_settings_t_, device_id_, 1);
+        usleep(1000);
         ROS_INFO("Done initialization !");
         return true;
       }
@@ -253,7 +256,7 @@ namespace soft_hand_hw
       for (int j = 0; j < N_SYN; j++)
       {
           this->device_->joint_position_prev[j] = this->device_->joint_position[j];
-          this->device_->joint_position[j] = inputs[0]/17000.0;
+          this->device_->joint_position[j] = inputs[0]/MAX_HAND_MEAS;
           this->device_->joint_effort[j] = currents[0]*1.0;
           this->device_->joint_velocity[j] = filters::exponentialSmoothing((this->device_->joint_position[j]-this->device_->joint_position_prev[j])/period.toSec(), this->device_->joint_velocity[j], 0.2);
       }
@@ -271,7 +274,10 @@ namespace soft_hand_hw
 
         // write to the hand
         short int pos;
-        pos = (short int)(17000.0*this->device_->joint_position_command[0]);
+        pos = (short int)(MAX_HAND_MEAS*this->device_->joint_position_command[0]);
+
+        std::cout << "Command is " << this->device_->joint_position_command[0] << "!" << std::endl;
+
         set_input(pos);
 
         return;
@@ -353,29 +359,29 @@ namespace soft_hand_hw
 
     num_ports = RS485listPorts(ports);
 
-    ROS_DEBUG_STREAM("Search id in " << num_ports << " serial ports available...");
+    ROS_INFO_STREAM("Search id in " << num_ports << " serial ports available...");
 
     if(num_ports)
     {
       for(int i = 0; i < num_ports; i++)
       {
-        ROS_DEBUG_STREAM("Checking port: " << ports[i]);
+        ROS_INFO_STREAM("Checking port: " << ports[i]);
 
         int aux_int;
         comm_settings comm_settings_t;
         char list_of_devices[255];
 
-        openRS485(&comm_settings_t, ports[i]);
+        openRS485(&comm_settings_t, ports[i], 2000000);
 
         if(comm_settings_t.file_handle == INVALID_HANDLE_VALUE)
         {
-          ROS_DEBUG_STREAM("Couldn't connect to the serial port. Continue with the next available.");
+          ROS_INFO_STREAM("Couldn't connect to the serial port. Continue with the next available.");
           continue;
         }
 
         aux_int = RS485ListDevices(&comm_settings_t, list_of_devices);
 
-        ROS_DEBUG_STREAM( "Number of devices: " << aux_int );
+        ROS_INFO_STREAM( "Number of devices: " << aux_int );
 
         if(aux_int > 1 || aux_int <= 0)
         {
@@ -383,14 +389,14 @@ namespace soft_hand_hw
         }
         else
         {
-          ROS_DEBUG_STREAM("List of devices:");
+          ROS_INFO_STREAM("List of devices:");
           for(int d = 0; d < aux_int; ++d)
           {
-            ROS_DEBUG_STREAM( static_cast<int>(list_of_devices[d]) );
-            ROS_DEBUG_STREAM( "searching id" << id );
+            ROS_INFO_STREAM( static_cast<int>(list_of_devices[d]) );
+            ROS_INFO_STREAM( "searching id" << id );
             if( static_cast<int>(list_of_devices[d]) == id )
             {
-              ROS_DEBUG_STREAM("Hand found at port: " << ports[i] << " !");
+              ROS_INFO_STREAM("Hand found at port: " << ports[i] << " !");
               strcpy(my_port, ports[i]);
               closeRS485(&comm_settings_t);
               sleep(1);
@@ -412,10 +418,9 @@ namespace soft_hand_hw
 
   int SHHW::open_port(char* port) 
   {
-    ROS_DEBUG_STREAM("Opening serial port: " << port << " for hand_id: " << device_id_);
-    fflush(stdout);
+    ROS_INFO_STREAM("Opening serial port: " << port << " for hand_id: " << device_id_);
 
-    openRS485(&comm_settings_t_, port);
+    openRS485(&comm_settings_t_, port, 2000000);
 
     if(comm_settings_t_.file_handle == INVALID_HANDLE_VALUE)
     {
