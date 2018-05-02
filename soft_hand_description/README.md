@@ -5,6 +5,10 @@ If you want to use the Pisa/IIT soft hand in your URDF, you can do so by includi
 
 `<xacro:include filename="$(find soft_hand_description)/model/soft_hand.urdf.xacro"/>`
 
+If you want to use the Ocad version Pisa/IIT soft hand in your URDF, you can do so by including the model:
+
+`<xacro:include filename="$(find soft_hand_description)/model/soft_hand_soma_ocado.urdf.xacro"/>`
+
 And then, using as many hands as you want as:
 
 ```
@@ -24,4 +28,10 @@ Where:
 `useMimicTag` is to have only one joint that controls all joints in a pure-kinematics-like motion, it affects only the visualization. In simulation, the mimicking is done by the hardware interface, and in real, you only have one motor reading.
 
 `left` is to define whether you are using a right or left hand.
+
+
+Lauching only the SoftHand
+--------------------------
+
+Two useful files for launching only the SoftHand real robot are in the launch folder.
 
