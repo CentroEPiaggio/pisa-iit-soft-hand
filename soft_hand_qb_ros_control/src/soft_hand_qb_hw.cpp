@@ -14,9 +14,14 @@ namespace soft_hand_qb_hw
 {
   /* Default hardware interface constructor */
   SHHW::SHHW(ros::NodeHandle nh) : nh_(nh) {
+    // Initializing subscribers and publishers
     hand_meas_sub = nh_.subscribe(std::string(HAND_MEAS_TOPIC), 1000, &soft_hand_qb_hw::SHHW::callBackMeas, this);
     hand_curr_sub = nh_.subscribe(std::string(HAND_CURR_TOPIC), 1000, &soft_hand_qb_hw::SHHW::callBackCurr, this);
-    hand_ref_pub = nh_.advertise<qb_interface::handRef>(std::string(HAND_REF_TOPIC), 10) ;
+    hand_ref_pub = nh_.advertise<qb_interface::handRef>(std::string(HAND_REF_TOPIC), 10);
+
+    // Initializing hand curr and meas variables
+    hand_meas = 0.0; prev_hand_meas = 0.0;
+    hand_curr = 0; prev_hand_curr = 0;
   }
 
   /* Callback function for the position subscriber to qb_interface */
@@ -27,6 +32,29 @@ namespace soft_hand_qb_hw
   /* Callback function for the current subscriber to qb_interface */
   void SHHW::callBackCurr(const qb_interface::handCurrentConstPtr& curr_msg){
     hand_curr = curr_msg->current[0];
+  }
+
+  /* Function for initializing correctly the hand variables without NaNs */
+  bool SHHW::initHandVars(){
+    // Writing first non NaN measurement and current to prev variables
+    bool hand_meas_good = false;
+    bool hand_curr_good = false;
+
+    while(!hand_meas_good && !hand_curr_good){
+      if(!std::isnan(hand_meas)){
+        prev_hand_meas = hand_meas;
+        hand_meas_good = true;
+        if(DEBUG) std::cout << "Found good hand measurement: " << prev_hand_meas << "." << std::endl;
+      }
+      if(!std::isnan(hand_curr)){
+        prev_hand_curr = hand_curr;
+        hand_curr_good = true;
+        if(DEBUG) std::cout << "Found good hand current: " << prev_hand_curr << "." << std::endl;
+      }
+
+      if(DEBUG) std::cout << "Exiting initHandVars." << std::endl;
+    }
+
   }
 
   /* Function for preliminary operations (run only once in the main before while) */
@@ -103,16 +131,33 @@ namespace soft_hand_qb_hw
 
   /* Function for reading from real robot (run in a while loop in the main) and updating the hand synergy joints */
   bool SHHW::read(ros::Time time, ros::Duration period){
-    // Position and current are already read from hand by the subscribers
+    // Position and current are already read from hand by the subscribers but check if NaN
+    float non_nan_hand_meas; short int non_nan_hand_curr;
+
+    // Check for NaN in hand measurement and update prev meas if not Nan
+    if(std::isnan(hand_meas)){
+      non_nan_hand_meas = prev_hand_meas;
+    } else {
+      non_nan_hand_meas = hand_meas;
+      prev_hand_meas = hand_meas;
+    }
+
+    // Check for NaN in hand current and update prev curr if not NaN
+    if(std::isnan(hand_curr)){
+      non_nan_hand_curr = prev_hand_curr;
+    } else {
+      non_nan_hand_curr = hand_curr;
+      prev_hand_curr = hand_curr;
+    }
       
     // Setting the inputs using the obtained hand_meas 
     static float inputs[2];                             // Two elements for future (SoftHand 2.5)
-    inputs[0] = hand_meas;
+    inputs[0] = non_nan_hand_meas;
     inputs[1] = 0.0;
 
     // Setting the currents using the obtained hand_curr
     static short int currents[2];                       // Two elements for future (SoftHand 2.5)
-    currents[0] = hand_curr;
+    currents[0] = non_nan_hand_curr;
     currents[1] = 0;
 
     // Fill the state variables
@@ -123,7 +168,7 @@ namespace soft_hand_qb_hw
       this->device_->joint_velocity[j] = filters::exponentialSmoothing((this->device_->joint_position[j]-this->device_->joint_position_prev[j])/period.toSec(), this->device_->joint_velocity[j], 0.2);
     }
 
-    // std::cout << "Measurement is " << this->device_->joint_position[0] << "!" << std::endl;
+    std::cout << "Measurement is " << this->device_->joint_position[0] << "!" << std::endl;
     // std::cout << "Previous is " << this->device_->joint_position_prev[0] << "!" << std::endl;
     // std::cout << "Current is " << this->device_->joint_effort[0] << "!" << std::endl;
 

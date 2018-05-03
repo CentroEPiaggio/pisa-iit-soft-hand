@@ -51,6 +51,9 @@ namespace soft_hand_qb_hw {
       void callBackMeas(const qb_interface::handPosConstPtr& pos_msg);
       void callBackCurr(const qb_interface::handCurrentConstPtr& curr_msg);
 
+      /* Function for initializing correctly the hand variables without NaNs */
+      bool initHandVars();
+
     	/* Function for preliminary operations (run only once in the main before while) */
     	bool start();
 
@@ -145,6 +148,10 @@ namespace soft_hand_qb_hw {
       // Variables for temporarily storing hand measurement and current read from topics
       float hand_meas;
       short int hand_curr;
+
+      // Variables for storing previous hand measurement and current which are not NaN (used for NaN problem)
+      float prev_hand_meas;
+      short int prev_hand_curr;
 
     	// Robot model
     	urdf::Model urdf_model_;

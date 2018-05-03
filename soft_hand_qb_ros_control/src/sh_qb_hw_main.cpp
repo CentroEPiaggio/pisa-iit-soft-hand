@@ -43,6 +43,9 @@ int main( int argc, char** argv ){
   ros::NodeHandle sh_nh;
   soft_hand_qb_hw::SHHW sh_robot(sh_nh);
 
+  // Solve the problem of first NaN readings for prev_hand_meas and prev_hand_curr
+  sh_robot.initHandVars();
+
   // Initialize and set the necessary variables inside the SoftHand HW interface
   sh_robot.start();
 
