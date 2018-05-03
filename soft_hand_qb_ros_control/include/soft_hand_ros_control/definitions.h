@@ -21,3 +21,6 @@
 #define HAND_MEAS_TOPIC 	"/qb_class/hand_measurement"
 #define HAND_CURR_TOPIC 	"/qb_class/hand_current"
 #define HAND_REF_TOPIC 		"/qb_class/hand_ref"
+
+// For debugging: prints out additional info if 1
+#define DEBUG 				1
