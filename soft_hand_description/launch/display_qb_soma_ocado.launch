@@ -15,7 +15,7 @@
 
     <!-- choose to launch qb_interface or qb_interface_imu -->
     <arg name="launch_qb_interface" default="true"/>
-    <arg name="use_imu" default="false"/>
+    <arg name="use_imu" default="true"/>
 
     <!-- LAUNCH IMPLEMENTATION -->
 
