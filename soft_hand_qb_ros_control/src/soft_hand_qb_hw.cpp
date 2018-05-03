@@ -168,7 +168,7 @@ namespace soft_hand_qb_hw
       this->device_->joint_velocity[j] = filters::exponentialSmoothing((this->device_->joint_position[j]-this->device_->joint_position_prev[j])/period.toSec(), this->device_->joint_velocity[j], 0.2);
     }
 
-    std::cout << "Measurement is " << this->device_->joint_position[0] << "!" << std::endl;
+    // std::cout << "Measurement is " << this->device_->joint_position[0] << "!" << std::endl;
     // std::cout << "Previous is " << this->device_->joint_position_prev[0] << "!" << std::endl;
     // std::cout << "Current is " << this->device_->joint_effort[0] << "!" << std::endl;
 
