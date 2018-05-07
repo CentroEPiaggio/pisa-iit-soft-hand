@@ -153,6 +153,9 @@ namespace soft_hand_qb_hw {
       float prev_hand_meas;
       short int prev_hand_curr;
 
+      // Variables for storing previous hand command which is not NaN (used for NaN problem)
+      float prev_pos;
+
     	// Robot model
     	urdf::Model urdf_model_;
 

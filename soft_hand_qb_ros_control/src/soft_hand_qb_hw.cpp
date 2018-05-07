@@ -17,11 +17,12 @@ namespace soft_hand_qb_hw
     // Initializing subscribers and publishers
     hand_meas_sub = nh_.subscribe(std::string(HAND_MEAS_TOPIC), 1000, &soft_hand_qb_hw::SHHW::callBackMeas, this);
     hand_curr_sub = nh_.subscribe(std::string(HAND_CURR_TOPIC), 1000, &soft_hand_qb_hw::SHHW::callBackCurr, this);
-    hand_ref_pub = nh_.advertise<qb_interface::handRef>(std::string(HAND_REF_TOPIC), 10);
+    hand_ref_pub = nh_.advertise<qb_interface::handRef>(std::string(HAND_REF_TOPIC), 1000);
 
     // Initializing hand curr and meas variables
     hand_meas = 0.0; prev_hand_meas = 0.0;
     hand_curr = 0; prev_hand_curr = 0;
+    prev_pos = 0.0;
   }
 
   /* Callback function for the position subscriber to qb_interface */
@@ -184,6 +185,13 @@ namespace soft_hand_qb_hw
     // Write to the hand the command given by controller manager
     float pos;
     pos = (float)(MAX_HAND_MEAS*this->device_->joint_position_command[0]);
+
+    // Check for NaN in hand command and update prev pos if not Nan
+    if(std::isnan(pos)){
+      pos = prev_pos;
+    } else {
+      prev_pos = pos;
+    }
     
     // std::cout << "Command is " << this->device_->joint_position_command[0] << "!" << std::endl;
 
