@@ -193,7 +193,7 @@ namespace soft_hand_qb_hw
       prev_pos = pos;
     }
     
-    // std::cout << "Command is " << this->device_->joint_position_command[0] << "!" << std::endl;
+    // std::cout << "Command is " << pos << "!" << std::endl;
 
     set_input(pos);
 
