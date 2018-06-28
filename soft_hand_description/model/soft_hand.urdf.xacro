@@ -30,6 +30,7 @@
 	<xacro:property name="effort" value="100" />
 	<xacro:property name="damping" value="0.0" />
 	<xacro:property name="friction" value="0.0" />
+	<xacro:property name="pi" value="3.1415926535897931"/>
 
 	<!-- synergy vector -->
 	<xacro:property name="syn_amp" value="1" />
@@ -453,7 +454,7 @@
 
 		<!-- SOFT HAND BASE -->
 		<xacro:softhand_base parent="${name}_flange_90" name="${name}_softhand_base" left="${left}">
-			<origin xyz="0 0.03 0.094" rpy="0 3.1415 -1.5708"/>
+			<origin xyz="0 0.03 0.120" rpy="0 3.1415 -1.5708"/>
 		</xacro:softhand_base>
 
 		<!-- PALM -->

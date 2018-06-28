@@ -10,9 +10,15 @@
 
     <!-- conversions -->
     <!-- I couldn't make the simulation work with realistic values, so I tweaked the conversion values -->
+    <!-- use below for the kuka robots -->
     <xacro:property name="mm_to_m" value="0.001"/>
     <xacro:property name="mm2_to_m2" value="0.001"/>
     <xacro:property name="gr_to_Kg" value="0.01"/>
+
+    <!-- use below for the wam robot -->
+    <!-- <xacro:property name="mm_to_m" value="0.001"/>
+    <xacro:property name="mm2_to_m2" value="0.000001"/>
+    <xacro:property name="gr_to_Kg" value="0.001"/> -->
 
     <!-- not so negligible, otherwise simulation fails -->
     <xacro:property name="negligible_mass" value="${10*gr_to_Kg}"/>

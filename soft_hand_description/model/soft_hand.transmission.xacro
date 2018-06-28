@@ -86,7 +86,19 @@
   <xacro:macro name="soft_hand_transmission" params="name withAdaptiveTransmission">
 
     <xacro:unless value="${withAdaptiveTransmission}">
-
+      <!-- work in progress -->
+      <transmission name="${name}_synergy_trans">
+          <robotNamespace>${name}</robotNamespace>
+          <type>transmission_interface/SimpleTransmission</type>
+          <joint name="${name}_synergy_joint">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+          </joint>
+          <actuator name="${name}_synergy_motor">
+            <mechanicalReduction>1.0</mechanicalReduction>
+          </actuator>
+      </transmission>
+      
       <transmission name="${name}_thumb_abd_trans">
           <robotNamespace>${name}</robotNamespace>
           <type>transmission_interface/SimpleTransmission</type>
