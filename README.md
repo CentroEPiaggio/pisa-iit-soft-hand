@@ -36,6 +36,6 @@ And clear the wrench in case you want to continue working normally
 
 These packages assume you use qbTools to move the hand, since it is the electronics the hand is sold with.
 
-To set-up the hand, refer to the instructions by [qbrobotics](https://github.com/qbrobotics/qbadmin).
+To set-up the hand, refer to the instructions by [NMMI](https://github.com/NMMI/qbadmin).
 
 The interface is now shared between the `SoftHand` and `qbMove` devices.
