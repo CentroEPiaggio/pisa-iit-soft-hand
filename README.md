@@ -9,6 +9,11 @@ This repository contains the model of the Pisa/IIT hand as described in:
 
 Unless stated otherwise, all files within the repository are released under the BSD 3-Clause License, see the [LICENSE](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/blob/master/LICENSE) file for the details.
 
+## Cloning the repository
+```
+git clone --recursive https://github.com/CentroEPiaggio/pisa-iit-soft-hand.git
+```
+
 ## Dependencies
 
 ToDo: Create a travis.yml file for this.
