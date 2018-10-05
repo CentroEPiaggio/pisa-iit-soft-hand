@@ -113,8 +113,8 @@ catkin_package(
   CATKIN_DEPENDS
     controller_interface
     urdf
-    control_msgs
     realtime_tools
+    control_msgs
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
 )
