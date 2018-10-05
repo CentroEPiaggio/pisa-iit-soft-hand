@@ -1,0 +1,9 @@
+<library path="lib/libsoft_hand_controllers">
+
+  <class name="soft_hand_controllers/VelocityController" type="soft_hand_controllers::VelocityController" base_class_type="controller_interface::ControllerBase">
+    <description>
+      A controller for the soft hand which follows a joint speed.
+    </description>
+  </class>
+
+</library>
