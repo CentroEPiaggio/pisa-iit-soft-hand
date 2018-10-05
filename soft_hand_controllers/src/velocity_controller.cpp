@@ -16,6 +16,9 @@ namespace soft_hand_controllers {
 
     // INITIALIZING FUNCTION
     bool VelocityController::init(hardware_interface::PositionJointInterface *robot, ros::NodeHandle &n){
+        // Debug message
+        ROS_DEBUG("Entered init function of soft_hand_controllers VelocityController.");
+
         // Getting the joint name from the parameter server
         if(!n.getParam("joint", this->joint_name_)){
             ROS_ERROR("Joint name not found in namespace: %s.", n.getNamespace().c_str());
@@ -36,6 +39,9 @@ namespace soft_hand_controllers {
 
         // Getting joint handle from hardware interface
         this->joint_handle_ = robot->getHandle(this->joint_name_);
+
+        // Debug message
+        ROS_DEBUG("Sucessfully initialized the joint handle for joint '%s'", this->joint_name_.c_str());
 
         // Getting and setting the joint limits
         this->joint_limits_.min = this->urdf_joint_->limits->lower;
@@ -107,3 +113,5 @@ namespace soft_hand_controllers {
     }
 
 }
+
+PLUGINLIB_EXPORT_CLASS(soft_hand_controllers::VelocityController, controller_interface::ControllerBase)
