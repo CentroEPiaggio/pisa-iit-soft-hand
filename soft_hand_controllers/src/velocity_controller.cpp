@@ -48,6 +48,9 @@ namespace soft_hand_controllers {
         this->joint_limits_.max = this->urdf_joint_->limits->upper;
         this->joint_limits_.center = (this->joint_limits_.max + this->joint_limits_.min) / 2;
 
+        // Debug message
+        ROS_DEBUG("The joint limits are: lower = %f, upper = %f.", this->joint_limits_.min, this->joint_limits_.max);
+
         // Initializing the cmd_flag_
         cmd_flag_ = 0;
 
@@ -59,9 +62,6 @@ namespace soft_hand_controllers {
 
     // STARTING FUNCTION
 	void VelocityController::starting(const ros::Time& time){
-        // Getting previous time
-        last_time_ = time;
-
         // Setting desired twist to zero
         cmd_vel_ = 0.0;
 
@@ -75,19 +75,23 @@ namespace soft_hand_controllers {
 	void VelocityController::update(const ros::Time& time, const ros::Duration& period){
         // THE CODE INSIDE NEXT IF EXECUTED ONLY IF cmd_value_ != 0
         if(cmd_flag_){
-            // Getting current time resolution and updating last_time_
-            current_time_ = time;
-            dt_ = current_time_ - last_time_;
-            last_time_ = current_time_;
-
             // Reading the joint state
             this->curr_pos_ = this->joint_handle_.getPosition();
 
-            // Setting command to current position (if cmd_flag_ = 0, position hold)
+            // Debug message
+            ROS_DEBUG("The previous joint command  = %f.", this->cmd_pos_);
+            ROS_DEBUG("The current joint position = %f.", this->curr_pos_);
+            ROS_DEBUG("The current commanded vel = %f.", this->cmd_vel_);
+            ROS_DEBUG("The current dt = %f.", period.toSec());
+
+            // Setting command to current position
             this->cmd_pos_ = this->curr_pos_;
 
             // Integrating the speed to find the next position (Forward Euler)
-            this->cmd_pos_ += this->cmd_vel_ * dt_.toSec();
+            this->cmd_pos_ += this->cmd_vel_ * period.toSec();
+
+            // Debug message
+            ROS_DEBUG("The current joint command before saturation = %f.", this->cmd_pos_);
 
             // Checking if the computed position is within limits
             if(this->cmd_pos_ < joint_limits_.min){
@@ -96,6 +100,9 @@ namespace soft_hand_controllers {
             if(this->cmd_pos_ > joint_limits_.max){
                 this->cmd_pos_ = joint_limits_.max;
             }
+
+            // Debug message
+            ROS_DEBUG("The current joint command after saturation = %f.", this->cmd_pos_);
         } // end if(cmd_flag_)
 
         // Sending the command to the position interface

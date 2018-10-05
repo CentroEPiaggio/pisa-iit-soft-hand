@@ -50,10 +50,7 @@ namespace soft_hand_controllers {
 
         // Subscriber to the command topic of the controller
         ros::Subscriber cmd_sub_;
-        ros::Time last_time_;             // Used to compute dt
-        ros::Time current_time_;          // Used to compute dt
-        ros::Duration dt_;                // The time resolution
-
+    
         // The current and commanded joint values (position and velocity)
         double curr_pos_;
         double cmd_pos_;
