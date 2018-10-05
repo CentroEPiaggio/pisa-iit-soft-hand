@@ -54,9 +54,10 @@ namespace soft_hand_controllers {
         ros::Time current_time_;          // Used to compute dt
         ros::Duration dt_;                // The time resolution
 
-        // The current and commanded joint values
-        double curr_value_;
-        double cmd_value_;
+        // The current and commanded joint values (position and velocity)
+        double curr_pos_;
+        double cmd_pos_;
+        double cmd_vel_;
 
     };
 

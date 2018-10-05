@@ -57,41 +57,52 @@ namespace soft_hand_controllers {
         last_time_ = time;
 
         // Setting desired twist to zero
-        cmd_value_ = 0.0;
+        cmd_vel_ = 0.0;
 
         // Reading the joint state (position) and setting command
-        this->curr_value_ = this->joint_handle_.getPosition();
-        this->cmd_value_ = this->curr_value_;
-        this->joint_handle_.setCommand(cmd_value_);
+        this->curr_pos_ = this->joint_handle_.getPosition();
+        this->cmd_pos_ = this->curr_pos_;
+        this->joint_handle_.setCommand(cmd_pos_);
     }
 
     // UPDATING FUNCTION
 	void VelocityController::update(const ros::Time& time, const ros::Duration& period){
         // THE CODE INSIDE NEXT IF EXECUTED ONLY IF cmd_value_ != 0
         if(cmd_flag_){
-            
             // Getting current time resolution and updating last_time_
             current_time_ = time;
             dt_ = current_time_ - last_time_;
             last_time_ = current_time_;
 
             // Reading the joint state
-            this->curr_value_ = this->joint_handle_.getPosition();
+            this->curr_pos_ = this->joint_handle_.getPosition();
 
             // Setting command to current position (if cmd_flag_ = 0, position hold)
-            this->cmd_value_ = this->curr_value_;
+            this->cmd_pos_ = this->curr_pos_;
 
-            
-        }
+            // Integrating the speed to find the next position (Forward Euler)
+            this->cmd_pos_ += this->cmd_vel_ * dt_.toSec();
+
+            // Checking if the computed position is within limits
+            if(this->cmd_pos_ < joint_limits_.min){
+                this->cmd_pos_ = joint_limits_.min;
+            }
+            if(this->cmd_pos_ > joint_limits_.max){
+                this->cmd_pos_ = joint_limits_.max;
+            }
+        } // end if(cmd_flag_)
+
+        // Sending the command to the position interface
+        this->joint_handle_.setCommand(this->cmd_pos_);
     }
 
     // COMMAND SUBSCRIBER CALLBACK
 	void VelocityController::command(const std_msgs::Float64::ConstPtr &msg){
         // Saving the msg to cmd_value_
-        this->cmd_value_ = double (msg->data);
+        this->cmd_vel_ = double (msg->data);
 
         // Setting cmd_flag_ according to the commanded value
-        if(cmd_value_ == 0.0) cmd_flag_ = 0;
+        if(cmd_vel_ == 0.0) cmd_flag_ = 0;
         else cmd_flag_ = 1;
     }
 
