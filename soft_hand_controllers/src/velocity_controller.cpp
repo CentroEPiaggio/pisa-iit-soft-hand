@@ -79,6 +79,7 @@ namespace soft_hand_controllers {
             this->curr_pos_ = this->joint_handle_.getPosition();
 
             // Debug message
+            ROS_DEBUG_STREAM("The measured synergy velocity  = " << this->joint_handle_.getVelocity() << ".");
             ROS_DEBUG("The previous joint command  = %f.", this->cmd_pos_);
             ROS_DEBUG("The current joint position = %f.", this->curr_pos_);
             ROS_DEBUG("The current commanded vel = %f.", this->cmd_vel_);
