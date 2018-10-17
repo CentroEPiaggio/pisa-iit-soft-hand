@@ -53,6 +53,7 @@ namespace soft_hand_controllers {
     
         // The current and commanded joint values (position and velocity)
         double curr_pos_;
+        double old_pos_;
         double cmd_pos_;
         double cmd_vel_;
 

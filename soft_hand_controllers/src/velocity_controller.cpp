@@ -67,6 +67,7 @@ namespace soft_hand_controllers {
 
         // Reading the joint state (position) and setting command
         this->curr_pos_ = this->joint_handle_.getPosition();
+        this->old_pos_ = this->joint_handle_.getPosition();
         this->cmd_pos_ = this->curr_pos_;
         this->joint_handle_.setCommand(cmd_pos_);
     }
@@ -81,7 +82,9 @@ namespace soft_hand_controllers {
             // Debug message
             ROS_DEBUG_STREAM("The measured synergy velocity  = " << this->joint_handle_.getVelocity() << ".");
             ROS_DEBUG("The previous joint command  = %f.", this->cmd_pos_);
+            ROS_DEBUG("The old joint position  = %f.", this->old_pos_);
             ROS_DEBUG("The current joint position = %f.", this->curr_pos_);
+            ROS_DEBUG("The achieved joint speed  = %f.", (this->curr_pos_ - this->old_pos_) / period.toSec());
             ROS_DEBUG("The current commanded vel = %f.", this->cmd_vel_);
             ROS_DEBUG("The current dt = %f.", period.toSec());
 
@@ -102,8 +105,13 @@ namespace soft_hand_controllers {
                 this->cmd_pos_ = joint_limits_.max;
             }
 
+            this->old_pos_ = this->curr_pos_;
+
             // Debug message
             ROS_DEBUG("The current joint command after saturation = %f.", this->cmd_pos_);
+
+            // Debug to check execution frequency
+            ROS_DEBUG_STREAM("VelocityController: Executing Joint Speed Command!!!");
         } // end if(cmd_flag_)
 
         // Sending the command to the position interface
