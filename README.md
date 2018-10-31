@@ -9,6 +9,11 @@ This repository contains the model of the Pisa/IIT hand as described in:
 
 Unless stated otherwise, all files within the repository are released under the BSD 3-Clause License, see the [LICENSE](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/blob/master/LICENSE) file for the details.
 
+## Cloning the repository
+```
+git clone --recursive https://github.com/CentroEPiaggio/pisa-iit-soft-hand.git
+```
+
 ## Dependencies
 
 ToDo: Create a travis.yml file for this.
@@ -36,6 +41,6 @@ And clear the wrench in case you want to continue working normally
 
 These packages assume you use qbTools to move the hand, since it is the electronics the hand is sold with.
 
-To set-up the hand, refer to the instructions by [qbrobotics](https://github.com/qbrobotics/qbadmin).
+To set-up the hand, refer to the instructions by [NMMI](https://github.com/NMMI/qbadmin).
 
 The interface is now shared between the `SoftHand` and `qbMove` devices.
