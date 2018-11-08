@@ -52,7 +52,7 @@ namespace soft_hand_controllers {
         ROS_DEBUG("The joint limits are: lower = %f, upper = %f.", this->joint_limits_.min, this->joint_limits_.max);
 
         // Initializing the cmd_flag_
-        cmd_flag_ = 0;
+        this->cmd_flag_ = 0;
 
         // Initializing subscriber to command topic
         this->cmd_sub_ = n.subscribe<std_msgs::Float64>("command", 1, &VelocityController::command, this);
@@ -63,19 +63,19 @@ namespace soft_hand_controllers {
     // STARTING FUNCTION
 	void VelocityController::starting(const ros::Time& time){
         // Setting desired twist to zero
-        cmd_vel_ = 0.0;
+        this->cmd_vel_ = 0.0;
 
         // Reading the joint state (position) and setting command
         this->curr_pos_ = this->joint_handle_.getPosition();
         this->old_pos_ = this->joint_handle_.getPosition();
         this->cmd_pos_ = this->curr_pos_;
-        this->joint_handle_.setCommand(cmd_pos_);
+        this->joint_handle_.setCommand(this->cmd_pos_);
     }
 
     // UPDATING FUNCTION
 	void VelocityController::update(const ros::Time& time, const ros::Duration& period){
         // THE CODE INSIDE NEXT IF EXECUTED ONLY IF cmd_value_ != 0
-        if(cmd_flag_){
+        if(this->cmd_flag_){
             // Reading the joint state
             this->curr_pos_ = this->joint_handle_.getPosition();
 
@@ -98,11 +98,11 @@ namespace soft_hand_controllers {
             ROS_DEBUG("The current joint command before saturation = %f.", this->cmd_pos_);
 
             // Checking if the computed position is within limits
-            if(this->cmd_pos_ < joint_limits_.min){
-                this->cmd_pos_ = joint_limits_.min;
+            if(this->cmd_pos_ < this->joint_limits_.min){
+                this->cmd_pos_ = this->joint_limits_.min;
             }
-            if(this->cmd_pos_ > joint_limits_.max){
-                this->cmd_pos_ = joint_limits_.max;
+            if(this->cmd_pos_ > this->joint_limits_.max){
+                this->cmd_pos_ = this->joint_limits_.max;
             }
 
             this->old_pos_ = this->curr_pos_;
@@ -124,8 +124,8 @@ namespace soft_hand_controllers {
         this->cmd_vel_ = double (msg->data);
 
         // Setting cmd_flag_ according to the commanded value
-        if(cmd_vel_ == 0.0) cmd_flag_ = 0;
-        else cmd_flag_ = 1;
+        if(this->cmd_vel_ == 0.0) this->cmd_flag_ = 0;
+        else this->cmd_flag_ = 1;
     }
 
 }
