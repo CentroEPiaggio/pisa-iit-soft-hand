@@ -25,8 +25,18 @@ namespace soft_hand_controllers {
             return false;
         }
 
+        // Construct an URDF model from the xml string
+        std::string model_string;
+
+        if (n.hasParam("robot_description")){
+            n.getParam("robot_description", model_string);
+        } else {
+            ROS_ERROR("Parameter robot_description not set, shutting controller.");
+            return false;
+        }
+
         // Parsing the URDF model
-        if(!this->urdf_.initParamWithNodeHandle("robot_description", n)){
+        if(!this->urdf_.initString(model_string)){
             ROS_ERROR("Failed to get the URDF from robot description!");
             return false;
         }
