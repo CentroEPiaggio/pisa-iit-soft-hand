@@ -25,11 +25,21 @@ namespace soft_hand_controllers {
             return false;
         }
 
+        // Getting the robot description name
+        std::string robot_description;
+
+        if(!ros::param::search(n.getNamespace(), "robot_description", robot_description)){
+            ROS_ERROR("No robot_description found in param server, shutting controller.");
+            return false;
+        }
+
+
+
         // Construct an URDF model from the xml string
         std::string model_string;
 
-        if (n.hasParam("robot_description")){
-            n.getParam("robot_description", model_string);
+        if (n.hasParam(robot_description)){
+            n.getParam(robot_description.c_str(), model_string);
         } else {
             ROS_ERROR("Parameter robot_description not set, shutting controller.");
             return false;
