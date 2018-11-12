@@ -54,7 +54,7 @@ TEST(AdaptiveSynergyTransmissionLoaderTest, FullSpec)
   
   ASSERT_TRUE(0 != transmission_loader);
   
-  TransmissionPtr transmission;
+  TransmissionSharedPtr transmission;
   const TransmissionInfo& info = infos.front();
   
   transmission = transmission_loader->load(info);

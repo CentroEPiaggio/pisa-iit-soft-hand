@@ -50,7 +50,8 @@ using namespace transmission_interface;
 class AdaptiveSynergyTransmissionLoader : public TransmissionLoader
 {
 public:
-  TransmissionPtr load(const TransmissionInfo& transmission_info);
+
+  TransmissionSharedPtr load(const TransmissionInfo& transmission_info);
 
 private:
   static bool getActuatorConfig(const TransmissionInfo& transmission_info,
