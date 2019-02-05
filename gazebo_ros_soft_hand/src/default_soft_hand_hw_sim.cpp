@@ -70,7 +70,7 @@ bool DefaultSoftHandHWSim::initSim(
   
   assert(0 != transmission_loader);
 
-  TransmissionPtr transmission;
+  TransmissionSharedPtr transmission;
   const transmission_interface::TransmissionInfo& info = adaptive_trans_info;
   
   transmission = transmission_loader->load(info);

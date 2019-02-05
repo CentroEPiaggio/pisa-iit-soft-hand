@@ -47,17 +47,17 @@ namespace adaptive_transmission_interface
 
 using namespace transmission_interface;
 
-AdaptiveSynergyTransmissionLoader::TransmissionPtr
+TransmissionSharedPtr
 AdaptiveSynergyTransmissionLoader::load(const TransmissionInfo& transmission_info)
 {
   // Transmission should contain only one actuator/joint
-  if (!checkActuatorDimension(transmission_info, 1)) {return TransmissionPtr();}
-  if (!checkJointDimension(transmission_info,    19)) {return TransmissionPtr();}
+  if (!checkActuatorDimension(transmission_info, 1)) {return TransmissionSharedPtr();}
+  if (!checkJointDimension(transmission_info,    19)) {return TransmissionSharedPtr();}
 
   // Get actuator and joint configuration sorted by role: [actuator1] and [joint1,..., joint19]
   std::vector<double> act_reduction;
   const bool act_config_ok = getActuatorConfig(transmission_info, act_reduction);
-  if (!act_config_ok) {return TransmissionPtr();}
+  if (!act_config_ok) {return TransmissionSharedPtr();}
 
   std::vector<double> jnt_reduction;
   std::vector<double> jnt_elastic;
@@ -67,12 +67,12 @@ AdaptiveSynergyTransmissionLoader::load(const TransmissionInfo& transmission_inf
                                             jnt_elastic,
                                             jnt_offset);
 
-  if (!jnt_config_ok) {return TransmissionPtr();}
+  if (!jnt_config_ok) {return TransmissionSharedPtr();}
 
   // Transmission instance
   try
   {
-    TransmissionPtr transmission(new AdaptiveSynergyTransmission(act_reduction,
+    TransmissionSharedPtr transmission(new AdaptiveSynergyTransmission(act_reduction,
                                                               jnt_reduction,
                                                               jnt_elastic,
                                                               jnt_offset));
@@ -83,7 +83,7 @@ AdaptiveSynergyTransmissionLoader::load(const TransmissionInfo& transmission_inf
     using hardware_interface::internal::demangledTypeName;
     ROS_ERROR_STREAM_NAMED("parser", "Failed to construct transmission '" << transmission_info.name_ << "' of type '" <<
                            demangledTypeName<AdaptiveSynergyTransmission>()<< "'. " << ex.what());
-    return TransmissionPtr();
+    return TransmissionSharedPtr();
   }
 }
 
