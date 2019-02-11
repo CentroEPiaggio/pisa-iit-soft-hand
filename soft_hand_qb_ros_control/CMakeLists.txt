@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
     joint_limits_interface
     tf
     urdf
+    qb_interface
 )
 
 
@@ -29,6 +30,8 @@ add_executable(soft_hand_qb_hw
     src/sh_qb_hw_main.cpp
     src/soft_hand_qb_hw.cpp
 )
+
+add_dependencies(soft_hand_qb_hw ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(soft_hand_qb_hw
     ${catkin_LIBRARIES}
