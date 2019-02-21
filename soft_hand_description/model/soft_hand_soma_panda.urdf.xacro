@@ -8,12 +8,8 @@
 	<xacro:include filename="$(find soft_hand_description)/model/soft_hand.inertia.xacro"/>
 
 	<!-- accesories -->
-	<xacro:include filename="$(find soft_hand_description)/model/accesories/kuka_coupler.urdf.xacro"/>
-	<xacro:include filename="$(find soft_hand_description)/model/accesories/clamp.urdf.xacro"/>
-	<xacro:include filename="$(find soft_hand_description)/model/accesories/clamp_30_90.urdf.xacro"/>
-	<xacro:include filename="$(find soft_hand_description)/model/accesories/softhand_base_soma_ocado.urdf.xacro"/>
-	<xacro:include filename="$(find soft_hand_description)/model/accesories/merged_angle_flange_30.urdf.xacro"/>
-	<xacro:include filename="$(find soft_hand_description)/model/accesories/merged_angle_flange_90.urdf.xacro"/>
+	<xacro:include filename="$(find soft_hand_description)/model/accesories/panda_flange.urdf.xacro"/>
+	<xacro:include filename="$(find soft_hand_description)/model/accesories/softhand_round_base.urdf.xacro"/>
 
 	<!-- joint properties -->
 	<xacro:property name="abd_lb" value="-30" />
@@ -422,7 +418,7 @@
 	</xacro:macro>
 
 	<!-- SOFT HAND MODEL -->
-	<xacro:macro name="soft_hand_soma_ocado" params="parent name withAdaptiveTransmission useMimicTag left *origin">
+	<xacro:macro name="soft_hand_soma_panda" params="parent name withAdaptiveTransmission useMimicTag left *origin">
 
 		<!-- PACMAN VERION ALREADY INCLUDES THE COUPLER, CLAMP AND BASE -->
 
