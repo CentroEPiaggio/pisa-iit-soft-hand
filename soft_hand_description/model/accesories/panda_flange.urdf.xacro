@@ -13,12 +13,12 @@
       <geometry>
         <mesh filename="package://soft_hand_description/meshes/accesories/panda_flange.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="SoftHand/Blue"/>
+      <material name="SoftHand/DarkGrey"/>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0.04 -0.02" rpy="0 0 0"/>
       <geometry>
-        <box size="0.066 0.0725 0.0256"/>
+        <box size="0.08 0.08 0.08"/>
       </geometry>
     </collision>
   </link>

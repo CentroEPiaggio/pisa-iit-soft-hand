@@ -438,7 +438,7 @@
 				<origin xyz="0.002 -0.00695 0.0535" rpy="0 0 0"/>
 			</xacro:if>
 			<xacro:unless value="${left}">
-				<origin xyz="-0.008 0.008 0.018" rpy="0 0 1.5707"/>
+				<origin xyz="-0.008 0.005 0.018" rpy="0 0 1.5707"/>
 			</xacro:unless>
 			<parent link="${name}_softhand_round_base" />
 			<child link="${name}_palm_link" />
