@@ -133,20 +133,20 @@
 			</inertial>
 			<visual>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_long_soma_ocado.stl" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGrey" />
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_long_soma_ocado_collision.stl" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
 
 		<!-- MIDDLE PHALANGE -->
 		<joint name="${name}_middle_joint" type="revolute">
-			<origin xyz="0.023 0 0" rpy="0 0 0" />
+			<origin xyz="0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_proximal_link"/>
 			<child link="${name}_fake_link2"/>
 			<axis xyz="0 -1 0" />
@@ -180,20 +180,20 @@
 			</inertial>
 			<visual>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_long_soma_ocado.stl" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGrey" />
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_long_soma_ocado_collision.stl" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
 
 		<!-- DISTAL PHALANGE -->
 		<joint name="${name}_outer_joint" type="revolute">
-			<origin xyz="0.023 0 0" rpy="0 0 0" />
+			<origin xyz="0.009 0 0" rpy="0 0 0" />
 			<parent link="${name}_middle_link"/>
 			<child link="${name}_fake_link3"/>
 			<axis xyz="0 -1 0" />
@@ -308,13 +308,13 @@
 				</inertial>
 				<visual>
 					<geometry>
-						<mesh filename="package://soft_hand_description/meshes/thumb_knuckle_soma_ocado.stl" />
+						<mesh filename="package://soft_hand_description/meshes/thumb_knuckle_right.stl" scale=" .001 .001 .001" />
 					</geometry>
 					<material name="SoftHand/DarkGrey" />
 				</visual>
 				<collision>
 					<geometry>
-						<mesh filename="package://soft_hand_description/meshes/thumb_knuckle_soma_ocado_collision.stl" />
+						<mesh filename="package://soft_hand_description/meshes/thumb_knuckle_right_collision.stl" scale=" .001 .001 .001" />
 					</geometry>
 				</collision>
 			</link>
@@ -358,20 +358,20 @@
 			</inertial>
 			<visual>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_long_soma_ocado.stl" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx.stl" scale=" .001 .001 .001" />
 				</geometry>
 				<material name="SoftHand/DarkGrey" />
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://soft_hand_description/meshes/phalanx_long_soma_ocado_collision.stl" />
+					<mesh filename="package://soft_hand_description/meshes/phalanx_collision.stl" scale=" .001 .001 .001" />
 				</geometry>
 			</collision>
 		</link>
 
 		<!-- DISTAL PHALANGE -->
 		<joint name="${name}_outer_joint" type="revolute">
-			<origin xyz="0.023 0 0.0" rpy="0 0 0" />
+			<origin xyz="0.009 0 0.0" rpy="0 0 0" />
 			<parent link="${name}_proximal_link"/>
 			<child link="${name}_fake_link3"/>
 			<axis xyz="0 -1 0" />
@@ -424,12 +424,12 @@
 
 		<!-- PANDA FLANGE -->
 		<xacro:panda_flange parent="${parent}" name="${name}_panda_flange">
-			<xacro:insert_block name="origin"/>
+			<origin xyz="0.0425 0.0 0.038" rpy="0.0 0.0 1.5707"/>
 		</xacro:panda_flange>
 
 		<!-- SOFT HAND ROUND BASE -->
 		<xacro:softhand_round_base parent="${name}_panda_flange" name="${name}_softhand_round_base">
-			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+			<origin xyz="0.0 -0.011 0.0" rpy="1.5707 0.0 0.0"/>
 		</xacro:softhand_round_base>
 
 		<!-- PALM -->
@@ -438,7 +438,7 @@
 				<origin xyz="0.002 -0.00695 0.0535" rpy="0 0 0"/>
 			</xacro:if>
 			<xacro:unless value="${left}">
-				<origin xyz="0.005 0.00095 -0.0075" rpy="0 0 0"/>
+				<origin xyz="-0.008 0.008 0.018" rpy="0 0 1.5707"/>
 			</xacro:unless>
 			<parent link="${name}_softhand_round_base" />
 			<child link="${name}_palm_link" />
@@ -464,13 +464,13 @@
 			<xacro:unless value="${left}">
 				<visual>
 					<geometry>
-						<mesh filename="package://soft_hand_description/meshes/sh_ocado_no_finger_no_wrist.stl" scale=" .001 .001 .001" />
+						<mesh filename="package://soft_hand_description/meshes/palm_right.stl" scale=" .001 .001 .001" />
 					</geometry>
 					<material name="SoftHand/DarkGrey" />
 				</visual>
 				<collision>
 					<geometry>
-						<mesh filename="package://soft_hand_description/meshes/palm_soma_ocado_collision.stl" />
+						<mesh filename="package://soft_hand_description/meshes/palm_right_collision.stl" scale=" .001 .001 .001"/>
 					</geometry>
 				</collision>
 			</xacro:unless>
@@ -493,26 +493,26 @@
 		<!-- THUMB AND FINGERS -->
 		<!-- change anchor points accordingly to the leftness -->
 		<xacro:if value="${left}"> 
-			<xacro:soft_thumb parent="${name}_palm_link" parent_name="${name}" name="${name}_thumb" position="-0.036948 0.022300 0.001618" orientation="0.000000 -0.349066 1.570796" left="${left}" useMimicTag="${useMimicTag}" abd_R="${thumb_abd_R *(thumb_abd_ub - thumb_abd_lb)*pi/180}" inner_R="${thumb_inner_R *(inner_ub - inner_lb)*pi/180}" outer_R="${thumb_outer_R *(outer_ub - outer_lb)*pi/180}"/>
+			<xacro:soft_thumb parent="${name}_palm_link" parent_name="${name}" name="${name}_thumb" position="0.005669722 -0.029616 0.055314" orientation="0.0 -0.38397275793662144 -1.5707963267948966" left="${left}" useMimicTag="${useMimicTag}" abd_R="${thumb_abd_R *(thumb_abd_ub - thumb_abd_lb)*pi/180}" inner_R="${thumb_inner_R *(inner_ub - inner_lb)*pi/180}" outer_R="${thumb_outer_R *(outer_ub - outer_lb)*pi/180}"/>
 
-			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_index" position="0.006611 0.020000 0.155750" orientation="-3.071779 -1.570796 0.000000" left="${left}" useMimicTag="${useMimicTag}" abd_R="${index_abd_R}" inner_R="${index_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${index_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${index_outer_R *(outer_ub - outer_lb)*pi/180}" />
+			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_index" position="-0.0033 -0.0195 0.0936994" orientation="-1.5707963267948966 -1.4835299330931884 -1.5707963267948966" left="${left}" useMimicTag="${useMimicTag}" abd_R="${index_abd_R}" inner_R="${index_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${index_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${index_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_middle" position="0.006611 0.000000 0.162750" orientation="-3.141593 -1.570796 0.000000"  left="${left}" useMimicTag="${useMimicTag}" abd_R="${middle_abd_R}" inner_R="${middle_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${middle_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${middle_outer_R *(outer_ub - outer_lb)*pi/180}" />
+			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_middle" position="-0.0033 0.0 0.100699" orientation="3.1415 -1.5707963267948966 0.0" left="${left}" useMimicTag="${useMimicTag}" abd_R="${middle_abd_R}" inner_R="${middle_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${middle_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${middle_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_ring" position="0.006611 -2.247286 0.000003" orientation="1.570798 -1.570796 0.000000" left="${left}" useMimicTag="${useMimicTag}" abd_R="${ring_abd_R}" inner_R="${ring_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${ring_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${ring_outer_R *(outer_ub - outer_lb)*pi/180}" />
+			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_ring" position="-0.0033 0.0195 0.0936994" orientation="1.5707963267948966 -1.5184364298870514 1.5707963267948966" left="${left}" useMimicTag="${useMimicTag}" abd_R="${ring_abd_R}" inner_R="${ring_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${ring_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${ring_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_little" position="0.006611 -0.040000 0.150750" orientation="2.984513 -1.570796 0.000000" left="${left}" useMimicTag="${useMimicTag}" abd_R="${little_abd_R}" inner_R="${little_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${little_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${little_outer_R *(outer_ub - outer_lb)*pi/180}" />
- 		</xacro:if>
+			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_little" position="-0.0033 0.039 0.0836994" orientation="1.5707963267948966 -1.4835299330931884 1.5707963267948966" left="${left}" useMimicTag="${useMimicTag}" abd_R="${little_abd_R}" inner_R="${little_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${little_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${little_outer_R *(outer_ub - outer_lb)*pi/180}" />
+		</xacro:if>
 		<xacro:unless value="${left}">
-			<xacro:soft_thumb parent="${name}_palm_link" parent_name="${name}" name="${name}_thumb" position="0.022300 0.035273 0.079943" orientation="0.000000 -0.349066 1.570796" left="${left}" useMimicTag="${useMimicTag}" abd_R="${thumb_abd_R *(thumb_abd_ub - thumb_abd_lb)*pi/180}" inner_R="${thumb_inner_R *(inner_ub - inner_lb)*pi/180}" outer_R="${thumb_outer_R *(outer_ub - outer_lb)*pi/180}"/>
+			<xacro:soft_thumb parent="${name}_palm_link" parent_name="${name}" name="${name}_thumb" position="0.00566972 0.0296160 0.0553140" orientation="0.0 -0.38397275793662144 1.5707963267948966" left="${left}" useMimicTag="${useMimicTag}" abd_R="${thumb_abd_R *(thumb_abd_ub - thumb_abd_lb)*pi/180}" inner_R="${thumb_inner_R *(inner_ub - inner_lb)*pi/180}" outer_R="${thumb_outer_R *(outer_ub - outer_lb)*pi/180}"/>
 
-			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_index" position="0.006611 0.020000 0.11895" orientation="1.570796 -1.500983 1.570796" left="${left}" useMimicTag="${useMimicTag}" abd_R="${index_abd_R}" inner_R="${index_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${index_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${index_outer_R *(outer_ub - outer_lb)*pi/180}" />
+			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_index" position="-0.0033 0.0195 0.0936994" orientation="1.5707963267948966 -1.4835299330931884 1.5707963267948966" left="${left}" useMimicTag="${useMimicTag}" abd_R="${index_abd_R}" inner_R="${index_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${index_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${index_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_middle" position="0.006611 0.000000 0.12595" orientation="-3.141593 -1.570796 0.000000" left="${left}" useMimicTag="${useMimicTag}" abd_R="${middle_abd_R}" inner_R="${middle_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${middle_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${middle_outer_R *(outer_ub - outer_lb)*pi/180}" />
+			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_middle" position="-0.003300000 0.0 0.100699" orientation="3.141592 -1.5707963267948966 0.0" left="${left}" useMimicTag="${useMimicTag}" abd_R="${middle_abd_R}" inner_R="${middle_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${middle_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${middle_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_ring" position="0.006611 -0.020000 0.11895" orientation="-1.570796 -1.500983 -1.570796" left="${left}" useMimicTag="${useMimicTag}" abd_R="${ring_abd_R}" inner_R="${ring_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${ring_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${ring_outer_R *(outer_ub - outer_lb)*pi/180}" />
+			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_ring" position="-0.0033 -0.0195 0.0936994" orientation="-1.5707963267948966 -1.5184364298870514 -1.5707963267948966 " left="${left}" useMimicTag="${useMimicTag}" abd_R="${ring_abd_R}" inner_R="${ring_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${ring_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${ring_outer_R *(outer_ub - outer_lb)*pi/180}" />
 
-			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_little" position="0.006611 -0.040000 0.11395" orientation="-1.570796 -1.413717 -1.570796" left="${left}" useMimicTag="${useMimicTag}" abd_R="${little_abd_R}" inner_R="${little_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${little_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${little_outer_R *(outer_ub - outer_lb)*pi/180}" />
+			<xacro:soft_finger parent="${name}_palm_link" parent_name="${name}" name="${name}_little" position="-0.0033 -0.039 0.0836994" orientation="-1.5707963267948966 -1.4835299330931884 -1.5707963267948966" left="${left}" useMimicTag="${useMimicTag}" abd_R="${little_abd_R}" inner_R="${little_inner_R *(inner_ub - inner_lb)*pi/180}" middle_R="${little_middle_R *(middle_ub - middle_lb)*pi/180}" outer_R="${little_outer_R *(outer_ub - outer_lb)*pi/180}" />
 		</xacro:unless>
 
 		<xacro:soft_hand_transmission name="${name}" withAdaptiveTransmission="${withAdaptiveTransmission}"/>
