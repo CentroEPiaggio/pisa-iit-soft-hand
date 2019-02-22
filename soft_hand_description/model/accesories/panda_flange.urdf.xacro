@@ -11,7 +11,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://soft_hand_description/meshes/accesories/panda_flange.stl"/>
+        <mesh filename="package://soft_hand_description/meshes/accesories/panda_flange.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="SoftHand/Blue"/>
     </visual>

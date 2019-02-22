@@ -428,7 +428,7 @@
 		</xacro:panda_flange>
 
 		<!-- SOFT HAND ROUND BASE -->
-		<xacro:softhand_round_base parent="${name}_panda_flange" name="${name}_softhand_round_base" left="${left}">
+		<xacro:softhand_round_base parent="${name}_panda_flange" name="${name}_softhand_round_base">
 			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
 		</xacro:softhand_round_base>
 
