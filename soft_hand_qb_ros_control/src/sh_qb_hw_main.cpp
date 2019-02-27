@@ -62,6 +62,7 @@ int main( int argc, char** argv ){
 
   // Run as fast as possible
   while(!g_quit){
+    if(DEBUG) std::cout << "Going to get time." << std::endl;
     // Get the time and set the period (clock_gettime returns 0 for success)
     if(!clock_gettime(CLOCK_REALTIME, &ts)){
       now.sec = ts.tv_sec;
@@ -73,15 +74,21 @@ int main( int argc, char** argv ){
       break;
     } 
 
+    if(DEBUG) std::cout << "Going to read." << std::endl;
+
     // Read the state from the soft hand (if not possible, prepare to quit)
     if(!sh_robot.read(now, period)){
       g_quit = true;
       break;
     }
 
+    if(DEBUG) std::cout << "Going to update." << std::endl;
+
     /*  Update the controller manager with the read position, velocity and effort and write the command
         to the robot class */
     manager.update(now, period);
+
+    if(DEBUG) std::cout << "Going to write." << std::endl;
 
     // Write the robot class command (given by the controller manager) to the SoftHand robot
     sh_robot.write(now, period);

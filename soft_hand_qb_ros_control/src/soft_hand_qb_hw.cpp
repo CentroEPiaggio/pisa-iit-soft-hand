@@ -15,9 +15,9 @@ namespace soft_hand_qb_hw
   /* Default hardware interface constructor */
   SHHW::SHHW(ros::NodeHandle nh) : nh_(nh) {
     // Initializing subscribers and publishers
-    hand_meas_sub = nh_.subscribe(std::string(HAND_MEAS_TOPIC), 1000, &soft_hand_qb_hw::SHHW::callBackMeas, this);
-    hand_curr_sub = nh_.subscribe(std::string(HAND_CURR_TOPIC), 1000, &soft_hand_qb_hw::SHHW::callBackCurr, this);
-    hand_ref_pub = nh_.advertise<qb_interface::handRef>(std::string(HAND_REF_TOPIC), 1000);
+    hand_meas_sub = nh_.subscribe(std::string(HAND_MEAS_TOPIC), 1, &soft_hand_qb_hw::SHHW::callBackMeas, this);
+    hand_curr_sub = nh_.subscribe(std::string(HAND_CURR_TOPIC), 1, &soft_hand_qb_hw::SHHW::callBackCurr, this);
+    hand_ref_pub = nh_.advertise<qb_interface::handRef>(std::string(HAND_REF_TOPIC), 1);
 
     // Initializing hand curr and meas variables
     hand_meas = 0.0; prev_hand_meas = 0.0;
@@ -28,11 +28,13 @@ namespace soft_hand_qb_hw
   /* Callback function for the position subscriber to qb_interface */
   void SHHW::callBackMeas(const qb_interface::handPosConstPtr& pos_msg){
     hand_meas = pos_msg->closure[0];
+    if(DEBUG) std::cout << "Callback got hand measurement: " << hand_meas << "." << std::endl;
   }
 
   /* Callback function for the current subscriber to qb_interface */
   void SHHW::callBackCurr(const qb_interface::handCurrentConstPtr& curr_msg){
     hand_curr = curr_msg->current[0];
+    if(DEBUG) std::cout << "Callback got hand current: " << hand_curr << "." << std::endl;
   }
 
   /* Function for initializing correctly the hand variables without NaNs */
