@@ -16,5 +16,4 @@ right_hand:
   # Velocity Controller
   velocity_controller:
     type: soft_hand_controllers/VelocityController
-    joint:
-      - right_hand_synergy_joint
+    joint: right_hand_synergy_joint
