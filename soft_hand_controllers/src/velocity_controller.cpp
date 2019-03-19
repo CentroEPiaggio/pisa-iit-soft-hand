@@ -108,8 +108,8 @@ namespace soft_hand_controllers {
             ROS_DEBUG("The current commanded vel = %f.", this->cmd_vel_);
             ROS_DEBUG("The current dt = %f.", period.toSec());
 
-            // Setting command to current position
-            this->cmd_pos_ = this->curr_pos_;
+            // Setting command to current position (Commenting out the following line to make this feed forward)
+            // this->cmd_pos_ = this->curr_pos_;
 
             // Integrating the speed to find the next position (Forward Euler)
             this->cmd_pos_ += this->cmd_vel_ * period.toSec();
