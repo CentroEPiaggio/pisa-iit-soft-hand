@@ -138,6 +138,22 @@ namespace soft_hand_controllers {
         this->joint_handle_.setCommand(this->cmd_pos_);
     }
 
+    // STOPPING FUNCTION
+    void VelocityController::stopping(const ros::Time& /*time*/){
+        // WARNING: DO NOT SEND ZERO VELOCITIES HERE AS IN CASE OF ABORTING DURING MOTION
+        // A JUMP TO ZERO WILL BE COMMANDED PUTTING HIGH LOADS ON THE ROBOT. LET THE DEFAULT
+        // BUILT-IN STOPPING BEHAVIOR SLOW DOWN THE ROBOT.
+        
+        // Setting desired twist to zero
+        this->cmd_vel_ = 0.0;
+
+        // Reading the joint state (position) and setting command
+        this->curr_pos_ = this->joint_handle_.getPosition();
+        this->old_pos_ = this->joint_handle_.getPosition();
+        this->cmd_pos_ = this->curr_pos_;
+        this->joint_handle_.setCommand(this->cmd_pos_);
+    }
+
     // COMMAND SUBSCRIBER CALLBACK
 	void VelocityController::command(const std_msgs::Float64::ConstPtr &msg){
         // Saving the msg to cmd_value_

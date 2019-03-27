@@ -24,6 +24,7 @@ namespace soft_hand_controllers {
         bool init(hardware_interface::PositionJointInterface *robot, ros::NodeHandle &n);
 		void starting(const ros::Time& time);
 		void update(const ros::Time& time, const ros::Duration& period);
+        void stopping(const ros::Time&);
 		void command(const std_msgs::Float64::ConstPtr &msg);
 
         private:
