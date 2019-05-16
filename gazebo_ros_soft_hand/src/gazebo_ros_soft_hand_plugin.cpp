@@ -54,8 +54,9 @@ namespace gazebo_ros_soft_hand
 
 GazeboRosSoftHandPlugin::~GazeboRosSoftHandPlugin()
 {
-  // Disconnect from gazebo events
-  gazebo::event::Events::DisconnectWorldUpdateBegin(update_connection_);
+  // Disconnect from gazebo events 
+  // TODO: This function is no more present in Gazebo 9... Check if this works...
+  // gazebo::event::Events::DisconnectWorldUpdateBegin(update_connection_);
 }
 
 // Overloaded Gazebo entry point
@@ -114,7 +115,7 @@ void GazeboRosSoftHandPlugin::Load(gazebo::physics::ModelPtr parent, sdf::Elemen
   }
 
   // Get the Gazebo simulation period
-  ros::Duration gazebo_period(parent_model_->GetWorld()->GetPhysicsEngine()->GetMaxStepSize());
+  ros::Duration gazebo_period(parent_model_->GetWorld()->Physics()->GetMaxStepSize());
 
   // Decide the plugin control period
   if(sdf_->HasElement("controlPeriod"))
@@ -196,7 +197,7 @@ void GazeboRosSoftHandPlugin::Load(gazebo::physics::ModelPtr parent, sdf::Elemen
 void GazeboRosSoftHandPlugin::Update()
 {
   // Get the simulation time and period
-  gazebo::common::Time gz_time_now = parent_model_->GetWorld()->GetSimTime();
+  gazebo::common::Time gz_time_now = parent_model_->GetWorld()->SimTime();
   ros::Time sim_time_ros(gz_time_now.sec, gz_time_now.nsec);
   ros::Duration sim_period = sim_time_ros - last_update_sim_time_ros_;
 

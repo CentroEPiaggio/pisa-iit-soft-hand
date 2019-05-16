@@ -175,7 +175,7 @@ namespace soft_hand_hw
     this->device_->reset();
 
     // general joint to store information
-    boost::shared_ptr<const urdf::Joint> joint;
+    urdf::JointConstSharedPtr joint;
 
     // create joint handles given the list
     for(int i = 0; i < N_SYN; ++i)
@@ -317,7 +317,7 @@ namespace soft_hand_hw
 
     if (urdf_model != NULL)
     {
-      const boost::shared_ptr<const urdf::Joint> urdf_joint = urdf_model->getJoint(joint_name);
+      const urdf::JointConstSharedPtr urdf_joint = urdf_model->getJoint(joint_name);
       if (urdf_joint != NULL)
       {
         // Get limits from the URDF file.

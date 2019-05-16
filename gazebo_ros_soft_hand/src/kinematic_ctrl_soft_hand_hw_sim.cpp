@@ -389,7 +389,7 @@ void KinematicCtrlSoftHandHWSim::readSim(ros::Time time, ros::Duration period)
 {
   // read values from simulation (our hardware)
   synergy_position_ += angles::shortest_angular_distance(synergy_position_,
-                          sim_synergy_->GetAngle(0).Radian());
+                          sim_synergy_->Position(0));
   synergy_velocity_ = sim_synergy_->GetVelocity(0);
   synergy_effort_ = sim_synergy_->GetForce((unsigned int)(0));
 }
@@ -549,7 +549,7 @@ void KinematicCtrlSoftHandHWSim::registerJointLimits(const std::string& joint_na
 
   if (urdf_model != NULL)
   {
-    const boost::shared_ptr<const urdf::Joint> urdf_joint = urdf_model->getJoint(joint_name);
+    const urdf::JointConstSharedPtr urdf_joint = urdf_model->getJoint(joint_name);
     if (urdf_joint != NULL)
     {
       // Get limits from the URDF file.

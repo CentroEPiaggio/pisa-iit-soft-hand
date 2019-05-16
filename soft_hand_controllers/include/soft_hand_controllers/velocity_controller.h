@@ -41,7 +41,7 @@ namespace soft_hand_controllers {
 
         // A URDF model of the robot and a joint
         urdf::Model urdf_;
-        boost::shared_ptr<const urdf::Joint> urdf_joint_;
+        urdf::JointConstSharedPtr urdf_joint_;
 
         // A joint handle
         hardware_interface::JointHandle joint_handle_;

@@ -88,7 +88,7 @@ namespace soft_hand_qb_hw
     this->device_->reset();
 
     // General joint pointer to store information
-    boost::shared_ptr<const urdf::Joint> joint;
+    urdf::JointConstSharedPtr joint;
 
     // Create joint handles for each robot joint (1 for SoftHand)
     for(int i = 0; i < N_SYN; ++i){
@@ -253,7 +253,7 @@ namespace soft_hand_qb_hw
 
     // If the urdf is loaded, get the limits from it and set the interfaces
     if(urdf_model != NULL){
-      const boost::shared_ptr<const urdf::Joint> urdf_joint = urdf_model->getJoint(joint_name);
+      const urdf::JointConstSharedPtr urdf_joint = urdf_model->getJoint(joint_name);
       if(urdf_joint != NULL){
         // Get limits from the URDF file.
         if(joint_limits_interface::getJointLimits(urdf_joint, limits)) has_limits = true;
