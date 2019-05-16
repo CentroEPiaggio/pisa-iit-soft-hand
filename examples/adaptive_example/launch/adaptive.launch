@@ -18,10 +18,10 @@
     <!-- load the full robot in robot_description, useful for visualization, collision detection and planning simultaneously -->
     <!-- the selection is only due to the hand visualization which is different in real and simulation -->
     <group if="$(arg use_robot_sim)">
-        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=false"/>
+        <param name="robot_description" command="$(find xacro)/xacro    $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=false"/>
     </group>
     <group unless="$(arg use_robot_sim)">
-        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=true"/>
+        <param name="robot_description" command="$(find xacro)/xacro    $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=true"/>
     </group>
 
     <group if="$(arg use_joint_state_publisher)">
@@ -62,7 +62,7 @@
     <group ns="soft_hand">
       <group if="$(arg soft_hand_enabled)">
           <!--add a copy of the robot description within the name space -->
-          <param name="robot_description" command="$(find xacro)/xacro --inorder $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=true"/>
+          <param name="robot_description" command="$(find xacro)/xacro    $(find adaptive_example)/robot/soft_hand_adaptive.urdf.xacro use_mimic_tag:=true"/>
 
           <rosparam command="load" file="$(find adaptive_example)/config/joint_names.yaml" />
 

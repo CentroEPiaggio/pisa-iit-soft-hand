@@ -17,7 +17,7 @@
 
     <!-- load the full robot in robot_description, useful for visualization, collision detection and planning simultaneously -->
     <!-- the selection is only due to the hand visualization which is different in real and simulation -->
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find kinematic_synergy_example)/robot/soft_hand_kinematic_synergy.urdf.xacro"/>
+    <param name="robot_description" command="$(find xacro)/xacro    $(find kinematic_synergy_example)/robot/soft_hand_kinematic_synergy.urdf.xacro"/>
 
     <group if="$(arg use_joint_state_publisher)">
         <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
@@ -57,7 +57,7 @@
     <group ns="soft_hand">
       <group if="$(arg soft_hand_enabled)">
           <!--add a copy of the robot description within the name space -->
-          <param name="robot_description" command="$(find xacro)/xacro --inorder $(find kinematic_synergy_example)/robot/soft_hand_kinematic_synergy.urdf.xacro use_mimic_tag:=true"/>
+          <param name="robot_description" command="$(find xacro)/xacro    $(find kinematic_synergy_example)/robot/soft_hand_kinematic_synergy.urdf.xacro use_mimic_tag:=true"/>
 
           <rosparam command="load" file="$(find kinematic_synergy_example)/config/joint_names.yaml" />
 
