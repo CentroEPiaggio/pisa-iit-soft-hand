@@ -44,3 +44,22 @@ These packages assume you use qbTools to move the hand, since it is the electron
 To set-up the hand, refer to the instructions by [NMMI](https://github.com/NMMI/qbadmin).
 
 The interface is now shared between the `SoftHand` and `qbMove` devices.
+
+### Issues still to be solved for ROS Melodic
+```
+CMake Error:
+  Error evaluating generator expression:
+
+    $<TARGET_PROPERTY:protobuf::libprotobuf,INTERFACE_INCLUDE_DIRECTORIES>
+
+  Target "protobuf::libprotobuf" not found.
+
+CMake Error:
+  Error evaluating generator expression:
+
+    $<TARGET_PROPERTY:ignition-math4::ignition-math4,INTERFACE_INCLUDE_DIRECTORIES>
+
+  Target "ignition-math4::ignition-math4" not found.
+```
+
+Follow the developements on the [Gazebo GitHub Issue](https://github.com/ros-simulation/gazebo_ros_pkgs/issues/689).
