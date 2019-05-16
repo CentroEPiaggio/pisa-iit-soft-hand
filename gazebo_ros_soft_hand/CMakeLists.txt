@@ -22,6 +22,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 # Depend on system install of Gazebo 
 find_package(gazebo REQUIRED)
+ign_import_target(UUID)
 find_package(Boost REQUIRED)
 find_package(Eigen REQUIRED)
 
