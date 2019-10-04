@@ -598,7 +598,7 @@ void DefaultSoftHandHWSim::readSim(ros::Time time, ros::Duration period)
   // adaptive joints
   for(int j = 0; j < n_dof_; ++j)
   {
-    joint_position_[j] += angles::shortest_angular_distance(joint_position_[j], sim_joints_[j]->GetAngle(0).Radian());
+    joint_position_[j] += angles::shortest_angular_distance(joint_position_[j], sim_joints_[j]->Position(0));
     joint_velocity_[j] = sim_joints_[j]->GetVelocity(0);
     joint_effort_[j] = sim_joints_[j]->GetForce((unsigned int)(0));
   }
@@ -606,13 +606,13 @@ void DefaultSoftHandHWSim::readSim(ros::Time time, ros::Duration period)
   // mimic joints
   for(int j = 0; j < n_mimic_; ++j)
   {
-    joint_position_mimic_[j] += angles::shortest_angular_distance(joint_position_mimic_[j], sim_joints_mimic_[j]->GetAngle(0).Radian());
+    joint_position_mimic_[j] += angles::shortest_angular_distance(joint_position_mimic_[j], sim_joints_mimic_[j]->Position(0));
     joint_velocity_mimic_[j] = sim_joints_mimic_[j]->GetVelocity(0);
     joint_effort_mimic_[j] = sim_joints_mimic_[j]->GetForce((unsigned int)(0));
   }
 
   // read values from simulation (our hardware)
-  synergy_position_ += angles::shortest_angular_distance(synergy_position_, sim_synergy_->GetAngle(0).Radian());
+  synergy_position_ += angles::shortest_angular_distance(synergy_position_, sim_synergy_->Position(0));
   synergy_velocity_ = 0.0; //sim_synergy_->GetVelocity(0);
   // this is published below with the transmission propagate
   //synergy_effort_ = sim_synergy_->GetForce((unsigned int)(0));
@@ -762,7 +762,7 @@ void DefaultSoftHandHWSim::registerJointLimits(const std::string& joint_name,
 
   if (urdf_model != NULL)
   {
-    const boost::shared_ptr<const urdf::Joint> urdf_joint = urdf_model->getJoint(joint_name);
+    const urdf::JointConstSharedPtr urdf_joint = urdf_model->getJoint(joint_name);
     if (urdf_joint != NULL)
     {
       // Get limits from the URDF file.
