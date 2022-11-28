@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Copyright (C) 2013, PAL Robotics S.L.
-// Copyright (c) 2014, Research Center "E. Piaggio"
+// Copyright (c) 2022, Research Center "E. Piaggio"
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@
 
 // \author Adolfo Rodriguez Tsouroukdissian
 
-// \author Carlos Rosales, Hamal Marino, based on templates of other transmissions
+// \author George Jose Pollayil, Carlos Rosales, Hamal Marino, based on templates of other transmissions
 
 #ifndef TRANSMISSION_INTERFACE_ADAPTIVE_SYNERGY_TRANSMISSION_LOADER_H
 #define TRANSMISSION_INTERFACE_ADAPTIVE_SYNERGY_TRANSMISSION_LOADER_H
@@ -62,7 +62,7 @@ private:
                              std::vector<double>&    joint_offset);
 
   // specific for SoftHand elastic joints
-  static ParseStatus getJointElastic(const TiXmlElement& parent_el,
+  static bool getJointElastic(const TiXmlElement& parent_el,
                                      const std::string&  joint_name,
                                      const std::string&  transmission_name,
                                      bool                required,
