@@ -260,7 +260,7 @@ bool AdaptiveSynergyTransmissionLoader::getJointElastic(const TiXmlElement& pare
             ROS_DEBUG_STREAM_NAMED("parser", "Joint '" << joint_name << "' of transmission '" << transmission_name <<
             "' does not specify the optional <mechanicalElasticity> element.");
         }
-        return NO_DATA;
+        return false;
     }
     // Cast to number
     try {elastic = boost::lexical_cast<double>(elastic_el->GetText());}
