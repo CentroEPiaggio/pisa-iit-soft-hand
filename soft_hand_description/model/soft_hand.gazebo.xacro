@@ -40,20 +40,7 @@
 
 		<!-- PLUGINS -->
 		<xacro:if value="${withAdaptiveTransmission}">
-			<!-- work in progess -->
-			<gazebo>
-				<plugin name="gazebo_ros_soft_hand" filename="libgazebo_ros_soft_hand.so">
-					<robotNamespace>${name}</robotNamespace>
-					<!-- select which type of hardware simulation you want:
-					     - DefatulSoftHandHWSim: underactuated with adaptivity
-					     - KinematicCtrlSoftHandHWSim: underactuation with pure kinematic 
-					       control over joints (if you enable mimic tags, this one is automatically loaded)
-					-->
-					<xacro:if value="${useMimicTag}">
-						<robotSimType>gazebo_ros_soft_hand/KinematicCtrlSoftHandHWSim</robotSimType>
-					</xacro:if>
-				</plugin>
-			</gazebo>
+			<!-- work in progess! TODO! -->
 		</xacro:if>
 
 		<xacro:unless value="${withAdaptiveTransmission}">
