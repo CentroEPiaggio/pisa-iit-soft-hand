@@ -11,7 +11,8 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <run_depend> soft_hand_description </run_depend>
-  <run_depend> soft_hand_transmission_interface </run_depend>
+  <run_depend> soft_hand_controllers </run_depend>
+  <run_depend> soft_hand_qb_ros_control </run_depend>
 
   <export>
     <metapackage/>
