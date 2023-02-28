@@ -1,4 +1,4 @@
-# pisa-iit-soft-hand (ROS/Gazebo packages)
+# pisa-iit-soft-hand (ROS packages) [DEPRECATED]
 
 This repository contains the model of the Pisa/IIT hand as described in:
 
@@ -16,50 +16,9 @@ git clone --recursive https://github.com/CentroEPiaggio/pisa-iit-soft-hand.git
 
 ## Dependencies
 
+The hw interface makes use of the ros package `qb_interface` in [IMU](https://github.com/CentroEPiaggio/IMU)
+
 ToDo: Create a travis.yml file for this.
 
 ## Examples
 There are several [examples](https://github.com/CentroEPiaggio/pisa-iit-soft-hand/tree/master/examples) that show how the hand can be used in different configurations.
-
-###Push the finger (Not implemented)
-
-Test the adaptive synergy transmission by applying a wrench to the middle fingertip (you must choose start_time and duration according to the ROS time clock)
-
-```
-rosservice call /gazebo/apply_body_wrench "body_name: 'soft_hand::soft_hand_middle_distal_link'
-wrench:
-  force: {x: 0.0, y: 0.0, z: 10.0}
-  torque: {x: 0.0, y: 0.0, z: 0.0}
-duration: {secs: -1, nsecs: 0}"
-```
-
-And clear the wrench in case you want to continue working normally
-
-`rosservice call /gazebo/clear_body_wrenches "body_name: 'soft_hand::soft_hand_middle_distal_link'"`
-
-## Hand configuration using QBtools (USB/Handle)
-
-These packages assume you use qbTools to move the hand, since it is the electronics the hand is sold with.
-
-To set-up the hand, refer to the instructions by [NMMI](https://github.com/NMMI/qbadmin).
-
-The interface is now shared between the `SoftHand` and `qbMove` devices.
-
-### Issues still to be solved for ROS Melodic
-```
-CMake Error:
-  Error evaluating generator expression:
-
-    $<TARGET_PROPERTY:protobuf::libprotobuf,INTERFACE_INCLUDE_DIRECTORIES>
-
-  Target "protobuf::libprotobuf" not found.
-
-CMake Error:
-  Error evaluating generator expression:
-
-    $<TARGET_PROPERTY:ignition-math4::ignition-math4,INTERFACE_INCLUDE_DIRECTORIES>
-
-  Target "ignition-math4::ignition-math4" not found.
-```
-
-Follow the developements on the [Gazebo GitHub Issue](https://github.com/ros-simulation/gazebo_ros_pkgs/issues/689).
